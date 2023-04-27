@@ -26,16 +26,16 @@ const Header = () => {
                 <Link href="#" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</Link>
               </li>
               <li>
-                <Link href="#" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Company</Link>
+                <Link href="company" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Company</Link>
               </li>
               <li>
-                <Link href="#" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">About US</Link>
+                <Link href="about" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">About US</Link>
               </li>
               <li>
-                <Link href="#" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Team</Link>
+                <Link href="team" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Team</Link>
               </li>
               <li>
-                <Link href="#" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Contact</Link>
+                <Link href="contact" className="block py-2 pr-4 pl-3 text-slate-700 border-b border-slate-100 hover:bg-slate-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-slate-400 lg:dark:hover:text-white dark:hover:bg-slate-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-slate-700">Contact US</Link>
               </li>
             </ul>
           </div>
