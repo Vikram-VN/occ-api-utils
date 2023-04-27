@@ -14,5 +14,8 @@ module.exports = {
       },
     },
   },
+  colors: {
+    'navy-dark':'#0B2447'
+  },
   plugins: [],
 }
