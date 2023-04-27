@@ -18,10 +18,29 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+
+body {
+  color: #000;
+  background: #fff;
+  margin: 0
+}
+
+.next-error-h1 {
+  border-right: 1px solid rgba(0, 0, 0, .3)
+}
+
+@media (prefers-color-scheme:dark) {
+  body {
+    color: #fff;
+    background: #000
+  }
+
+  .next-error-h1 {
+    border-right: 1px solid rgba(255, 255, 255, .3)
+  }
 }
