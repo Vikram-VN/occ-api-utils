@@ -29,3 +29,10 @@ export async function POST(req = NextRequest) {
   }
 
 }
+
+
+export async function GET() {
+
+  return res.json({msg: "NexJS server is running!"});
+
+}

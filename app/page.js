@@ -1,7 +1,9 @@
 "use client";
-import Navbar from './components/header'
+import React from 'react';
+import Footer from './components/footer';
+import Header from './components/header'
 export default function Home() {
   return (
-    <Navbar/>
+    <p>Welcome</p>
   )
 }
