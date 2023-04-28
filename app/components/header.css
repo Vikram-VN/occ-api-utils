@@ -1,0 +1,11 @@
+.CAU__HeaderLogo{
+    width: auto;
+}
+.CAU__FlexBox{
+    display: flex;
+    align-items: center;
+}
+.CAU__HeaderText{
+    font-family: serif;
+    padding-top: 1rem;
+}

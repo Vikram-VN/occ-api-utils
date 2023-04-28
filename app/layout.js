@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import Footer from './components/footer';
 import Header from './components/header';
+import 'flowbite';
 import './globals.css';
 import SideBar from './components/sideBar';
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <section className="flex flex-col h-screen">
           <Header />
-          <section className="flex">
+          <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
             <section className="p-10">{children}</section>
           </section>
