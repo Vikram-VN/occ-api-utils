@@ -5,7 +5,11 @@
 /.pnp
 .pnp.js4
 
+# Vs code settings
 .vscode
+
+# build folder
+dist
 
 
 # yarn
