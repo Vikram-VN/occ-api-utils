@@ -1,10 +1,16 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import "./styles.css";
 
 const Header = () => {
+
+  const [theme, setTheme] = useState(window.__theme);
+
+  useEffect(() => {
+    setTheme(window.__theme);
+  }, [window.__theme])
 
   return (
     <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
@@ -28,7 +34,7 @@ const Header = () => {
             >
               <svg
                 id="theme-toggle-dark-icon"
-                className={`w-5 h-5 ${window.__theme === "dark" ? "hidden" : ""}`}
+                className={`w-5 h-5 ${theme === "dark" ? "hidden" : ""}`}
                 fill="currentColor"
                 onClick={() => {
                   window.__setPreferredTheme('light');
@@ -42,7 +48,7 @@ const Header = () => {
               </svg>
               <svg
                 id="theme-toggle-light-icon"
-                className={`w-5 h-5 ${window.__theme === "dark" ? "" : "hidden"}`}
+                className={`w-5 h-5 ${theme === "dark" ? "" : "hidden"}`}
                 fill="currentColor"
                 onClick={() => {
                   window.__setPreferredTheme('dark');
