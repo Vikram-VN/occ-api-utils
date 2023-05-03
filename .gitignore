@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js4
 
+.vscode
+
 
 # yarn
 *.lock
