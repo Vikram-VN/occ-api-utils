@@ -16,16 +16,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-        <body className={inter.className}>
-          <section className="flex flex-col h-screen">
-            <Header />
-            <section className="flex">
-              <SideBar />
-              <section className="p-10">{children}</section>
-            </section>
-            <Footer />
+      <head>
+        <PreviousTheme />
+      </head>
+      <body className={inter.className}>
+        <section className="flex flex-col h-screen">
+          <Header />
+          <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
+            <SideBar />
+            <section className="p-10 w-full">{children}</section>
           </section>
-        </body>
+          <Footer />
+        </section>
+      </body>
     </html>
   )
 }
