@@ -3,7 +3,11 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.js4
+
+
+# yarn
+*.lock
 
 # testing
 /coverage
