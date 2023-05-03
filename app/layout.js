@@ -1,9 +1,10 @@
-import { Inter } from 'next/font/google';
-import Footer from './components/footer';
-import Header from './components/header';
+import { Inter, Preahvihear } from 'next/font/google';
+import Footer from './components/footer/footer';
+import Header from './components/header/header';
 import 'flowbite';
 import './globals.css';
-import SideBar from './components/sideBar';
+import SideBar from './components/navbar/sideBar';
+import PreviousTheme from './components/header/components/theme/previousTheme';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,6 +16,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>  
+        <PreviousTheme />
+      </head>
       <body className={inter.className}>
         <section className="flex flex-col h-screen">
           <Header />

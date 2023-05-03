@@ -24,10 +24,14 @@ const ToggleSwitch = () => {
             // if set via local storage previously
             if (localStorage.getItem('color-theme')) {
                 if (localStorage.getItem('color-theme') === 'light') {
+                    console.log("Light")
                     document.documentElement.classList.add('dark');
                     localStorage.setItem('color-theme', 'dark');
+                    document.getElementsByClassName("CAU__HeaderLogo")[0].srcset="apexit-white.png"
                 } else {
                     document.documentElement.classList.remove('dark');
+                    document.getElementsByClassName("CAU__HeaderLogo")[0].srcset="apexLogo.png"
+                    // console.log("Dark",c)
                     localStorage.setItem('color-theme', 'light');
                 }
 
