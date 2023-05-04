@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse as res } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
-export async function POST(req = NextRequest) {
+export async function POST() {
   try {
-    const request = await req.json();
+    const request = await NextRequest.json();
     const { id, url, params, data, method, accessToken } = request;
     let payload = {
       baseURL: `https://${id}-admin.occa.ocs.oraclecloud.com`,
@@ -22,10 +22,10 @@ export async function POST(req = NextRequest) {
       }
     }
     const httpCall = await axios.request(payload);
-    return res.json(httpCall.body);
+    return NextResponse.json(httpCall.body);
 
   } catch (error) {
-    return res.json(error.response?.data || { errorCode: "00002000", message: `${error.message}. Please make sure the payload is valid JSON.`, status: 415, })
+    return NextResponse.json(error.response?.data || { errorCode: "00002000", message: `${error.message}. Please make sure the payload is valid JSON.`, status: 415, })
   }
 
 }
@@ -33,6 +33,6 @@ export async function POST(req = NextRequest) {
 
 export async function GET() {
 
-  return res.json({msg: "NexJS server is running!"});
+  return NextResponse.json({msg: "NexJS server is running!"});
 
 }
