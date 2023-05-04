@@ -6,12 +6,6 @@ import "./styles.css";
 
 const Header = () => {
 
-  const [theme, setTheme] = useState(window.__theme);
-
-  useEffect(() => {
-    setTheme(window.__theme);
-  }, [window.__theme])
-
   return (
     <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
       <nav className="bg-white border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
@@ -34,7 +28,7 @@ const Header = () => {
             >
               <svg
                 id="theme-toggle-dark-icon"
-                className={`w-5 h-5 ${theme === "dark" ? "hidden" : ""}`}
+                className={`w-5 h-5 dark-icon`}
                 fill="currentColor"
                 onClick={() => {
                   window.__setPreferredTheme('light');
@@ -48,7 +42,7 @@ const Header = () => {
               </svg>
               <svg
                 id="theme-toggle-light-icon"
-                className={`w-5 h-5 ${theme === "dark" ? "" : "hidden"}`}
+                className={`w-5 h-5 light-icon`}
                 fill="currentColor"
                 onClick={() => {
                   window.__setPreferredTheme('dark');
