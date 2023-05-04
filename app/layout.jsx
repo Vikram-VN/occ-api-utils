@@ -5,12 +5,6 @@ import dynamic from 'next/dynamic'
 import 'flowbite';
 import './globals.css';
 
-
-const ThemeWithNoSSR = dynamic(
-  () => import('./theme'),
-  { ssr: false }
-)
-
 const HeaderWithNoSSR = dynamic(
   () => import('./components/header/'),
   { ssr: false }
@@ -36,7 +30,6 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={inter.className}>
-        <ThemeWithNoSSR />
         <section className="flex flex-col h-screen">
           <HeaderWithNoSSR />
           <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">

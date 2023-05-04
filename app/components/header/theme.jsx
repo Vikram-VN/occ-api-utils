@@ -6,9 +6,6 @@ const OccTheme = () => {
 
             const setTheme = (newTheme) => {
 
-                const darkIcon = document.getElementsByClassName("dark-icon")[0];
-                const whiteIcon = document.getElementsByClassName("light-icon")[0];
-
                 window.__theme = newTheme;
                 if (newTheme === 'dark') {
                     document.documentElement.classList.add('dark');
