@@ -1,13 +1,16 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "./header.css";
-import { theme } from "antd";
+import "./styles.css";
 
-const Header = (props) => {
+const Header = () => {
 
-  const { changeTheme = () => { }, theme } = props;
+  const [theme, setTheme] = useState(window.__theme);
+
+  useEffect(() => {
+    setTheme(window.__theme);
+  }, [window.__theme])
 
   return (
     <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
@@ -27,13 +30,15 @@ const Header = (props) => {
             <button
               id="theme-toggle"
               type="button"
-              onClick={changeTheme}
               className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
             >
               <svg
                 id="theme-toggle-dark-icon"
                 className={`w-5 h-5 ${theme === "dark" ? "hidden" : ""}`}
                 fill="currentColor"
+                onClick={() => {
+                  window.__setPreferredTheme('light');
+                }}
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -45,6 +50,9 @@ const Header = (props) => {
                 id="theme-toggle-light-icon"
                 className={`w-5 h-5 ${theme === "dark" ? "" : "hidden"}`}
                 fill="currentColor"
+                onClick={() => {
+                  window.__setPreferredTheme('dark');
+                }}
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
