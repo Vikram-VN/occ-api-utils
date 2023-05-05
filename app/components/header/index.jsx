@@ -1,33 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import OccTheme from "./theme";
 import "./styles.css";
 
 const Header = () => {
 
-  const isBrowser = () => typeof window !== 'undefined';
-
-  const newTheme = window.__theme || localStorage.getItem('theme');
-  const [theme, setTheme] = useState(newTheme);
-  const logo = theme === "dark" ? "/apexit-white.png" : "/apexit.png";
-
-  const changeTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    window.__setPreferredTheme(newTheme);
-    setTheme(newTheme);
-  }
-
-
   return (
     <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
-      <OccTheme />
       <nav className="bg-white border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
             <Link href="https://apexit.com" className="flex items-center">
-              <Image src={logo} className="mr-3 h-20 sm:h-10 md:h-20 CAU__HeaderLogo" width={100} height={100} alt="ApexIT" />
+              <Image src={window.__theme === "dark" ? "/apexit-white.png" : "/apexit.png"} className="mr-3 h-20 sm:h-10 md:h-20 CAU__HeaderLogo" width={100} height={100} alt="ApexIT" />
             </Link>
             <p className="text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText">Commerce API Utils</p>
           </div>
@@ -36,15 +21,15 @@ const Header = () => {
             <Link href="#" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">Log in</Link>
             <Link href="https://github.com/Vikram-VN/occ-api-utils" target="blank" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">GitHub</Link>
 
-            <button
+            {/* <button
               id="theme-toggle"
               type="button"
-              onClick={changeTheme}
+              onClick={window.__setPreferredTheme}
               className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
             >
               <svg
                 id="theme-toggle-dark-icon"
-                className={`w-5 h-5 ${theme === 'dark' ? 'hidden' : ''}`}
+                className={`w-5 h-5 ${window.__theme === 'dark' ? 'hidden' : ''}`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +40,7 @@ const Header = () => {
               </svg>
               <svg
                 id="theme-toggle-light-icon"
-                className={`w-5 h-5 ${theme === 'dark' ? '' : 'hidden'}`}
+                className={`w-5 h-5 ${window.__theme === 'dark' ? '' : 'hidden'}`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +51,7 @@ const Header = () => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-            </button>
+            </button> */}
 
           </div>
 

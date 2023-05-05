@@ -2,11 +2,7 @@ import { Inter } from 'next/font/google';
 import Header from './components/header';
 import SideBar from './components/navbar';
 import Footer from './components/footer';
-import 'flowbite';
 import './globals.css';
-
-
-
 
 const inter = Inter({ subsets: ['latin'] })
 
