@@ -7,7 +7,7 @@ import "./styles.css";
 const Header = () => {
 
   return (
-    <header className="sticky top-0 z-40 flex-none h-24 mx-auto w-full bg-white dark:bg-slate-900 ">
+    <header className="sticky top-0 z-10 flex-none h-24 mx-auto w-full border-b dark:border-b-slate-600 bg-white dark:bg-slate-900 ">
       <nav className="bg-white border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
