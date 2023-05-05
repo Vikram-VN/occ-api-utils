@@ -1,14 +1,10 @@
 import { Inter } from 'next/font/google';
-import Footer from './components/footer';
+import Header from './components/header';
 import SideBar from './components/navbar';
-import dynamic from 'next/dynamic'
+import Footer from './components/footer';
 import 'flowbite';
 import './globals.css';
 
-const HeaderWithNoSSR = dynamic(
-  () => import('./components/header/'),
-  { ssr: false }
-)
 
 
 
@@ -31,7 +27,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <section className="flex flex-col h-screen">
-          <HeaderWithNoSSR />
+          <Header />
           <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
             <section className="p-10 w-full">{children}</section>
