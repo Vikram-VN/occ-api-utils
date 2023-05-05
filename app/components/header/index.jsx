@@ -7,9 +7,10 @@ import "./styles.css";
 
 const Header = () => {
 
-  const newTheme = window.__theme;
-  const [theme, setTheme] = useState(newTheme);
+  const isBrowser = () => typeof window !== 'undefined';
 
+  const newTheme = window.__theme || localStorage.getItem('theme');
+  const [theme, setTheme] = useState(newTheme);
   const logo = theme === "dark" ? "/apexit-white.png" : "/apexit.png";
 
   const changeTheme = () => {
@@ -17,6 +18,7 @@ const Header = () => {
     window.__setPreferredTheme(newTheme);
     setTheme(newTheme);
   }
+
 
   return (
     <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
