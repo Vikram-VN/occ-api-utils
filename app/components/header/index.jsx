@@ -7,11 +7,11 @@ import "./styles.css";
 const Header = () => {
 
   return (
-    <header className="sticky top-0 z-40 flex-none mx-auto w-full bg-white dark:bg-slate-900 ">
+    <header className="sticky top-0 z-40 flex-none h-24 mx-auto w-full bg-white dark:bg-slate-900 ">
       <nav className="bg-white border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
-            <Link href="https://apexit.com" className="flex items-center text-black dark:text-white">
+            <Link href="https://apexit.com" className="flex items-center dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="prefix__Layer_1" x="0" y="0" viewBox="0 0 360 144" width={150} height={50}
                 fill="currentColor">
                 <path
