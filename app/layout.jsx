@@ -1,3 +1,4 @@
+import React from "react";
 import { Inter } from 'next/font/google';
 import Header from './components/header';
 import SideBar from './components/navbar';
