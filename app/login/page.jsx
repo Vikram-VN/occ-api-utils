@@ -12,7 +12,6 @@ export default function Login() {
     const payload = Object.fromEntries(formData);
   }
 
-
   return (
     <form onSubmit={submitForm}>
       <AlertInfo
@@ -23,9 +22,9 @@ export default function Login() {
         message="You are successfully logged in..."
       />
 
-      <section className="m-auto w-5/6 mt-24 flex bg-slate-800 p-10 rounded-md gap-4">
-        <div className="w-3/1 flex h-full m-auto">
-          <img src="/apexian.jpg" className="rounded" />
+      <section className="m-auto w-5/6 mt-24 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg">
+        <div className="w-3/1 flex h-full m-auto mb-4 lg:mb-0">
+          <img src="/apexian.jpg" className="rounded" alt="apexit banner" />
           </div>
         <div className="w-full m-auto">
           <div className="mb-2 block">
@@ -41,7 +40,7 @@ export default function Login() {
               value="Access (Bearer) Token"
             />
           </div>
-          <TextInput id="token" className="block" name="token" required placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
+          <TextInput id="token" className="block" name="token" required autoComplete="off" placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
           <Button className="mt-10 m-auto w-2/6" value="signin" type="submit">Sig in </Button>
         </div>
       </section>

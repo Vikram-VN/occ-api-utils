@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className="p-4 bg-white sm:p-6 dark:bg-slate-900 relative bottom-0 border-t dark:border-t-slate-600">
+        <footer className="p-4 bg-slate-200 sm:p-6 dark:bg-slate-900 relative bottom-0 border-t dark:border-t-slate-600">
             <div className="mx-auto max-w-screen-xl">
 
                 <div className="sm:flex sm:items-center sm:justify-between">

@@ -23,11 +23,14 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={inter.className}>
+        <marquee className="bg-slate-200 dark:bg-slate-800 h-10 flex items-center w-full"> Welcome to Commerce API Utils</marquee>
         <section className="flex flex-col h-screen">
           <Header />
           <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
-            <section className="px-6 pt-2 w-full">{children}</section>
+            <section className="px-6 pt-2 w-full">
+              {children}
+            </section>
           </section>
           <Footer />
         </section>

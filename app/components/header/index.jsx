@@ -8,8 +8,8 @@ import "./styles.css";
 const Header = () => {
 
   return (
-    <header className="sticky top-0 z-100 flex-none h-24 mx-auto w-full border-b dark:border-b-slate-600 bg-white dark:bg-slate-900 ">
-      <nav className="bg-white border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
+    <header className="sticky top-0 z-100 flex-none h-24 mx-auto w-full border-b dark:border-b-slate-600 bg-slate-200 dark:bg-slate-900 ">
+      <nav className="bg-slate-200 border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative w-full">
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
             <Link href="https://apexit.com" className="flex items-center dark:text-white">
@@ -18,7 +18,7 @@ const Header = () => {
             <p className="text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText">Commerce API Utils</p>
           </div>
           <div className="flex items-center lg:order-2">
-            <Link href="#" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">Log in</Link>
+            <Link href="/login" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">Log in</Link>
             <Link href="https://github.com/Vikram-VN/occ-api-utils" target="blank" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">GitHub</Link>
 
             {/* <button

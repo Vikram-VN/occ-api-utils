@@ -13,13 +13,14 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        navy: '#0B2447',
+        apex: '#231f20'
+      },
     },
   },
   plugins: [
     require("flowbite/plugin")
   ],
-  colors: {
-    'navy-dark': '#0B2447'
-  },
   darkMode: 'media'
 }

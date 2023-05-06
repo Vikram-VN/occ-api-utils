@@ -24,7 +24,7 @@ const NavBar = () => {
    }
 
    return (
-      <div className="flex">
+      <div className="flex bg-slate-200 dark:bg-slate-900">
          <div className="border-r dark:border-r-slate-600 h-screen">
             <button type="button" onClick={hamburgerMenu} className="h-10 mr-4 inline-flex items-center p-2 mt-2 ml-3 text-sm text-slate-500 rounded-lg hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:text-slate-400 dark:hover:bg-slate-900 dark:focus:ring-slate-600">
                <span className="sr-only">Open sidebar</span>
