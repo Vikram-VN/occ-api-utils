@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
           <Header />
           <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
-            <section className="p-10 w-full">{children}</section>
+            <section className="px-6 pt-2 w-full">{children}</section>
           </section>
           <Footer />
         </section>
