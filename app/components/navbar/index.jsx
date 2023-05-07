@@ -44,11 +44,11 @@ const NavBar = () => {
             </Link>
          </div>
          {/* Here onwards expladable content starts */}
-         <aside id="sidebar-multi-level-sidebar" className={`w-64 h-screen transition-transform sm:translate-x-0 ${showNav ? '' : 'hidden'}`}>
+         <aside id="sidebar-multi-level-sidebar" className={`w-64 h-screen transition-transform border-r dark:border-r-slate-600 sm:translate-x-0 ${showNav ? '' : 'hidden'}`}>
             <div className="h-full max-h-screen px-3 py-4 overflow-y-auto bg-slate-50 dark:bg-slate-800">
                <ul className="space-y-2 font-medium">
                   <li>
-                     <span className="h-8 mr-4 flex items-center p-2 ml-3"></span>
+                     <span className="h-8 mr-4 flex items-center p-2 ml-3">Table of contents</span>
                   </li>
                   <li>
                      <button type="button" className="flex items-center w-full p-2 text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700">
