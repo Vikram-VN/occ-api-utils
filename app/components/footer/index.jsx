@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className="p-4 bg-slate-200 sm:p-6 dark:bg-slate-900 relative bottom-0 border-t dark:border-t-slate-600">
-            <div className="mx-auto max-w-screen-xl">
+        <footer className="p-4 relative bg-slate-200 sm:p-6 dark:bg-slate-900 border-t dark:border-t-slate-600 z-50">
+            <div className="mx-auto">
 
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <span className="text-sm text-slate-500 sm:text-center dark:text-slate-400">© {new Date().getFullYear()} <Link href="https://apexit.com" className="hover:underline">ApexIT</Link>. All Rights Reserved.

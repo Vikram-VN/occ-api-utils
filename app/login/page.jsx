@@ -13,7 +13,7 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={submitForm} className="block">
       <AlertInfo
         color="success"
         className="z-10"
@@ -22,8 +22,8 @@ export default function Login() {
         message="You are successfully logged in..."
       />
 
-      <section className="m-auto w-5/6 mt-24 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg">
-        <div className="w-3/1 flex h-full m-auto mb-4 lg:mb-0">
+      <section className="m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg">
+        <div className="w-3/1 flex m-auto mb-4 lg:mb-0">
           <img src="/apexian.jpg" className="rounded" alt="apexit banner" />
           </div>
         <div className="w-full m-auto">

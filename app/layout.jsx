@@ -12,10 +12,9 @@ export const metadata = {
   description: 'Some useful tools for OCC',
 }
 
-export default function RootLayout({ children }) {
+export const RootLayout = ({ children }) => {
 
   return (
-
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
@@ -23,18 +22,21 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={inter.className}>
-        <marquee className="bg-slate-200 dark:bg-slate-800 h-10 flex items-center w-full"> Welcome to Commerce API Utils</marquee>
-        <section className="flex flex-col h-screen">
+        <marquee className="bg-slate-200 dark:bg-slate-800 h-10 flex items-center "> Welcome to Commerce API Utils</marquee>
+        <main className="grid grid-flow-row min-h-full custom-grid-flow">
           <Header />
-          <section className="flex bg-white text-black dark:bg-slate-900 dark:text-white">
+          <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
-            <section className="px-6 pt-2 w-full">
+            <section className="px-6 pt-2 relative pb-6 custom-col-span">
               {children}
             </section>
           </section>
           <Footer />
-        </section>
+        </main>
       </body>
     </html>
   )
 }
+
+
+export default RootLayout;

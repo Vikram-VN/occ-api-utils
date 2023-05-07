@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { 
-   Bars3BottomLeftIcon, 
-   DocumentIcon, 
-   ChevronDownIcon, 
-   ChevronUpIcon, 
+import {
+   Bars3BottomLeftIcon,
+   DocumentIcon,
+   ChevronDownIcon,
+   ChevronUpIcon,
    ArrowDownTrayIcon,
    ArrowUpTrayIcon
- } from "@heroicons/react/24/solid";
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 const NavBar = () => {
@@ -25,7 +25,7 @@ const NavBar = () => {
 
    return (
       <div className="flex bg-slate-200 dark:bg-slate-900">
-         <div className="border-r dark:border-r-slate-600 h-screen">
+         <div className="border-r dark:border-r-slate-600 h-full">
             <button type="button" onClick={hamburgerMenu} className="h-10 mr-4 inline-flex items-center p-2 mt-2 ml-3 text-sm text-slate-500 rounded-lg hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:text-slate-400 dark:hover:bg-slate-900 dark:focus:ring-slate-600">
                <span className="sr-only">Open sidebar</span>
                <Bars3BottomLeftIcon className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" />
@@ -40,7 +40,7 @@ const NavBar = () => {
             </Link>
             <Link href="/export" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
                <ArrowUpTrayIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-            <span className="sr-only">Export</span>
+               <span className="sr-only">Export</span>
             </Link>
          </div>
          {/* Here onwards expladable content starts */}
