@@ -1,6 +1,6 @@
 
-import React, { useState } from "react";
-import { CheckBadgeIcon, InformationCircleIcon, EyeIcon } from "@heroicons/react/24/solid";
+import React from "react";
+import { CheckBadgeIcon, InformationCircleIcon, EyeIcon, ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import { Alert as AlertComponent } from "flowbite-react";
 import Link from "next/link";
 
@@ -130,82 +130,44 @@ export const showInfoMessage = (type, message, onDismiss, link) => {
     }
 }
 
+export const icons = {
+    success: CheckBadgeIcon,
+    info: InformationCircleIcon,
+    warning: ExclamationCircleIcon,
+    failure: XCircleIcon
+}
 
 const Alert = (props) => {
 
-    const [hideAlert, setAlertHide] = useState(false);
-
-    if (props.delay) {
-        setTimeout(() => {
-            setAlertHide(true);
-        }, props.delay * 1000);
-    }
-
-    if (!hideAlert && props.delay) {
-        return (
-            <AlertComponent
-                withBorderAccent={true}
-                rounded={true}
-                color="success"
-                icon={CheckBadgeIcon}
-                {...props} >
-                <span className="font-medium">
-                    {props.message || "Alert message"}
-                </span>
-            </AlertComponent>
-        );
-    }
-
     return (
-        !hideAlert && !props.delay && <AlertComponent
+        <AlertComponent
             withBorderAccent={true}
             rounded={true}
             color="success"
-            icon={CheckBadgeIcon}
-            onDismiss={() => setAlertHide(true)}
-            {...props} >
+            icon={icons[props.color]}
+            className={`z-10 mt-4`}
+            {...props}
+        >
             <span className="font-medium">
                 {props.message || "Alert message"}
             </span>
         </AlertComponent>
     );
+
 }
 
 export default Alert;
 
 export const AlertInfo = (props) => {
 
-    const [hideAlert, setAlertHide] = useState(false);
-
-    if (props.delay) {
-        setTimeout(() => {
-            setAlertHide(true);
-        }, props.delay * 1000);
-    }
-
-    if (!hideAlert && props.delay) {
-        return (
-            <AlertComponent
-                color="success"
-                rounded={true}
-                withBorderAccent={true}
-                additionalContent={showInfoMessage(props.color, props.infoMessage, () => setAlertHide(true), props.link)}
-                icon={InformationCircleIcon}
-                {...props}
-            >
-                {showMessage(props.color, props.message)}
-            </AlertComponent>
-        );
-    }
-
     return (
-        !hideAlert && !props.delay && <AlertComponent
+        <AlertComponent
             color="success"
             rounded={true}
             withBorderAccent={true}
-            onDismiss={() => setAlertHide(true)}
-            additionalContent={showInfoMessage(props.color, props.infoMessage, () => setAlertHide(true), props.link)}
-            icon={InformationCircleIcon}
+            additionalContent={showInfoMessage(props.color, props.infoMessage, props.onDismiss, props.link)}
+            icon={icons[props.color]}
+            className="z-10 mt-4"
             {...props}
         >
             {showMessage(props.color, props.message)}

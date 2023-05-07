@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: "export",
-    distDir: ".next",
-    skipTrailingSlashRedirect: true,
+    output: "export"
 }
 
 module.exports = nextConfig;

@@ -1,16 +1,21 @@
 "use client";
 import React from "react";
+import { useRouter } from 'next/navigation';
 import axios from "axios";
-import Alert from "../components/alert"
+import { useToasts } from "../components/toast/";
+import { formToJson } from "../utils";
 import { TextInput, Button, Label } from "flowbite-react";
-import { KeyIcon, WindowIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
 export default function Login() {
 
+  const toast = useToasts();
+  const router = useRouter();
+
   const submitForm = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target).entries();
-    const payload = Object.fromEntries(formData);
+    const formData = event.target;
+    const payload = formToJson(formData);
     axios.request({
       url: '/api',
       method: 'post',
@@ -18,19 +23,26 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => console.log(res.data));
+    })
+      .then(res => {
+        toast.show({
+          status: "success",
+          message: "You are successfully logged in..",
+          delay: 3,
+        });
+        setTimeout(() => router.push('/files'), 1000);
+      })
+      .catch(error => {
+        toast.show({
+          status: "failure",
+          message: error.response.data.error || error.response.data.message,
+          delay: 3,
+        });
+      });
   }
 
   return (
     <form onSubmit={submitForm} className="block">
-      <Alert
-        color="success"
-        className="z-10"
-        icon={CheckBadgeIcon}
-        delay={3}
-        message="You are successfully logged in..."
-      />
-
       <section className="m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg">
         <div className="w-3/1 flex m-auto mb-4 lg:mb-0">
           <img src="/apexian.jpg" className="rounded" alt="apexit banner" />
