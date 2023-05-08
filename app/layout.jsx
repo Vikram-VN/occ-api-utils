@@ -1,6 +1,10 @@
 import React from "react";
-import { StoreProvider } from "./store";
+import { Inter } from 'next/font/google';
+import { StoreProvider } from "./store/storeProvider";
 import OccUtilsApp from "./app";
+import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'OCC API Utils',
