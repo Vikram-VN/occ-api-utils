@@ -21,7 +21,7 @@ export default function RootLayout(props) {
   const login = <Login />;
 
   return (
-    <StoreProvider preloadedState={{}}>
+    <StoreProvider>
       <html lang="en">
 
         <head>
