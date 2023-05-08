@@ -330,3 +330,57 @@ export const formToHref = form => {
 
   return url.href;
 };
+
+
+export const getTime = () => {
+  const date = new Date();
+  const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+  return `${hours}:${minutes}`;
+}
+
+
+export const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const validateEmail = (email) => {
+  const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+  return regex.test(email);
+};
+
+export const loginValidation = (data, setError, checkDetails) => {
+  const { name, mobNo, email } = data;
+  const { tnc } = checkDetails;
+
+  const regrExp = /^[0-9]+$/;
+  const nameRegrExp = /^[A-Za-z\s]+$/;
+  
+  if (mobNo.length !== 10) {
+    setError({ errormobNo: "Please enter 10 digit mobile number." });
+    return false;
+  } else if (!regrExp.test(mobNo)) {
+    setError({ errormobNo: "Please input only numeric." });
+    return false;
+  }
+
+  if (name.length === 0) {
+    setError({ errorName: "Please enter your name." });
+    return false;
+  } else if (!nameRegrExp.test(name)) {
+    setError({ errorName: "Please enter only characters" });
+    return false;
+  }
+
+  if (!validateEmail(email)) {
+    setError({ errorEmail: "Email is not valid" });
+    return false;
+  }
+
+  if (!tnc) {
+     setError({ errorResponse: "Please accept the Terms & Conditions and Privacy Policy" });
+     return false;
+  }
+
+  return true;
+}
