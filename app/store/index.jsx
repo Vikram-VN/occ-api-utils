@@ -17,6 +17,11 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== 'production' && middleware.push(logger);
 
+const rootReducer = combineReducers({
+    occRepository: occReducer,
+    userRepository: userReducer,
+})
+
 export function createStore(preloadedState = {}) {
     const store = configureStore({
         reducer: { appRepository },
