@@ -4,11 +4,19 @@ import { useRouter } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
 import { formToJson } from "../utils";
+import { fetchUser } from "../store/reducers/user";
 import { TextInput, Button, Label } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 import httpCall from "../utils/httpCall";
 
 export default function Login(props) {
+
+  const { action } = useContext(StoreContext);
+
+  (async () => {
+    console.log( await action(fetchUser()));
+  })()
+
 
   const toast = useToasts();
   const router = useRouter();

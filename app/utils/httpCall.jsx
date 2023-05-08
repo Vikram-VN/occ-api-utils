@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const httpCall = async (method = "get", url, data, headers = {}) => {
+const httpCall = async (url, data, headers, method) => {
+    if (!method) method = "get"; if (!headers) headers = [];
     try {
-        return axios.request({ url: '/ccadmin/v1'.concat(url), data: data, method: method, headers: headers })
+        return await axios.request({ url: url, data: data, method: method, headers: headers })
             .then(res => {
                 return res.data;
             });
