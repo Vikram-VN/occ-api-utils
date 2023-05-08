@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import React, { useRef } from "react";
+
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ApexitLogo from "../logo";

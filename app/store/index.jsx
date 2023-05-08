@@ -1,16 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./reducers";
+
+import { reducer as occReducer } from "./occ-reducer";
+import { reducer as userReducer } from "./user-reducer";
 
 export function createStore(preloadedState = {}) {
     const store = configureStore({
         reducer: {
-            appRepository: rootReducer,
+            occRepository: occReducer,
+            userRepository: userReducer,
         },
-        preloadedState
+        preloadedState,
     });
 
     return store;
 }
-
 const store = createStore({});
 export default store;
