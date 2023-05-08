@@ -1,4 +1,4 @@
-'use client'; // Error components must be Client components
+"use client";
 import Link from "next/link";
 import React from "react";
 import { useEffect } from 'react';
