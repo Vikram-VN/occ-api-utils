@@ -19,7 +19,7 @@ export default function RootLayout(props) {
   const { children } = props;
 
   return (
-    <StoreProvider preloadedState={{}}>
+    <StoreProvider>
       <html lang="en">
 
         <head>
