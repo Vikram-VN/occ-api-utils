@@ -1,9 +1,10 @@
 import React from "react";
 import { Inter } from 'next/font/google';
-import { ToastProvider } from "./components/toast/";
+import { ToastProvider } from "./components/toast";
 import Header from './components/header';
 import SideBar from './components/navbar';
 import Footer from './components/footer';
+import Login from "./login/page";
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -13,7 +14,10 @@ export const metadata = {
   description: 'Some useful tools for OCC',
 }
 
-export const RootLayout = ({ children }) => {
+export default function RootLayout(props) {
+
+  const { children } = props;
+  const login = <Login />;
 
   return (
     <html lang="en">
@@ -31,7 +35,7 @@ export const RootLayout = ({ children }) => {
           <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
             <section className="px-6 pt-2 relative pb-6 custom-col-span">
-              <ToastProvider>{children}</ToastProvider>
+              <ToastProvider>{login}</ToastProvider>
             </section>
           </section>
           <Footer />
@@ -41,6 +45,3 @@ export const RootLayout = ({ children }) => {
     </html>
   )
 }
-
-
-export default RootLayout;

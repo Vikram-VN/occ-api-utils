@@ -5,14 +5,16 @@ export async function POST(req) {
   try {
     const request = await req.json();
     const { instanceId, url, params, data, method, accessToken, contentType } = request;
+    const accessTokenFromCookie = req.cookies.get('apexAccessToken');
+    const instanceIdFromCookie = req.cookies.get('apexInstanceId');
     let payload = {
-      baseURL: `https://${instanceId}-admin.occa.ocs.oraclecloud.com`,
+      baseURL: `https://${instanceIdFromCookie || instanceId}-admin.occa.ocs.oraclecloud.com`,
       url,
       data,
       params,
       method,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessTokenFromCookie || accessToken}`,
         "Content-Type": contentType || "application/json"
       }
     }
@@ -23,11 +25,15 @@ export async function POST(req) {
     }
     const httpCall = await axios.request(payload);
     const newHeaders = new Headers(httpCall.headers);
+    // Setting accessToken as a cookie for easy access
+    httpCall.data?.access_token && newHeaders.set('set-cookie', `apexAccessToken=${httpCall.data.access_token};path=/;expires=${httpCall.data.expires_in * 10};`);
+   // Instance id also saving in cookies
+    httpCall.data?.access_token && newHeaders.append('set-cookie', `apexInstanceId=${instanceId};path=/;expires=${httpCall.data.expires_in * 1000};`);
     newHeaders.delete('content-length');
-    return NextResponse.json({ ...httpCall.data }, { status: 200, headers: newHeaders });
+    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: "00002000", message: `${error.message}. Please make sure the payload is valid JSON.` }, { status: 500 })
+    return NextResponse.json(error.response?.data || { errorCode: "00002000", message: `${error.message}. Please make sure the payload is valid JSON.` }, { status: httpCall.data.statusCode })
   }
 
 }
