@@ -4,7 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
 import { formToJson } from "../utils";
-import { fetchUser } from "../store/reducers/user";
+import { appLogin } from "../store/reducers/occ";
 import { TextInput, Button, Label } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
