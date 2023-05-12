@@ -4,19 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
 import { formToJson } from "../utils";
-import { fetchUser } from "../store/reducers/user";
+import { appLogin } from "../store/reducers/occ";
 import { TextInput, Button, Label } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
-import httpCall from "../utils/httpCall";
 
 export default function Login(props) {
 
-  const { action } = useContext(StoreContext);
-
-  (async () => {
-    console.log( await action(fetchUser()));
-  })()
-
+  const { action, getState } = useContext(StoreContext);
 
   const toast = useToasts();
   const router = useRouter();
@@ -26,17 +20,28 @@ export default function Login(props) {
     const formData = event.target;
     const payload = formToJson(formData);
 
-    httpCall('post', '/login?login=test&pw=123', payload)
+    action(appLogin(payload))
       .then(res => {
-        toast.show({
-          status: "success",
-          message: "You are successfully logged in..",
-          delay: 3,
-        });
-        setTimeout(() => {
-          router.push('/files');
-          props.loginModalRef?.current();
-        }, 2000);
+
+        if (res.payload) {
+          toast.show({
+            status: "success",
+            message: "You are successfully logged in..",
+            delay: 3,
+          });
+          setTimeout(() => {
+            router.push('/files');
+            props.loginModalRef?.current();
+          }, 2000);
+          
+        } else {
+          toast.show({
+            status: "failure",
+            message: res.error.message || res.error.stack,
+            delay: 3,
+          });
+        }
+
       })
       .catch(error => {
         toast.show({
@@ -70,6 +75,7 @@ export default function Login(props) {
           <TextInput id="token" className="block" name="accessToken" required autoComplete="off" placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
           <TextInput type="hidden" name="data" value="grant_type=client_credentials" />
           <TextInput type="hidden" name="method" value="post" />
+          <Button type="button" onClick={()=> console.log(getState())}>Get State</Button>
           <Button className="mt-10 m-auto w-2/6" value="signin" type="submit">Sign in </Button>
         </div>
       </section>

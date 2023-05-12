@@ -13,3 +13,4 @@ const httpCall = async (url, data, headers, method) => {
 };
 
 export default httpCall;
+
