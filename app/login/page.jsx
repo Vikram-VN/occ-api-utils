@@ -75,7 +75,6 @@ export default function Login(props) {
           <TextInput id="token" className="block" name="accessToken" required autoComplete="off" placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
           <TextInput type="hidden" name="data" value="grant_type=client_credentials" />
           <TextInput type="hidden" name="method" value="post" />
-          <Button type="button" onClick={()=> console.log(getState())}>Get State</Button>
           <Button className="mt-10 m-auto w-2/6" value="signin" type="submit">Sign in </Button>
         </div>
       </section>
