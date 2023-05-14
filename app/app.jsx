@@ -17,8 +17,9 @@ export const APP = ({ children }) => {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className={inter.className}>
-        <marquee className="bg-slate-200 dark:bg-slate-800 h-10 flex items-center "> Welcome to Commerce API Utils</marquee>
+      <body className={inter.className}
+        suppressHydrationWarning={true}
+      >
         <main className="grid grid-flow-row min-h-full custom-grid-flow">
           <Header />
           <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">

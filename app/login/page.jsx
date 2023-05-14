@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
 import { formToJson } from "../utils";
-import { appLogin } from "../store/reducers/occ";
 import { TextInput, Button, Label } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
@@ -20,36 +19,38 @@ export default function Login(props) {
     const formData = event.target;
     const payload = formToJson(formData);
 
-    action(appLogin(payload))
-      .then(res => {
+    action("login", payload);
 
-        if (res.payload) {
-          toast.show({
-            status: "success",
-            message: "You are successfully logged in..",
-            delay: 3,
-          });
-          setTimeout(() => {
-            router.push('/files');
-            props.loginModalRef?.current();
-          }, 2000);
-          
-        } else {
-          toast.show({
-            status: "failure",
-            message: res.error.message || res.error.stack,
-            delay: 3,
-          });
-        }
+    // action(appLogin(payload))
+    //   .then(res => {
 
-      })
-      .catch(error => {
-        toast.show({
-          status: "failure",
-          message: error.response.data.error || error.response.data.message,
-          delay: 3,
-        });
-      });
+    //     if (res.payload) {
+    //       toast.show({
+    //         status: "success",
+    //         message: "You are successfully logged in..",
+    //         delay: 3,
+    //       });
+    //       setTimeout(() => {
+    //         router.push('/files');
+    //         props.loginModalRef?.current();
+    //       }, 2000);
+
+    //     } else {
+    //       toast.show({
+    //         status: "failure",
+    //         message: res.error.message || res.error.stack,
+    //         delay: 3,
+    //       });
+    //     }
+
+    //   })
+    //   .catch(error => {
+    //     toast.show({
+    //       status: "failure",
+    //       message: error.response.data.error || error.response.data.message,
+    //       delay: 3,
+    //     });
+    //   });
   }
 
   return (
