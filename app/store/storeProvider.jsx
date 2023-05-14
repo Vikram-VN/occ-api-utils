@@ -10,7 +10,7 @@ export function StoreProvider({ children, preloadedState = {} }) {
   const store = createStore(preloadedState);
   const { dispatch } = store;
 
-  const action = (type, payload) =>
+  const action = (type, payload) => {
     new Promise((resolve, reject) => {
       if (type) {
         resolve(dispatch({ type, payload }));
@@ -20,6 +20,7 @@ export function StoreProvider({ children, preloadedState = {} }) {
       }
 
     });
+  };
 
   const storeValue = { ...store, ...utils, httpCall, ...crypto, action };
 

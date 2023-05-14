@@ -14,7 +14,7 @@ export function createStore(preloadedState = {}) {
     const store = configureStore({
         reducer: { appRepository },
         devTools: process.env.NODE_ENV !== 'production',
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
         preloadedState
     });
     sagaMiddleware.run(actions);

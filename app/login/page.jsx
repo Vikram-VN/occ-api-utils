@@ -14,43 +14,52 @@ export default function Login(props) {
   const toast = useToasts();
   const router = useRouter();
 
+
+  const onSuccess = () => {
+    toast.show({
+      status: "success",
+      message: "You are successfully logged in..",
+      delay: 3,
+    });
+    setTimeout(() => {
+      router.push('/files');
+      props.loginModalRef?.current();
+    }, 2000);
+  }
+
+  const onError = (error) => {
+    toast.show({
+      status: "failure",
+      message: error,
+      delay: 3,
+    });
+
+  }
+
+  const stateHandler = async (payload, apiResponse) => {
+    const result = await apiResponse;
+    console.log(result);
+    return {
+      key: 'instanceDetails',
+      value: { ...result, instanceId: payload.instanceId, appKey: payload.appKey }
+    }
+  }
+
   const submitForm = (event) => {
     event.preventDefault();
     const formData = event.target;
     const payload = formToJson(formData);
 
-    action("login", payload);
-
-    // action(appLogin(payload))
-    //   .then(res => {
-
-    //     if (res.payload) {
-    //       toast.show({
-    //         status: "success",
-    //         message: "You are successfully logged in..",
-    //         delay: 3,
-    //       });
-    //       setTimeout(() => {
-    //         router.push('/files');
-    //         props.loginModalRef?.current();
-    //       }, 2000);
-
-    //     } else {
-    //       toast.show({
-    //         status: "failure",
-    //         message: res.error.message || res.error.stack,
-    //         delay: 3,
-    //       });
-    //     }
-
-    //   })
-    //   .catch(error => {
-    //     toast.show({
-    //       status: "failure",
-    //       message: error.response.data.error || error.response.data.message,
-    //       delay: 3,
-    //     });
-    //   });
+    // Doing login
+    action("httpCall", {
+      method: "post",
+      url: "/login",
+      requestData: { ...payload, data: "grant_type=client_credentials" },
+      showNotification: true,
+      onError, onSuccess,
+      stateHandler,
+      action: "update"
+    });
   }
 
   return (
@@ -74,8 +83,6 @@ export default function Login(props) {
             />
           </div>
           <TextInput id="token" className="block" name="accessToken" required autoComplete="off" placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
-          <TextInput type="hidden" name="data" value="grant_type=client_credentials" />
-          <TextInput type="hidden" name="method" value="post" />
           <Button className="mt-10 m-auto w-2/6" value="signin" type="submit">Sign in </Button>
         </div>
       </section>
