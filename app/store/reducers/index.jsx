@@ -1,5 +1,3 @@
-import { combineReducers, createSlice } from "@reduxjs/toolkit";
-
 const initialState = {};
 
 const appRepository = (state = initialState, { type, key, value }) => {
