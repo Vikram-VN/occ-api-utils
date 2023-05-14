@@ -1,4 +1,4 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { noop } from '../../utils';
 import httpCall from '../../utils/httpCall';
 
@@ -14,7 +14,7 @@ function* sagasHandler(action) {
     const stateAction = action.payload.stateAction || '';
     const stateHandler = action.payload.stateHandler || noop;
 
-    const apiRequest = httpCall({
+    const apiRequest = yield call(httpCall, {
       method: requestMethod,
       url: requestEndpoint,
       data: newRequest,
@@ -24,10 +24,11 @@ function* sagasHandler(action) {
       showNotification: userNotification
     });
 
-    // Need to return key value object from this handler
     const stateUpdate = stateHandler(action.payload, apiRequest);
 
-    yield put({ type: stateAction, ...stateUpdate });
+    if (stateUpdate) {
+      yield put({ type: stateAction, ...stateUpdate });
+    }
 
   } catch (e) {
     console.info(`Action Call Error: `, e)
@@ -35,7 +36,7 @@ function* sagasHandler(action) {
 }
 
 function* appSaga() {
-  yield takeEvery('*', sagasHandler);
+  yield takeEvery('webLogin', sagasHandler);
 }
 
 

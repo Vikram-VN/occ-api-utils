@@ -9,13 +9,14 @@ import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
 export default function Login(props) {
 
-  const { action, getState } = useContext(StoreContext);
+  const { action } = useContext(StoreContext);
 
   const toast = useToasts();
   const router = useRouter();
 
 
-  const onSuccess = () => {
+  // Used to show notifications
+  const onSuccess = (res) => {
     toast.show({
       status: "success",
       message: "You are successfully logged in..",
@@ -27,22 +28,30 @@ export default function Login(props) {
     }, 2000);
   }
 
+  // Used to show notifications
   const onError = (error) => {
     toast.show({
       status: "failure",
-      message: error,
+      message: error.message,
       delay: 3,
     });
 
   }
 
-  const stateHandler = async (payload, apiResponse) => {
-    const result = await apiResponse;
-    console.log(result);
-    return {
-      key: 'instanceDetails',
-      value: { ...result, instanceId: payload.instanceId, appKey: payload.appKey }
+  // Updating the state based on need.
+  const stateHandler = (payload, apiResponse) => {
+    const result = apiResponse;
+    if (result.access_token) {
+      return {
+        key: 'occRepository',
+        value: {
+          accessToken: result.access_token,
+          instanceId: payload.requestData.instanceId,
+          appKey: payload.requestData.accessToken
+        }
+      }
     }
+
   }
 
   const submitForm = (event) => {
@@ -51,14 +60,14 @@ export default function Login(props) {
     const payload = formToJson(formData);
 
     // Doing login
-    action("httpCall", {
+    action("webLogin", {
       method: "post",
       url: "/login",
       requestData: { ...payload, data: "grant_type=client_credentials" },
       showNotification: true,
       onError, onSuccess,
       stateHandler,
-      action: "update"
+      stateAction: "update"
     });
   }
 
