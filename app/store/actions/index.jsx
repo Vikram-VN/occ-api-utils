@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { noop } from '../../utils';
 import httpCall from '../../utils/httpCall';
 
 function* apiHandler(action) {
+=======
+import { put, takeEvery } from 'redux-saga/effects';
+import { noop } from '../../utils';
+import httpCall from '../../utils/httpCall';
+
+function* sagasHandler(action) {
+>>>>>>> 5dde92b (nothing is working)
   try {
     const requestEndpoint = action.payload.url || '/';
     const requestMethod = action.payload.method || 'get';
