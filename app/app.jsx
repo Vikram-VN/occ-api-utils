@@ -1,10 +1,8 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import { Inter } from 'next/font/google';
-import { ToastProvider } from "./components/toast/";
-import { isAuthenticated } from './store/selector';
-import { StoreContext } from './store/context';
-import { useSelector } from 'react-redux';
+import { ToastProvider } from './components/toast';
+import { useLoginStatus } from './store/hooks';
 import Login from './login/page';
 import Header from './components/header';
 import SideBar from './components/navbar';
@@ -13,10 +11,10 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const APP = ({ children }) => {
+export const OccUtilsApp = ({ children }) => {
 
-  const { getState } = useContext(StoreContext);
-  const isLoggedIn = isAuthenticated(useSelector(getState));
+  // Rendering children's conditionally
+  const isLoggedIn = useLoginStatus();
 
   return (
     <html lang="en">
@@ -44,4 +42,4 @@ export const APP = ({ children }) => {
 }
 
 
-export default APP;
+export default OccUtilsApp;

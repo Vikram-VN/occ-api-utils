@@ -1,7 +1,6 @@
 import React from "react";
-import { StoreProvider } from "./store/storeProvider";
-
-import App from "./app";
+import { StoreProvider } from "./store";
+import OccUtilsApp from "./app";
 
 export const metadata = {
   title: 'OCC API Utils',
@@ -14,7 +13,7 @@ export default function RootLayout(props) {
 
   return (
     <StoreProvider>
-      <App>{children}</App>
+      <OccUtilsApp>{children}</OccUtilsApp>
     </StoreProvider>
   )
 }
