@@ -13,13 +13,17 @@ export async function POST(req) {
     const { instanceId, data, method = 'post', accessToken, contentType } = request;
     const accessTokenFromCookie = req.cookies.get('apexAccessToken');
     const instanceIdFromCookie = req.cookies.get('apexInstanceId');
+
+    const hostId = instanceIdFromCookie || instanceId;
+    const auth = accessTokenFromCookie || accessToken;
+
     let payload = {
-      baseURL: `https://${instanceIdFromCookie || instanceId}-admin.occa.ocs.oraclecloud.com`,
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: pathName,
       data,
       method,
       headers: {
-        Authorization: `Bearer ${accessTokenFromCookie || accessToken}`,
+        Authorization: `Bearer ${auth}`,
         "Content-Type": contentType || (pathName.includes("login")
           ? "application/x-www-form-urlencoded" :
           "application/json")

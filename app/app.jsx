@@ -1,6 +1,11 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import { Inter } from 'next/font/google';
 import { ToastProvider } from "./components/toast/";
+import { isAuthenticated } from './store/selector';
+import { StoreContext } from './store/context';
+import { useSelector } from 'react-redux';
+import Login from './login/page';
 import Header from './components/header';
 import SideBar from './components/navbar';
 import Footer from './components/footer';
@@ -9,6 +14,9 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] })
 
 export const APP = ({ children }) => {
+
+  const { getState } = useContext(StoreContext);
+  const isLoggedIn = isAuthenticated(useSelector(getState));
 
   return (
     <html lang="en">
@@ -25,7 +33,7 @@ export const APP = ({ children }) => {
           <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
             <section className="px-6 pt-2 relative pb-6 custom-col-span">
-              <ToastProvider>{children}</ToastProvider>
+              <ToastProvider>{isLoggedIn ? children : <Login />}</ToastProvider>
             </section>
           </section>
           <Footer />

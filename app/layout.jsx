@@ -1,5 +1,6 @@
 import React from "react";
 import { StoreProvider } from "./store/storeProvider";
+
 import App from "./app";
 
 export const metadata = {
