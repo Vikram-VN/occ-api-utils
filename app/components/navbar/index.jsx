@@ -83,7 +83,7 @@ const NavBar = () => {
             </Link>
 
          </div>
-         {/* Here onwards expladable content starts */}
+         {/* Here onwards expandable content starts */}
          <aside id="sidebar-multi-level-sidebar" className={`w-64 h-screen transition-transform border-r dark:border-r-slate-600 sm:translate-x-0 ${showNav ? '' : 'hidden'}`}>
             <div className="h-full max-h-screen px-3 py-4 overflow-y-auto bg-slate-50 dark:bg-slate-800">
                <ul className="space-y-2 font-medium">
