@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Inter } from 'next/font/google';
 import { usePathname } from "next/navigation";
 import { ToastProvider } from './components/toast';
@@ -9,15 +9,38 @@ import Header from './components/header';
 import SideBar from './components/navbar';
 import Footer from './components/footer';
 import './globals.css';
+import { StoreContext } from "./store/context";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const OccUtilsApp = ({ children }) => {
 
+  const { action } = useContext(StoreContext);
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
   const pagePath = usePathname();
   const isHomePage = pagePath === '/';
+
+  // Updating the state based on need.
+  const stateHandler = (payload, apiResponse) => {
+    const result = apiResponse;
+    if (result.access_token) {
+      return {
+        key: 'occRepository',
+        value: {
+          accessToken: result.access_token
+        }
+      }
+    }
+
+  }
+
+  // Calling refresh API to get the new access token
+  useEffect(() => {
+    isLoggedIn && setInterval(() => {
+      action('apiCall', { method: 'post', url: '/refresh', stateHandler })
+    }, (2 * 60 * 1000))
+  }, [action, isLoggedIn])
 
   return (
     <html lang="en">
