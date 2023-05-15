@@ -1,7 +1,7 @@
-import Image from 'next/image'
+import React from "react";
 
 export default function Files() {
   return (
-    <p>Files route</p>
+    <p>Files Feature is under constructions</p>
   )
 }

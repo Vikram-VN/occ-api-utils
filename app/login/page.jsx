@@ -80,7 +80,7 @@ export default function Login(props) {
     <form onSubmit={submitForm} className="block">
       <section className="m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg">
         <div className="w-3/1 flex m-auto mb-4 lg:mb-0">
-          <img src="/apexian.jpg" className="rounded" alt="apexit banner" />
+          <img src="/media/apexian.jpg" className="rounded" alt="apexit banner" />
         </div>
         <div className="w-full m-auto">
           <div className="mb-2 block">

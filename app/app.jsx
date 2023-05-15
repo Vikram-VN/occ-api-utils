@@ -48,6 +48,10 @@ export const OccUtilsApp = ({ children }) => {
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="apex-favicon.svg" sizes="32x32" />
+        <link rel="icon" href="apex-favicon.svg" sizes="192x192" />
+        <link rel="apple-touch-icon" href="apex-favicon.svg" />
+        <meta name="msapplication-TileImage" content="apex-favicon.svg" />
       </head>
       <body className={inter.className}
         suppressHydrationWarning={true}

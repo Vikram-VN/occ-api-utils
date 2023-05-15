@@ -48,7 +48,7 @@ const NavBar = () => {
             <div className="h-full max-h-screen px-3 py-4 overflow-y-auto bg-slate-50 dark:bg-slate-800">
                <ul className="space-y-2 font-medium">
                   <li>
-                     <span className="h-8 mr-4 flex items-center p-2 ml-3">Table of contents</span>
+                     <span className="h-8 mr-4 flex items-center p-2 ml-3">Navigation Menu</span>
                   </li>
                   <li>
                      <button type="button" className="flex items-center w-full p-2 text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700">

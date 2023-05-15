@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
-export default function OrganizationID() {
+export default function OrganizationId() {
   return (
-    <p>Organization ID</p>
+    <p>Organization ID Feature is under constructions</p>
   )
 }
