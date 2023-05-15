@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import Link from "next/link";
+import { StoreContext } from "../../store/context";
 import { useLoginStatus } from "../../store/hooks";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import ApexitLogo from "../logo";
 import "./styles.css";
@@ -13,12 +15,21 @@ const Header = () => {
 
   const loginModalRef = useRef();
 
+  const { action } = useContext(StoreContext);
+  const router = useRouter();
+
+
   const loginPath = usePathname().includes('login');
   const isLoggedIn = useLoginStatus();
 
+  const clearReduxState = () => {
+    router.push('/');
+    action('stateCall', { stateAction: 'clearState' })
+  }
 
+  // Changing header text for user
   const userText = isLoggedIn ? "Log out" : "Log in";
-  const userAction = isLoggedIn ? "user-login" : "user-logout"
+  const userAction = isLoggedIn ? "user-logout" : "user-login"
 
   return (
     <header className="sticky top-0 flex-none h-24 mx-auto  border-b dark:border-b-slate-600 bg-slate-200 dark:bg-slate-900 z-50">
@@ -36,7 +47,8 @@ const Header = () => {
           </div>
         </div>
       </nav>
-      {!loginPath && !isLoggedIn && <Modal title={"OCC Login"} loginModalRef={loginModalRef}>
+      <input name="logout-modal" type="text" id="user-logout" className="hidden" onClick={clearReduxState} />
+      {!loginPath && <Modal title={"OCC Login"} loginModalRef={loginModalRef}>
         <Login loginModalRef={loginModalRef} />
       </Modal>}
     </header>
