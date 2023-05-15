@@ -2,7 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { noop } from '../../utils';
 import httpCall from '../../utils/httpCall';
 
-function* sagasHandler(action) {
+function* apiHandler(action) {
   try {
     const requestEndpoint = action.payload.url || '/';
     const requestMethod = action.payload.method || 'get';
@@ -31,12 +31,28 @@ function* sagasHandler(action) {
     }
 
   } catch (e) {
-    console.info(`Action Call Error: `, e)
+    console.info(`API Action Call Error: `, e)
+  }
+}
+
+function* sagasHandler(action) {
+  try {
+
+    const stateAction = action.payload.stateAction || '';
+    const stateHandler = action.payload.stateHandler || noop;
+
+    const stateUpdate = stateHandler(action.payload);
+
+    yield put({ type: stateAction, ...stateUpdate });
+
+  } catch (e) {
+    console.info(`State Action Call Error: `, e)
   }
 }
 
 function* appSaga() {
-  yield takeEvery('webLogin', sagasHandler);
+  yield takeEvery('apiCall', apiHandler);
+  yield takeEvery('stateCall', sagasHandler);
 }
 
 

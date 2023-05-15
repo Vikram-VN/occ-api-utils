@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
 import { formToJson } from "../utils";
@@ -9,11 +9,16 @@ import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
 export default function Login(props) {
 
-  const { action } = useContext(StoreContext);
+  const { action, useLoginStatus } = useContext(StoreContext);
 
   const toast = useToasts();
   const router = useRouter();
 
+  const isLoggedIn = useLoginStatus();
+  const pagePath = usePathname();
+
+  // Avoiding the unnecessary redirect for other routes
+  isLoggedIn && pagePath.includes('login') && router.push('/');
 
   // Used to show notifications
   const onSuccess = (res) => {
@@ -60,14 +65,14 @@ export default function Login(props) {
     const payload = formToJson(formData);
 
     // Doing login
-    action("webLogin", {
+    action("apiCall", {
       method: "post",
       url: "/login",
       requestData: { ...payload, data: "grant_type=client_credentials" },
       showNotification: true,
       onError, onSuccess,
       stateHandler,
-      stateAction: "update"
+      stateAction: "updateKeyValue"
     });
   }
 

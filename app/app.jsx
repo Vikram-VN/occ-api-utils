@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Inter } from 'next/font/google';
+import { usePathname } from "next/navigation";
 import { ToastProvider } from './components/toast';
 import { useLoginStatus } from './store/hooks';
 import Login from './login/page';
@@ -15,6 +16,8 @@ export const OccUtilsApp = ({ children }) => {
 
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
+  const pagePath = usePathname();
+  const isHomePage = pagePath === '/';
 
   return (
     <html lang="en">
@@ -31,7 +34,7 @@ export const OccUtilsApp = ({ children }) => {
           <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">
             <SideBar />
             <section className="px-6 pt-2 relative pb-6 custom-col-span">
-              <ToastProvider>{isLoggedIn ? children : <Login />}</ToastProvider>
+              <ToastProvider>{(isHomePage || isLoggedIn) ? children : <Login />}</ToastProvider>
             </section>
           </section>
           <Footer />
