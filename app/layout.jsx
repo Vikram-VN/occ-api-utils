@@ -1,5 +1,5 @@
 import React from "react";
-import { StoreProvider } from "./store/storeProvider";
+import { StoreProvider } from "./store";
 import OccUtilsApp from "./app";
 import './globals.css';
 

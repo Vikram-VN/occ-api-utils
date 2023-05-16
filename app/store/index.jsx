@@ -1,20 +1,48 @@
 "use client";
-import { configureStore } from "@reduxjs/toolkit";
-import createSagaMiddleware from "redux-saga";
-import appRepository from "./reducers";
+import { configureStore } from '@reduxjs/toolkit';
+import { PersistGate } from 'redux-persist/integration/react';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+import createSagaMiddleware from 'redux-saga';
+import appRepository from './reducers';
 import logger from 'redux-logger';
 import actions from './actions';
-import { Provider } from "react-redux";
-import { StoreContext } from "./context";
-import * as utils from "../utils";
-import * as crypto from "../utils/crypto";
-import httpCall from "../utils/httpCall";
+import { Provider } from 'react-redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import { StoreContext } from './context';
+import * as utils from '../utils';
+import * as crypto from '../utils/crypto';
+import httpCall from '../utils/httpCall';
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== 'production' && middleware.push(logger);
+
+
+const createNoopStorage = () => {
+    return {
+        getItem(_key) {
+            return Promise.resolve(null);
+        },
+        setItem(_key, value) {
+            return Promise.resolve(value);
+        },
+        removeItem(_key) {
+            return Promise.resolve();
+        },
+    };
+};
+
+
+const storage = typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
+
+const persistConfig = {
+    key: 'apexStore',
+    storage,
+}
+
+export const persistedReducer = persistReducer(persistConfig, appRepository);
 
 export function createStore(preloadedState = {}) {
     const store = configureStore({
@@ -23,15 +51,17 @@ export function createStore(preloadedState = {}) {
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
         preloadedState
     });
+
+    const persistedStore = persistStore(store)
     sagaMiddleware.run(actions);
 
-    return store;
+    return { store, persistedStore };
 }
 
+const { store, persistedStore } = createStore({});
 
-export function StoreProvider({ children, preloadedState = {} }) {
+export function StoreProvider({ children }) {
 
-    const store = createStore(preloadedState);
     const { dispatch } = store;
 
     const action = (type, payload) => {
@@ -50,9 +80,11 @@ export function StoreProvider({ children, preloadedState = {} }) {
 
     return (
         <Provider store={store}>
+            {/* <PersistGate loading={null} persistor={persistedStore}> */}
             <StoreContext.Provider value={storeValue}>
                 {children}
             </StoreContext.Provider>
+            {/* </PersistGate> */}
         </Provider>
     );
 }
