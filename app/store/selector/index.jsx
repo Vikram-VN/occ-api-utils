@@ -1,9 +1,7 @@
-// Context Repository
-export const getAppRepository = state => state.appRepository || {};
 
 // OCC Repository
 
-export const getOCCRepository = state => getAppRepository(state).occRepository || {};
+export const getOCCRepository = state => state.occRepository || {};
 
 export const getInstanceId = state => getOCCRepository(state).instanceId || {};
 
@@ -16,4 +14,4 @@ export const isAuthenticated = state => (getOCCRepository(state).accessToken ? t
 
 // General Repository
 
-export const getUserRepository = state => getAppRepository(state).generalRepository || {};
+export const getUserRepository = state => state.generalRepository || {};

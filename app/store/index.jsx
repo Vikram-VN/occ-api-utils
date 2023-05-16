@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import createSagaMiddleware from 'redux-saga';
-import appRepository from './reducers';
+import rootReducer from './reducers';
 import logger from 'redux-logger';
 import actions from './actions';
 import { Provider } from 'react-redux';
@@ -39,14 +39,15 @@ const storage = typeof window !== "undefined" ? createWebStorage("local") : crea
 
 const persistConfig = {
     key: 'apexStore',
+    version: 1,
     storage,
 }
 
-export const persistedReducer = persistReducer(persistConfig, appRepository);
+export const appRepository = persistReducer(persistConfig, rootReducer);
 
 export function createStore(preloadedState = {}) {
     const store = configureStore({
-        reducer: { appRepository },
+        reducer: rootReducer,
         devTools: process.env.NODE_ENV !== 'production',
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
         preloadedState
