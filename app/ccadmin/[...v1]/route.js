@@ -3,19 +3,21 @@ import axios from 'axios';
 
 
 export async function GET() {
-  return NextResponse.json({ msg: "NexJS server is running!" });
+  return NextResponse.json({ msg: 'NexJS server is running!' });
 }
 
-export async function POST(req) {
+export async function POST(request) {
   try {
-    const pathName = req.nextUrl.pathname;
-    const request = await req.json();
-    const { instanceId, data, method = 'post', accessToken, contentType } = request;
-    const accessTokenFromCookie = req.cookies.get('apexAccessToken');
-    const instanceIdFromCookie = req.cookies.get('apexInstanceId');
+    const pathName = request.nextUrl.pathname;
+    const requestBody = await request.json();
+    const { instanceId, data, method = 'post', accessToken, contentType } = requestBody;
+    
+    const requestHeaders = new Headers(request.headers);
+    const accessTokenFromHeader = requestHeaders.get('apexit-access-token');
+    const instanceIdFromHeader = requestHeaders.get('apexit-instance-id');
 
-    const hostId = instanceIdFromCookie || instanceId;
-    const auth = accessTokenFromCookie || accessToken;
+    const hostId = instanceIdFromHeader || instanceId;
+    const auth = accessTokenFromHeader || accessToken;
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -24,9 +26,9 @@ export async function POST(req) {
       method,
       headers: {
         Authorization: `Bearer ${auth}`,
-        "Content-Type": contentType || (pathName.includes("login")
-          ? "application/x-www-form-urlencoded" :
-          "application/json")
+        'Content-Type': contentType || (pathName.includes('login')
+          ? 'application/x-www-form-urlencoded' :
+          'application/json')
       }
     }
 
@@ -39,15 +41,12 @@ export async function POST(req) {
 
     const httpCall = await axios.request(payload);
     const newHeaders = new Headers(httpCall.headers);
-    // Setting accessToken as a cookie for easy access
-    httpCall.data?.access_token && newHeaders.set('set-cookie', `apexAccessToken=${httpCall.data.access_token};path=/;expires=${httpCall.data.expires_in * 10};`);
-    // Instance id also saving in cookies
-    httpCall.data?.access_token && newHeaders.append('set-cookie', `apexInstanceId=${instanceId};path=/;expires=${httpCall.data.expires_in * 1000};`);
     newHeaders.delete('content-length');
+
     return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: "00002000", message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '00002000', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }

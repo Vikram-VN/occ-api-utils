@@ -357,28 +357,28 @@ export const loginValidation = (data, setError, checkDetails) => {
   const nameRegrExp = /^[A-Za-z\s]+$/;
   
   if (mobNo.length !== 10) {
-    setError({ errormobNo: "Please enter 10 digit mobile number." });
+    setError({ errormobNo: 'Please enter 10 digit mobile number.' });
     return false;
   } else if (!regrExp.test(mobNo)) {
-    setError({ errormobNo: "Please input only numeric." });
+    setError({ errormobNo: 'Please input only numeric.' });
     return false;
   }
 
   if (name.length === 0) {
-    setError({ errorName: "Please enter your name." });
+    setError({ errorName: 'Please enter your name.' });
     return false;
   } else if (!nameRegrExp.test(name)) {
-    setError({ errorName: "Please enter only characters" });
+    setError({ errorName: 'Please enter only characters' });
     return false;
   }
 
   if (!validateEmail(email)) {
-    setError({ errorEmail: "Email is not valid" });
+    setError({ errorEmail: 'Email is not valid' });
     return false;
   }
 
   if (!tnc) {
-     setError({ errorResponse: "Please accept the Terms & Conditions and Privacy Policy" });
+     setError({ errorResponse: 'Please accept the Terms & Conditions and Privacy Policy' });
      return false;
   }
 

@@ -3,11 +3,11 @@
 
 export const getOCCRepository = state => state.occRepository || {};
 
-export const getInstanceId = state => getOCCRepository(state).instanceId || {};
+export const getInstanceId = state => getOCCRepository(state).instanceId || '';
 
-export const getAccessToken = state => getOCCRepository(state).accessToken || {};
+export const getAccessToken = state => getOCCRepository(state).accessToken || '';
 
-export const getAppKey = state => getOCCRepository(state).appKey || {};
+export const getAppKey = state => getOCCRepository(state).appKey || '';
 
 export const isAuthenticated = state => (getOCCRepository(state).accessToken ? true : false);
 

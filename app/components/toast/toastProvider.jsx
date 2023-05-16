@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import Toast from "./toast";
-import ToastContext from "./toastContext";
+'use client';
+import React, { useState } from 'react';
+import Toast from './toast';
+import ToastContext from './toastContext';
 
 const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([])
@@ -26,7 +26,7 @@ const ToastProvider = ({ children }) => {
 
     return (
         <ToastContext.Provider value={{ show, remove, removeByStatus, removeByStatus }}>
-            <div className="block">
+            <div className='block'>
                 {toasts.map(({ message, id, status, delay }) => (
                     <Toast
                         key={id}

@@ -1,6 +1,6 @@
-"use client";
-import { useEffect } from "react";
-import Alert from "../alert";
+'use client';
+import { useEffect } from 'react';
+import Alert from '../alert';
 
 const Toast = ({ id, remove, status, description, removeById, delay, ...props }) => {
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { configureStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
@@ -35,7 +35,7 @@ const createNoopStorage = () => {
 };
 
 
-const storage = typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
 const persistConfig = {
     key: 'apexStore',
@@ -59,7 +59,7 @@ export function createStore(preloadedState = {}) {
     return { store, persistedStore };
 }
 
-const { store, persistedStore } = createStore({});
+export const { store, persistedStore } = createStore({});
 
 export function StoreProvider({ children }) {
 
