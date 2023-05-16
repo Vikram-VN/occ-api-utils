@@ -15,6 +15,7 @@ import {
    MagnifyingGlassIcon
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { Tooltip } from "flowbite-react";
 
 const NavBar = () => {
 
@@ -37,50 +38,68 @@ const NavBar = () => {
                <Bars3BottomLeftIcon className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" />
             </button>
 
-            <Link href="/deployment" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <InboxArrowDownIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Deployment</span>
-            </Link>
+            <Tooltip content="Deployment" placement="auto">
+               <Link href="/deployment" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <InboxArrowDownIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Deployment</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/email" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <EnvelopeIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Email</span>
-            </Link>
+            <Tooltip content="Email" placement="auto">
+               <Link href="/email" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <EnvelopeIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Email</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/export" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <ArrowUpTrayIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Export</span>
-            </Link>
+            <Tooltip content="Export" placement="auto">
+               <Link href="/export" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <ArrowUpTrayIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Export</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/extensions" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <PuzzlePieceIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Extensions</span>
-            </Link>
+            <Tooltip content="Extensions" placement="auto">
+               <Link href="/extensions" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <PuzzlePieceIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Extensions</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/files" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <DocumentIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Files</span>
-            </Link>
+            <Tooltip content="Files" placement="auto">
+               <Link href="/files" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <DocumentIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Files</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/import" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <ArrowDownTrayIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Import</span>
-            </Link>
+            <Tooltip content="Import" placement="auto">
+               <Link href="/import" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <ArrowDownTrayIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Import</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/organizations" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <UserGroupIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Organizations</span>
-            </Link>
+            <Tooltip content="Organizations" placement="auto">
+               <Link href="/organizations" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <UserGroupIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Organizations</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/profiles" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <UsersIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Profiles</span>
-            </Link>
+            <Tooltip content="Profiles" placement="auto">
+               <Link href="/profiles" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <UsersIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Profiles</span>
+               </Link>
+            </Tooltip>
 
-            <Link href="/search" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-               <MagnifyingGlassIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-               <span className="sr-only">Search</span>
-            </Link>
+            <Tooltip content="Search" placement="auto">
+               <Link href="/search" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <MagnifyingGlassIcon className="w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Search</span>
+               </Link>
+            </Tooltip>
 
          </div>
          {/* Here onwards expandable content starts */}
