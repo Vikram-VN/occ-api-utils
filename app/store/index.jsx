@@ -6,7 +6,6 @@ import logger from 'redux-logger';
 import actions from './actions';
 import { Provider } from "react-redux";
 import { StoreContext } from "./context";
-import * as hooks from './hooks';
 import * as utils from "../utils";
 import * as crypto from "../utils/crypto";
 import httpCall from "../utils/httpCall";
@@ -16,11 +15,6 @@ const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== 'production' && middleware.push(logger);
-
-const rootReducer = combineReducers({
-    occRepository: occReducer,
-    userRepository: userReducer,
-})
 
 export function createStore(preloadedState = {}) {
     const store = configureStore({
@@ -52,7 +46,7 @@ export function StoreProvider({ children, preloadedState = {} }) {
         });
     };
 
-    const storeValue = { httpCall, action, ...store, ...utils, ...crypto, ...hooks };
+    const storeValue = { httpCall, action, ...store, ...utils, ...crypto };
 
     return (
         <Provider store={store}>

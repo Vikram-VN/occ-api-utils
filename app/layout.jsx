@@ -3,8 +3,6 @@ import { StoreProvider } from "./store/storeProvider";
 import OccUtilsApp from "./app";
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata = {
   title: 'OCC API Utils',
   description: 'Some useful tools for OCC',

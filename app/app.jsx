@@ -36,11 +36,11 @@ export const OccUtilsApp = ({ children }) => {
   }
 
   // Calling refresh API to get the new access token
-  useEffect(() => {
-    isLoggedIn && setInterval(() => {
-      action('apiCall', { method: 'post', url: '/refresh', stateHandler })
-    }, (2 * 60 * 1000))
-  }, [action, isLoggedIn])
+  // useEffect(() => {
+  //   isLoggedIn && setInterval(() => {
+  //     action('apiCall', { method: 'post', url: '/refresh', stateHandler })
+  //   }, (2 * 60 * 1000))
+  // }, [action, isLoggedIn])
 
   return (
     <html lang="en">

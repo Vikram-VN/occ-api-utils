@@ -53,7 +53,7 @@ export default function Home() {
         </Carousel>
       </div>
       <h1 className="mt-10 mb-4 text-4xl text-justify bold">Who We Are</h1>
-      <div className="aprimary"><p>At Apex IT, the people are our greatest asset.</p>
+      <div className="aprimary"><p>Apex IT provides award-winning, global consulting services that transform your customer, employee, citizen, and student experiences.</p>
       </div>
       <h1 className="mt-10 mb-4 text-4xl text-justify bold">Why We Are Different</h1>
       <div className="wys-wrap primary">

@@ -1,5 +1,6 @@
 "use client";
 import React, { useContext } from "react";
+import { useLoginStatus } from "../store/hooks";
 import { useRouter, usePathname } from 'next/navigation';
 import { useToasts } from "../components/toast/";
 import { StoreContext } from "../store/context";
@@ -9,7 +10,7 @@ import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 
 export default function Login(props) {
 
-  const { action, useLoginStatus } = useContext(StoreContext);
+  const { action } = useContext(StoreContext);
 
   const toast = useToasts();
   const router = useRouter();
