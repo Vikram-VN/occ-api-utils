@@ -1,41 +1,27 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
+const blocklistHeaders = [
+  'accept', 'cookie', 'host', 'postman-token',
+  'cache-control', 'connection', 'accept-language',
+  'x-forwarded-for', 'x-forwarded-host', 'origin',
+  'x-forwarded-port', 'x-forwarded-proto', 'referrer',
+  'x-instanceid', 'x-invoke-path', 'transfer-encoding',
+  'x-invoke-query', 'x-middleware-invoke'
+];
 
-export async function GET() {
-  return NextResponse.json({ msg: 'NexJS server is running!' });
-}
-
-export async function POST(request) {
+export async function GET(request) {
   try {
-    const pathName = request.nextUrl.pathname;
-    const requestBody = await request.json();
-    const { instanceId, data, method = 'post', accessToken, contentType } = requestBody;
-    
-    const requestHeaders = new Headers(request.headers);
-    const accessTokenFromHeader = requestHeaders.get('apexit-access-token');
-    const instanceIdFromHeader = requestHeaders.get('apexit-instance-id');
 
-    const hostId = instanceIdFromHeader || instanceId;
-    const auth = accessTokenFromHeader || accessToken;
+    const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
+    const hostId = request.headers.get('X-InstanceId');
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
-      url: pathName,
-      data,
-      method,
+      url: newUrl,
+      method: 'get',
       headers: {
-        Authorization: `Bearer ${auth}`,
-        'Content-Type': contentType || (pathName.includes('login')
-          ? 'application/x-www-form-urlencoded' :
-          'application/json')
-      }
-    }
-
-    // Removing the keys those values are empty in the request body.
-    for (const [key, value] of Object.entries(payload)) {
-      if (!value) {
-        delete payload[key];
+        ...request.headers,
       }
     }
 
@@ -46,9 +32,147 @@ export async function POST(request) {
     return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '00002000', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }
 
-export const dynamic = 'force-static';
+
+export async function POST(request) {
+  try {
+
+    const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
+    const requestBody = await request.arrayBuffer();
+    const hostId = request.headers.get('X-InstanceId');
+
+    const modifiedHeaders = {};
+    request.headers.forEach((value, key) => {
+      if (!blocklistHeaders.includes(key)) {
+        modifiedHeaders[key] = value;
+      }
+    })
+
+    let payload = {
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
+      url: newUrl,
+      data: requestBody,
+      method: 'post',
+      headers: modifiedHeaders,
+    }
+
+    const httpCall = await axios.request(payload);
+    const newHeaders = new Headers(httpCall.headers);
+    newHeaders.delete('content-length');
+
+    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+
+  } catch (error) {
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+  }
+
+}
+
+
+export async function PUT(request) {
+  try {
+
+    const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
+    const requestBody = await request.arrayBuffer();
+    const hostId = request.headers.get('X-InstanceId');
+
+    const modifiedHeaders = {};
+    request.headers.forEach((value, key) => {
+      if (!blocklistHeaders.includes(key)) {
+        modifiedHeaders[key] = value;
+      }
+    })
+
+    let payload = {
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
+      url: newUrl,
+      data: requestBody,
+      method: 'post',
+      headers: modifiedHeaders,
+    }
+
+    const httpCall = await axios.request(payload);
+    const newHeaders = new Headers(httpCall.headers);
+    newHeaders.delete('content-length');
+
+    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+
+  } catch (error) {
+    return NextResponse.json(error.response?.data || { errorCode: '03', message: `${error.message}.` }, { status: error.response?.status })
+  }
+
+}
+
+
+export async function DELETE(request) {
+  try {
+
+    const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
+    const requestBody = await request.arrayBuffer();
+    const hostId = request.headers.get('X-InstanceId');
+
+    const modifiedHeaders = {};
+    request.headers.forEach((value, key) => {
+      if (!blocklistHeaders.includes(key)) {
+        modifiedHeaders[key] = value;
+      }
+    })
+
+    let payload = {
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
+      url: newUrl,
+      data: requestBody,
+      method: 'post',
+      headers: modifiedHeaders,
+    }
+
+    const httpCall = await axios.request(payload);
+    const newHeaders = new Headers(httpCall.headers);
+    newHeaders.delete('content-length');
+
+    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+
+  } catch (error) {
+    return NextResponse.json(error.response?.data || { errorCode: '04', message: `${error.message}.` }, { status: error.response?.status })
+  }
+
+}
+
+
+export async function PATCH(request) {
+  try {
+
+    const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
+    const requestBody = await request.arrayBuffer();
+    const hostId = request.headers.get('X-InstanceId');
+
+    const modifiedHeaders = {};
+    request.headers.forEach((value, key) => {
+      if (!blocklistHeaders.includes(key)) {
+        modifiedHeaders[key] = value;
+      }
+    })
+
+    let payload = {
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
+      url: newUrl,
+      data: requestBody,
+      method: 'post',
+      headers: modifiedHeaders,
+    }
+
+    const httpCall = await axios.request(payload);
+    const newHeaders = new Headers(httpCall.headers);
+    newHeaders.delete('content-length');
+
+    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+
+  } catch (error) {
+    return NextResponse.json(error.response?.data || { errorCode: '05', message: `${error.message}.` }, { status: error.response?.status })
+  }
+
+}

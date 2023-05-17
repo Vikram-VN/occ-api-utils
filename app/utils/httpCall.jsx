@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { noop } from './index';
-import { getInstanceId, getAccessToken } from '../store/selector';
+import { getInstanceId, getAccessToken, getAppKey } from '../store/selector';
 import { store } from '../store'
 
 const httpCall = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {} } = request;
 
     const instanceId = getInstanceId(store.getState());
-    const accessToken = getAccessToken(store.getState());
+    const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
 
-    const customHeaders = { ...headers, 'apexit-instance-id': instanceId, 'apexit-access-token': accessToken };
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
 
     const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
 

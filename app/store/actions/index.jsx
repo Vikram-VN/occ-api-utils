@@ -8,7 +8,7 @@ function* apiHandler(action) {
     const requestEndpoint = action.payload.url || '/';
     const requestMethod = action.payload.method || 'get';
     const requestHeaders = action.payload.headers || { 'content-type': 'application/json' };
-    const newRequest = action.payload.requestData || '';
+    const newRequest = action.payload.data || '';
     const userNotification = action.payload.showNotification || false;
     const successHandler = action.payload.onSuccess || noop;
     const errorHandler = action.payload.onError || noop;
@@ -25,7 +25,7 @@ function* apiHandler(action) {
       showNotification: userNotification
     });
 
-    const stateUpdate = stateHandler(action.payload, apiRequest);
+    const stateUpdate = stateHandler(action.payload.data, apiRequest);
 
     if (stateUpdate) {
       yield put({ type: stateAction, ...stateUpdate });
@@ -42,7 +42,7 @@ function* sagasHandler(action) {
     const stateAction = action.payload.stateAction || '';
     const stateHandler = action.payload.stateHandler || noop;
 
-    const stateUpdate = stateHandler(action.payload);
+    const stateUpdate = stateHandler(action.payload.data);
 
     yield put({ type: stateAction, ...stateUpdate });
 

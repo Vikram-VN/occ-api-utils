@@ -51,13 +51,24 @@ export default function Login(props) {
       return {
         key: 'occRepository',
         value: {
-          accessToken: result.access_token,
-          instanceId: payload.requestData.instanceId,
-          appKey: payload.requestData.accessToken
+          accessToken: result.access_token
         }
       }
     }
 
+  }
+
+
+  const updateStore = (payload) => {
+    if (payload.instanceId) {
+      return {
+        key: 'occRepository',
+        value: {
+          instanceId: payload.instanceId,
+          appKey: payload.accessToken
+        }
+      }
+    }
   }
 
   const submitForm = (event) => {
@@ -65,11 +76,17 @@ export default function Login(props) {
     const formData = event.target;
     const payload = formToJson(formData);
 
+    // Adding instance and token fields to redux store
+    action('stateCall', { stateAction: "updateKeyValue", stateHandler: updateStore, data: payload });
+
     // Doing login
     action('apiCall', {
       method: 'post',
       url: 'login',
-      requestData: { ...payload, data: 'grant_type=client_credentials' },
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: 'grant_type=client_credentials',
       showNotification: true,
       onError, onSuccess,
       stateHandler,

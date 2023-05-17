@@ -7,11 +7,6 @@ export default function Files() {
 
   const { action } = useContext(StoreContext);
 
-  action('apiCall', {
-    method: 'post',
-    url: 'login'
-  });
-
   return (
     <React.Fragment>
       <Card className='mb-4'>
