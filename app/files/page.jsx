@@ -22,6 +22,17 @@ export default function Files() {
   }, []);
 
 
+  const fileDownload = async (path, name) => {
+    const fileLink = files.items.map(item => item.path === path && item.url)[0].replace('admin', 'store');
+    const fileData = await fetch(fileLink);
+    const contentType = fileData.headers['content-type'];
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([fileData.blob()], { type: contentType }));
+    link.download = name;
+    link.click();
+    link.remove();
+  };
+
   const fileDelete = (event) => {
     const file = event.target.id;
   }
