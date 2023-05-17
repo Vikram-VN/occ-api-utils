@@ -16,13 +16,18 @@ export async function GET(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const hostId = request.headers.get('X-InstanceId');
 
+    const modifiedHeaders = {};
+    request.headers.forEach((value, key) => {
+      if (!blocklistHeaders.includes(key)) {
+        modifiedHeaders[key] = value;
+      }
+    })
+
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: 'get',
-      headers: {
-        ...request.headers,
-      }
+      headers: modifiedHeaders
     }
 
     const httpCall = await axios.request(payload);

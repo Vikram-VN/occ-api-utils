@@ -1,7 +1,19 @@
 
 export const identity = value => value;
 
-export const noop = () => {};
+export const noop = () => { };
+
+export const formatBytes = (bytes, decimals = 2) => {
+  if (!+bytes) return '0 Bytes'
+
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
 
 export const getEmptyString = () => '';
 
@@ -57,7 +69,7 @@ export const arrayToMap = (array, key, transformObjectCallback) => {
   return result;
 };
 
-export const getBaseURL = ({req, window, withoutProtocol}) => {
+export const getBaseURL = ({ req, window, withoutProtocol }) => {
   // from node server
   if (req && req.get) {
     return `${withoutProtocol ? '' : `${req.protocol}:`}//${req.get('host')}${req.baseUrl}`;
@@ -115,12 +127,12 @@ export const merge = (target, source, opts = {}) => {
     for (const key of Object.keys(source)) {
       if (isObject(source[key])) {
         if (!(key in target)) {
-          Object.assign(target, {[key]: source[key]});
+          Object.assign(target, { [key]: source[key] });
         } else {
           target[key] = merge(target[key], source[key], options);
         }
       } else if (options.override || !target[key]) {
-        Object.assign(target, {[key]: source[key]});
+        Object.assign(target, { [key]: source[key] });
       }
     }
   } else if (Array.isArray(target) && Array.isArray(source)) {
@@ -145,7 +157,7 @@ export const debounce = (func, delay) => {
   let inDebounce;
 
   return function (event, data) {
-    const myEvent = {...event};
+    const myEvent = { ...event };
     clearTimeout(inDebounce);
     inDebounce = setTimeout(func, delay, myEvent, data);
   };
@@ -222,7 +234,7 @@ export const arraysEqual = (a, b) => {
   return true;
 };
 
-const {hasOwnProperty} = Object.prototype;
+const { hasOwnProperty } = Object.prototype;
 
 export const shallowEqual = (a, b) => {
   if (areEmptyObjects(a, b)) {
@@ -256,7 +268,7 @@ export const shallowEqual = (a, b) => {
 };
 
 const processKey = (obj, props) => {
-  const {keys, value} = props;
+  const { keys, value } = props;
 
   const currentKey = keys[0];
 
@@ -293,7 +305,7 @@ const processKey = (obj, props) => {
 
     // call process key again
     const lastKey = keys.slice(1);
-    processKey(obj[currentKey], {keys: lastKey, value});
+    processKey(obj[currentKey], { keys: lastKey, value });
   }
 };
 
@@ -306,7 +318,7 @@ export const formToJson = form => {
     // in squared brackets arrays should return an empty key then the value
     const keys = key.split('[').map(key => key.replace(/\]/g, ''));
     // pass the keys and the form field value to the function
-    processKey(json, {keys, value});
+    processKey(json, { keys, value });
   });
 
   return json;
@@ -355,7 +367,7 @@ export const loginValidation = (data, setError, checkDetails) => {
 
   const regrExp = /^[0-9]+$/;
   const nameRegrExp = /^[A-Za-z\s]+$/;
-  
+
   if (mobNo.length !== 10) {
     setError({ errormobNo: 'Please enter 10 digit mobile number.' });
     return false;
@@ -378,8 +390,8 @@ export const loginValidation = (data, setError, checkDetails) => {
   }
 
   if (!tnc) {
-     setError({ errorResponse: 'Please accept the Terms & Conditions and Privacy Policy' });
-     return false;
+    setError({ errorResponse: 'Please accept the Terms & Conditions and Privacy Policy' });
+    return false;
   }
 
   return true;
