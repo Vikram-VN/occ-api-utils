@@ -25,5 +25,27 @@ const httpCall = async (request) => {
 
 };
 
+export const apiCall = async (request) => {
+    const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {}, responseType = 'json' } = request;
+
+    const instanceId = getInstanceId(store.getState());
+    const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
+
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
+
+    const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
+
+    return axios.request({ url: url, data, method, headers: newHeaders, responseType })
+        .then(res => {
+            showNotification && onSuccess(res);
+            return res;
+
+        }).catch(error => {
+            showNotification && onError(error.response?.data || error.message);
+            return error;
+        });
+
+};
+
 export default httpCall;
 

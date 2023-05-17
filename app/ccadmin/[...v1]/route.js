@@ -47,7 +47,8 @@ export async function POST(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const requestBody = await request.arrayBuffer();
+    // Parsing the binary large object as it is into occ server
+    const requestBody = await request.blob();
     const hostId = request.headers.get('X-InstanceId');
 
     const modifiedHeaders = {};
@@ -82,7 +83,7 @@ export async function PUT(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const requestBody = await request.arrayBuffer();
+    const requestBody = await request.blob();
     const hostId = request.headers.get('X-InstanceId');
 
     const modifiedHeaders = {};
@@ -117,7 +118,7 @@ export async function DELETE(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const requestBody = await request.arrayBuffer();
+    const requestBody = await request.blob();
     const hostId = request.headers.get('X-InstanceId');
 
     const modifiedHeaders = {};
@@ -152,7 +153,7 @@ export async function PATCH(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const requestBody = await request.arrayBuffer();
+    const requestBody = await request.blob();
     const hostId = request.headers.get('X-InstanceId');
 
     const modifiedHeaders = {};

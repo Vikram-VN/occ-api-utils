@@ -4,7 +4,8 @@ import { StoreContext } from '../store/context';
 import { Card, Table, Checkbox } from 'flowbite-react';
 import { formatBytes, formatDate } from '../utils';
 import { ArrowDownTrayIcon, TrashIcon } from '@heroicons/react/24/solid';
-import httpCall from '../utils/httpCall';
+import httpCall, { apiCall } from '../utils/httpCall';
+import Link from 'next/link';
 
 export default function Files() {
 
@@ -12,19 +13,14 @@ export default function Files() {
 
   const [files, setFiles] = useState({});
 
-  const stateHandler = (payload, apiResponse) => {
-    setFiles(apiResponse);
-  }
-
   useEffect(() => {
-    httpCall({ url: 'files/?folder=thirdparty' });
-  }, [])
+    (async () => {
+      const apiResponse = await httpCall({ url: 'files/?folder=general' });
+      setFiles(apiResponse);
+    })();
 
+  }, []);
 
-  const fileDownload = (path) => {
-    const fileLink = files.items.map(item => item.path === path && item.url)[0].replace('admin', 'store');
-    return fileLink;
-  };
 
   const fileDelete = (event) => {
     const file = event.target.id;
@@ -50,9 +46,11 @@ export default function Files() {
           {formatDate(data.lastModified)}
         </Table.Cell>
         <Table.Cell className='flex justify-around'>
-          <a href={fileDownload(data.path)} target="_blank" download="file">
-            <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" id={`${data.path}||${data.name}`} />
-          </a>
+          <Link href='#' target="_blank" download="file" onClick={() => fileDownload(data.path, data.name)}>
+            <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" />
+          </Link>
+          <a href="/file/general/ApexIT_Logo.png"
+            download="test_image">Test</a>
           <TrashIcon className="h-6 w-6 cursor-pointer" id={`${data.path}||${data.name}`} onClick={fileDelete} />
         </Table.Cell>
       </Table.Row>
