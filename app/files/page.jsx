@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../store/context';
+import { useToasts } from '../components/toast';
 import { Card, Table, Checkbox } from 'flowbite-react';
 import { formatBytes, formatDate } from '../utils';
 import { ArrowDownTrayIcon, TrashIcon } from '@heroicons/react/24/solid';
@@ -10,21 +11,42 @@ import Link from 'next/link';
 export default function Files() {
 
   const { action } = useContext(StoreContext);
-
   const [files, setFiles] = useState({});
+  const toast = useToasts();
+  const [counter, setCounter] = useState(0);
+
+  const onSuccess = (res) => {
+    toast.show({
+      status: 'success',
+      message: 'File deleted succesfully..',
+      delay: 3,
+    });
+    setCounter(counter+1)
+  }
+
+  // Used to show notifications
+  const onError = (error) => {
+    toast.show({
+      status: 'failure',
+      message: error.message,
+      delay: 3,
+    });
+    setCounter(counter+1)
+
+  }
 
   useEffect(() => {
     (async () => {
-      const apiResponse = await httpCall({ url: 'files/?folder=general' });
+      const apiResponse = await httpCall({ url: 'files/?folder=thirdparty' });
       setFiles(apiResponse);
     })();
 
-  }, []);
+  }, [counter]);
 
 
   const fileDownload = async (path, name) => {
     const fileLink = files.items.map(item => item.path === path && item.url)[0].replace('admin', 'store');
-    const fileData = await apiCall({url: fileLink, responseType: 'blob'});
+    const fileData = await apiCall({ url: fileLink, responseType: 'blob' });
     const contentType = fileData.headers['content-type'];
     const link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob([fileData.data], { type: contentType }));
@@ -33,8 +55,17 @@ export default function Files() {
     link.remove();
   };
 
-  const fileDelete = (event) => {
-    const file = event.target.id;
+  const fileDelete = async (filePath) => {
+    const response = await httpCall({
+      method: 'post',
+      url: '/files/deleteFile',
+      data: {
+        filename: filePath
+      },
+      showNotification: true,
+      onSuccess,
+      onError,
+    });
   }
   const filesDelete = (files) => { }
 
@@ -60,9 +91,7 @@ export default function Files() {
           <Link href='#' target="_blank" download="file" onClick={() => fileDownload(data.path, data.name)}>
             <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" />
           </Link>
-          <a href="/file/general/ApexIT_Logo.png"
-            download="test_image">Test</a>
-          <TrashIcon className="h-6 w-6 cursor-pointer" id={`${data.path}||${data.name}`} onClick={fileDelete} />
+          <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
 
