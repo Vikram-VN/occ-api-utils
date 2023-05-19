@@ -71,7 +71,7 @@ export default function Files() {
 
   const tableData = data => {
     return (
-      <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.checksum}>
+      <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.lastModified}>
         <Table.Cell className='!p-4'>
           <Checkbox />
         </Table.Cell>

@@ -24,7 +24,7 @@ const Header = () => {
 
   const clearReduxState = () => {
     router.push('/');
-    action('stateCall', { stateAction: 'clearState' })
+    action('stateUpdate', { stateAction: 'clearState' })
   }
 
   // Changing header text for user

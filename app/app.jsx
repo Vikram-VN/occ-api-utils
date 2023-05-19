@@ -10,6 +10,7 @@ import SideBar from './components/navbar';
 import Footer from './components/footer';
 import './globals.css';
 import { StoreContext } from './store/context';
+import { clearTimeout } from 'timers';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,11 +37,20 @@ export const OccUtilsApp = ({ children }) => {
   }
 
   // Calling refresh API to get the new access token
-  // useEffect(() => {
-  //   isLoggedIn && setInterval(() => {
-  //     action('apiCall', { method: 'post', url: '/refresh', stateHandler })
-  //   }, (2 * 60 * 1000))
-  // }, [action, isLoggedIn])
+  useEffect(() => {
+    if (isLoggedIn) {
+      const refresh = setInterval(() => {
+        action('apiCall', {
+          method: 'post',
+          url: 'refresh',
+          data: {},
+          stateAction: 'updateKeyValue',
+          stateHandler
+        })
+      }, (2 * 60 * 1000));
+      return () => clearInterval(refresh);
+    }
+  }, [action, isLoggedIn]);
 
   return (
     <html lang='en'>

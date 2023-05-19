@@ -39,7 +39,7 @@ function* apiHandler(action) {
 function* sagasHandler(action) {
   try {
 
-    const stateAction = action.payload.stateAction || '';
+    const stateAction = action.payload.stateAction || 'updateKeyValue';
     const stateHandler = action.payload.stateHandler || noop;
 
     const stateUpdate = stateHandler(action.payload.data);
@@ -53,7 +53,7 @@ function* sagasHandler(action) {
 
 function* appSaga() {
   yield takeEvery('apiCall', apiHandler);
-  yield takeEvery('stateCall', sagasHandler);
+  yield takeEvery('stateUpdate', sagasHandler);
 }
 
 

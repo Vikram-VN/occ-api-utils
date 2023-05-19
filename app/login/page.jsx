@@ -77,7 +77,7 @@ export default function Login(props) {
     const payload = formToJson(formData);
 
     // Adding instance and token fields to redux store
-    action('stateCall', { stateAction: "updateKeyValue", stateHandler: updateStore, data: payload });
+    action('stateUpdate', { stateHandler: updateStore, data: payload });
 
     // Doing login
     action('apiCall', {
