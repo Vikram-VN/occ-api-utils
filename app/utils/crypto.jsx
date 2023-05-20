@@ -39,11 +39,11 @@ export const sign = (algo, data, key) => {
 }
 
 export const hex2bin = data => {
-    return Buffer.from(data, 'hex').toString();
+    return Buffer.from(stringify(data), 'hex').toString();
 }
 
-export const bini2hex = data => {
-    return Buffer.from(data, 'binary').toString('hex');
+export const bin2hex = data => {
+    return Buffer.from(stringify(data), 'binary').toString('hex');
 }
 
 //AES functions
@@ -62,3 +62,15 @@ export const aesDecrypt = cipherText => {
         mode: CryptoJS.mode.CBC
     }).toString(CryptoJS.enc.Utf8);
 }
+
+export const base64Encode = data => {
+    const buffer = Buffer.from(stringify(data), 'utf-8');
+    const encodedData = buffer.toString('base64');
+    return encodedData;
+};
+
+export const base64Decode = data => {
+    const buffer = Buffer.from(stringify(data), 'base64');
+    const decodedData = buffer.toString('utf-8');
+    return decodedData;
+};

@@ -28,14 +28,14 @@ export async function GET(request) {
       url: newUrl,
       method: 'get',
       headers: modifiedHeaders,
-      responseType: 'blob'
+      responseType: 'arraybuffer'
     }
 
     const httpCall = await axios.request(payload);
     const newHeaders = new Headers(httpCall.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ data: httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ content: httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })

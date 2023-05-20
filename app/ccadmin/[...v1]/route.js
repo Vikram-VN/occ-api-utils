@@ -34,7 +34,7 @@ export async function GET(request) {
     const newHeaders = new Headers(httpCall.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ ...httpCall.data }, { status: httpCall.data.statusCode, headers: newHeaders });
+    return NextResponse.json(httpCall.data, { status: httpCall.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })

@@ -11,7 +11,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { StoreContext } from './context';
 import * as utils from '../utils';
 import * as crypto from '../utils/crypto';
-import httpCall from '../utils/httpCall';
+import * as api from '../utils/httpCall';
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -77,7 +77,7 @@ export function StoreProvider({ children }) {
         });
     };
 
-    const storeValue = { httpCall, action, ...store, ...utils, ...crypto };
+    const storeValue = { action, ...api, ...store, ...utils, ...crypto };
 
     return (
         <Provider store={store}>

@@ -47,5 +47,18 @@ export const apiCall = async (request) => {
 
 };
 
+
+export const fileDownload = async (fileLink, fileName) => {
+    const fileData = await apiCall({ url: 'file'.concat(fileLink) });
+    const contentType = fileData.headers['content-type'];
+    const buffer = fileData.data.content;
+    var bytes = new Uint8Array(buffer.data);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+    link.download = fileName;
+    link.click();
+    link.remove();
+  };
+
 export default httpCall;
 

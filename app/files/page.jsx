@@ -5,7 +5,7 @@ import { useToasts } from '../components/toast';
 import { Card, Table, Checkbox } from 'flowbite-react';
 import { formatBytes, formatDate } from '../utils';
 import { ArrowDownTrayIcon, TrashIcon } from '@heroicons/react/24/solid';
-import httpCall, { apiCall } from '../utils/httpCall';
+import httpCall, { fileDownload } from '../utils/httpCall';
 import Link from 'next/link';
 
 export default function Files() {
@@ -21,7 +21,7 @@ export default function Files() {
       message: 'File deleted succesfully..',
       delay: 3,
     });
-    setCounter(counter+1)
+    setCounter(counter + 1)
   }
 
   // Used to show notifications
@@ -31,32 +31,20 @@ export default function Files() {
       message: error.message,
       delay: 3,
     });
-    setCounter(counter+1)
+    setCounter(counter + 1)
 
   }
 
   useEffect(() => {
     (async () => {
-      const apiResponse = await httpCall({ url: 'files/?folder=thirdparty' });
+      const apiResponse = await httpCall({ url: 'files/?folder=general' });
       setFiles(apiResponse);
     })();
 
   }, [counter]);
 
-
-  const fileDownload = async (path, name) => {
-    const fileLink = files.items.map(item => item.path === path && item.url)[0].replace('admin', 'store');
-    const fileData = await apiCall({ url: fileLink, responseType: 'blob' });
-    const contentType = fileData.headers['content-type'];
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(new Blob([fileData.data], { type: contentType }));
-    link.download = name;
-    link.click();
-    link.remove();
-  };
-
   const fileDelete = async (filePath) => {
-    const response = await httpCall({
+    httpCall({
       method: 'post',
       url: '/files/deleteFile',
       data: {
@@ -67,6 +55,7 @@ export default function Files() {
       onError,
     });
   }
+
   const filesDelete = (files) => { }
 
   const tableData = data => {
@@ -88,9 +77,7 @@ export default function Files() {
           {formatDate(data.lastModified)}
         </Table.Cell>
         <Table.Cell className='flex justify-around'>
-          <Link href='#' target="_blank" download="file" onClick={() => fileDownload(data.path, data.name)}>
-            <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" />
-          </Link>
+          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path, data.name)} />
           <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
