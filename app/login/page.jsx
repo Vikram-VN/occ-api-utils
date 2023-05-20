@@ -29,7 +29,7 @@ export default function Login(props) {
       delay: 3,
     });
     setTimeout(() => {
-      router.push('/files');
+      router.push('/files?page=1');
       props.loginModalRef?.current();
     }, 2000);
   }

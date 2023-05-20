@@ -2,23 +2,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../store/context';
 import { useToasts } from '../components/toast';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Card, Table, Checkbox, Dropdown, Pagination, Label, TextInput, Button } from 'flowbite-react';
 import { debounce, formatBytes, formatDate } from '../utils';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import httpCall, { fileDownload } from '../utils/httpCall';
+import { useRouter } from 'next/navigation';
 
 export default function Files() {
 
   const { action } = useContext(StoreContext);
+  const router = useRouter();
   const [files, setFiles] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const currentPageNo = useParams();
+  const currentPageNo = Number(useSearchParams().get('page')) || 1;
   const [allFilesSelected, setAllFilesSelected] = useState(false);
   const [fileFilters, updateFilters] = useState({ assetType: 'file', filter: '', folder: 'general', sort: 'name:asc' });
-  const [pagination, setPagination] = useState({ limit: 2, offset: 1, currentPage: 1, totalPages: 1 });
+  const [pagination, setPagination] = useState({ limit: 2, totalPages: 1 });
   const toast = useToasts();
   const [counter, setCounter] = useState(0);
+
+  const newOffset = (currentPageNo -1) * pagination.limit;
 
   const onSuccess = (res) => {
     toast.show({
@@ -40,23 +44,25 @@ export default function Files() {
 
   }
 
-  const paginationHandler = () => {
+  console.log('pagination', pagination.limit * (currentPageNo - 1));
 
+  const paginationHandler = (pageNo) => {
+    router.push(`/files?page=${pageNo}`);
   }
 
   // Refreshing table data based on filters
   useEffect(() => {
     (async () => {
       const apiResponse = await httpCall({
-        url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${pagination.offset}&sort=${fileFilters.sort}`
+        url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sort}`
       });
       if (apiResponse.items) {
         setFiles(apiResponse);
-        setPagination({ ...pagination, limit: apiResponse.limit, offset: apiResponse.offset, totalPages: Math.floor(apiResponse.totalResult / apiResponse.limit) })
+        setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
       }
     })();
 
-  }, [counter, fileFilters, pagination]);
+  }, [counter, fileFilters, currentPageNo]);
 
   const fileDelete = async (filePath) => {
     httpCall({
@@ -232,7 +238,7 @@ export default function Files() {
       }
       <div className="flex items-center justify-center text-center mt-4 h-20">
         <Pagination
-          currentPage={pagination.currentPage}
+          currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
           showIcons={true}
