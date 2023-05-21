@@ -21,6 +21,7 @@ export const useDragging = ({
     labelRef,
     inputRef,
     multiple,
+    uploadType,
     handleChanges,
     onDrop
 }) => {
@@ -62,15 +63,15 @@ export const useDragging = ({
             const eventFiles = ev.dataTransfer.files
             if (eventFiles && eventFiles.length > 0) {
                 const files = multiple ? eventFiles : eventFiles[0]
-                const success = handleChanges(files)
-                if (onDrop && success) onDrop(files)
+                const success = handleChanges(uploadType, files)
+                if (onDrop && success) onDrop(uploadType, files)
             }
         },
-        [handleChanges]
+        [handleChanges, multiple, onDrop, uploadType]
     );
 
     useEffect(() => {
-        const ele = labelRef.current
+        const ele = labelRef.current;
         ele.addEventListener("click", handleClick)
         ele.addEventListener("dragenter", handleDragIn)
         ele.addEventListener("dragleave", handleDragOut)

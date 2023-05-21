@@ -61,13 +61,15 @@ const FileUploader = props => {
         const success = handleChanges(uploadType, files)
         if (onSelect && success) onSelect(uploadType, files)
     }
+
     const dragging = useDragging({
         labelRef,
         inputRef,
         multiple,
+        uploadType,
         handleChanges,
         onDrop
-    })
+    });
 
     useEffect(() => {
         onDraggingStateChange?.(dragging)
@@ -82,7 +84,7 @@ const FileUploader = props => {
             setUploaded(false)
             setFile(null)
         }
-    }, [fileOrFiles])
+    }, [fileOrFiles]);
 
     return (
         <div className="flex items-center justify-center w-full flex-col">
