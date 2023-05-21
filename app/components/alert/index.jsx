@@ -145,7 +145,7 @@ const Alert = (props) => {
             rounded={true}
             color='success'
             icon={icons[props.color]}
-            className={`z-10 mt-4`}
+            className={`z-10 mt-4 mb-2`}
             {...props}
         >
             <span className='font-medium'>
@@ -167,7 +167,7 @@ export const AlertInfo = (props) => {
             withBorderAccent={true}
             additionalContent={showInfoMessage(props.color, props.infoMessage, props.onDismiss, props.link)}
             icon={icons[props.color]}
-            className='z-10 mt-4'
+            className='z-10 mt-4 mb-2'
             {...props}
         >
             {showMessage(props.color, props.message)}

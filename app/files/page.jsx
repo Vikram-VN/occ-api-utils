@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useToasts } from '../components/toast';
 import { useSearchParams } from 'next/navigation';
-import { Card, Table, Checkbox, Dropdown, Pagination, Modal, TextInput, Button } from 'flowbite-react';
+import { Card, Table, Checkbox, Dropdown, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
 import { debounce, formatBytes, formatDate } from '../utils';
-import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import FileUpload from './fileUpload';
+import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import httpCall, { fileDownload } from '../utils/httpCall';
 import { useRouter } from 'next/navigation';
 
@@ -15,6 +16,7 @@ export default function Files() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const currentPageNo = Number(useSearchParams().get('page')) || 1;
   const [allFilesSelected, setAllFilesSelected] = useState(false);
+  const [showFileUploadModal, setFileUploadModal] = useState(false);
   const [showModal, setModalView] = useState(false);
   const [fileFilters, updateFilters] = useState({ assetType: 'file', filter: '', folder: 'general', sortBy: 'name:asc' });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
@@ -56,6 +58,13 @@ export default function Files() {
       if (apiResponse.items) {
         setFiles(apiResponse);
         setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
+      } else {
+        toast.show({
+          status: 'failure',
+          message: apiResponse.message || 'Something went wrong while fetching results',
+          delay: 3,
+        });
+        setFiles({});
       }
     })();
 
@@ -75,6 +84,7 @@ export default function Files() {
   }
 
   const filesDelete = () => {
+    setModalView(false);
     httpCall({
       method: 'post',
       url: '/files/deleteFiles',
@@ -105,7 +115,7 @@ export default function Files() {
 
   const selectFiles = (e) => {
     const checked = e.target.checked;
-    checked ? setSelectedFiles([...files.items.map(file => file.path)]) :
+    checked && files.items ? setSelectedFiles([...files.items.map(file => file.path)]) :
       setSelectedFiles([]);
     setAllFilesSelected(!allFilesSelected);
   }
@@ -134,13 +144,13 @@ export default function Files() {
           {data.name}
         </Table.Cell>
         <Table.Cell>
-          {data.extension}
-        </Table.Cell>
-        <Table.Cell>
           {formatBytes(data.size)}
         </Table.Cell>
         <Table.Cell>
           {formatDate(data.lastModified)}
+        </Table.Cell>
+        <Table.Cell>
+          {data.extension}
         </Table.Cell>
         <Table.Cell className='flex justify-around'>
           <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path)} />
@@ -159,7 +169,6 @@ export default function Files() {
         popup={true}
         onClose={() => setModalView(false)}
       >
-        <Modal.Header />
         <Modal.Body>
           <div className="text-center">
             <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
@@ -178,92 +187,81 @@ export default function Files() {
         </Modal.Body>
       </Modal>
 
+      <Modal
+        show={showFileUploadModal}
+        size="md"
+        popup={true}
+        onClose={() => setFileUploadModal(false)}
+      >
+        <Modal.Header>Files Upload</Modal.Header>
+        <Modal.Body>
+          <FileUpload />
+        </Modal.Body>
+      </Modal>
+
       <Card className='mb-4'>
-        <div className='flex justify-between gap-4'>
-          <div className='flex gap-4'>
-            <Button type='button' disabled={!allFilesSelected} onClick={filesDownload}>Download Files</Button>
-            <Button type='button' disabled={!allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
-          </div>
+        <div className='flex justify-end gap-4'>
           <div className='flex gap-4'>
             <TextInput id="large" type="text" sizing="md" placeholder="Search by name..." onInput={searchFiles} icon={MagnifyingGlassIcon} />
-            <Dropdown label="Sort by">
-              <Dropdown.Item onClick={() => filterResults('sortBy', 'name:asc')}>
-                Name
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => filterResults('sortBy', 'size:asc')}>
-                Size
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => filterResults('sortBy', 'lastModified:asc')}>
-                Date
-              </Dropdown.Item>
-            </Dropdown>
-            <Button type='button'>Search Now</Button>
+            <Select
+              defaultValue='none'
+              onChange={(e) => filterResults('assetType', e.target.value)}
+              className='w-min:w-10'
+            >
+              <option value='none' disabled>Select Asset Type</option>
+              <option value='all'>All</option>
+              <option value='file'>File</option>
+              <option value='folder'>Folder</option>
+            </Select>
+            <Select
+              defaultValue='none'
+              onChange={(e) => filterResults('folder', e.target.value)} >
+              <option value='none' disabled>Select Folder</option>
+              <option value='thirdparty'>Third-party</option>
+              <option value='general'>General</option>
+              <option value='import'>Import</option>
+              <option value='export'>Export</option>
+              <option value='collections'>Collections</option>
+              <option value='crashreports'>Crash Reports</option>
+              <option value='static'>Static</option>
+              <option value='products'>Products</option>
+            </Select>
           </div>
         </div>
-        <div className="flex gap-4">
-          <Dropdown label="Asset Type">
-            <Dropdown.Item onClick={() => filterResults('assetType', 'all')}>
-              All
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('assetType', 'file')}>
-              File
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('assetType', 'folder')}>
-              Folder
-            </Dropdown.Item>
-          </Dropdown>
-          <Dropdown label="Folder">
-            <Dropdown.Item onClick={() => filterResults('folder', 'thirdparty')}>
-              Third-party
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'general')}>
-              General
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'import')}>
-              Import
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'export')}>
-              Export
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'collections')}>
-              Collections
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'crashreports')}>
-              Crash Reports
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'static')}>
-              Static
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => filterResults('folder', 'products')}>
-              Products
-            </Dropdown.Item>
-          </Dropdown>
+        <div className='flex gap-4'>
+          <Button type='button' onClick={() => setFileUploadModal(true)}>Upload Files</Button>
+          <Button type='button' disabled={!(selectedFiles.length > 0) || !allFilesSelected} onClick={filesDownload}>Download Files</Button>
+          <Button type='button' disabled={!(selectedFiles.length > 0) || !allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
         </div>
       </Card>
       {
-        files.items && <Table hoverable={true}>
+        <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell className='!p-4'>
               <Checkbox name="selectAll" onChange={selectFiles} />
             </Table.HeadCell>
             <Table.HeadCell>
-              File name
+              File name <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'name:desc')} />
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Size <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'size:desc')} />
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Last Modified <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'lastModified:desc')} />
             </Table.HeadCell>
             <Table.HeadCell>
               Extension
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Size
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Last Modified
             </Table.HeadCell>
             <Table.HeadCell>
               Actions
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className='divide-y'>
-            {files.items.map(item => tableData(item))}
+            {(files.items && files.items.length) > 0 ? files.items.map(item => tableData(item)) :
+              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
+              </Table.Row>
+            }
           </Table.Body>
         </Table>
       }
