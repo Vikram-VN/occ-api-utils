@@ -59,7 +59,7 @@ export const fileDownload = async (fileLink) => {
     link.download = fileName;
     link.click();
     link.remove();
-  };
+};
 
 export default httpCall;
 

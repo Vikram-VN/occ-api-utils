@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useToasts } from '../components/toast';
 import { useSearchParams } from 'next/navigation';
-import { Card, Table, Checkbox, Dropdown, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
+import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
 import { debounce, formatBytes, formatDate } from '../utils';
-import FileUpload from './fileUpload';
+import FileUpload from '../components/file';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import httpCall, { fileDownload } from '../utils/httpCall';
 import { useRouter } from 'next/navigation';
@@ -131,6 +131,25 @@ export default function Files() {
     updateFilters({ ...fileFilters, [filterType]: filterText });
   }
 
+  const fileUploadHandler = (uploadType, file) => {
+    const formData = new FormData();
+    formData.append('filename', file.name);
+    formData.append('fileUpload', file);
+    formData.append('uploadType', uploadType);
+
+    httpCall({
+      method: 'post',
+      url: '/files',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      showNotification: true,
+      onSuccess,
+      onError,
+    });
+  }
+
   const tableData = data => {
     return (
       <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.path}>
@@ -195,7 +214,7 @@ export default function Files() {
       >
         <Modal.Header>Files Upload</Modal.Header>
         <Modal.Body>
-          <FileUpload />
+          <FileUpload handleChange={fileUploadHandler} />
         </Modal.Body>
       </Modal>
 
