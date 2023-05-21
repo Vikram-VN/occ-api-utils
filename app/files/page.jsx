@@ -141,9 +141,6 @@ export default function Files() {
       method: 'post',
       url: '/files',
       data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       showNotification: true,
       onSuccess,
       onError,
@@ -169,7 +166,7 @@ export default function Files() {
           {formatDate(data.lastModified)}
         </Table.Cell>
         <Table.Cell>
-          {data.extension}
+          {data.type.toUpperCase()}
         </Table.Cell>
         <Table.Cell className='flex justify-around'>
           <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path)} />
@@ -269,7 +266,7 @@ export default function Files() {
               Last Modified <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'lastModified:desc')} />
             </Table.HeadCell>
             <Table.HeadCell>
-              Extension
+              Type
             </Table.HeadCell>
             <Table.HeadCell>
               Actions
