@@ -10,7 +10,6 @@ import SideBar from './components/navbar';
 import Footer from './components/footer';
 import './globals.css';
 import { StoreContext } from './store/context';
-import { clearTimeout } from 'timers';
 
 const inter = Inter({ subsets: ['latin'] })
 

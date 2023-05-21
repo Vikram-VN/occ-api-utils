@@ -26,7 +26,7 @@ const ToastProvider = ({ children }) => {
 
     return (
         <ToastContext.Provider value={{ show, remove, removeByStatus, removeByStatus }}>
-            <div className='block'>
+            <div id="toast-placeholder" className='block'>
                 {toasts.map(({ message, id, status, delay }) => (
                     <Toast
                         key={id}

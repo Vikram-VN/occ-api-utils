@@ -34,6 +34,16 @@ export default function Files() {
     setCounter(counter + 1);
   }
 
+  const onUploadSuccess = (res) => {
+    toast.show({
+      status: 'success',
+      message: 'File uploaded successfully..',
+      delay: 3,
+    });
+    setCounter(counter + 1);
+  }
+
+
   // Used to show notifications
   const onError = (error) => {
     toast.show({
@@ -84,7 +94,6 @@ export default function Files() {
   }
 
   const filesDelete = () => {
-    setModalView(false);
     httpCall({
       method: 'post',
       url: '/files/deleteFiles',
@@ -95,6 +104,7 @@ export default function Files() {
       onSuccess,
       onError,
     });
+    setModalView(false);
   };
 
   const filesDownload = () => {
@@ -120,6 +130,7 @@ export default function Files() {
     setAllFilesSelected(!allFilesSelected);
   }
 
+  // Triggering the search after 3 seconds # e|ev = event
   const searchFiles = debounce((e) => {
     const searchText = e.target.value;
     updateFilters({ ...fileFilters, filter: searchText });
@@ -131,20 +142,22 @@ export default function Files() {
     updateFilters({ ...fileFilters, [filterType]: filterText });
   }
 
+  // File upload function
   const fileUploadHandler = (uploadType, file) => {
     const formData = new FormData();
     formData.append('filename', file.name);
-    formData.append('fileUpload', file);
     formData.append('uploadType', uploadType);
+    formData.append('fileUpload', file);
 
     httpCall({
       method: 'post',
       url: '/files',
       data: formData,
       showNotification: true,
-      onSuccess,
+      onSuccess: onUploadSuccess,
       onError,
     });
+    setFileUploadModal(false);
   }
 
   const tableData = data => {
