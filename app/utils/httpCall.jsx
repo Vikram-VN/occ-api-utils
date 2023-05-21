@@ -48,8 +48,9 @@ export const apiCall = async (request) => {
 };
 
 
-export const fileDownload = async (fileLink, fileName) => {
+export const fileDownload = async (fileLink) => {
     const fileData = await apiCall({ url: 'file'.concat(fileLink) });
+    const fileName = fileLink.split('/').pop();
     const contentType = fileData.headers['content-type'];
     const buffer = fileData.data.content;
     var bytes = new Uint8Array(buffer.data);
