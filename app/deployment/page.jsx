@@ -246,7 +246,7 @@ export default function Deployments() {
           </Select>
           <TextInput id="large" className="mb-4" type="text" sizing="md" disabled={!queryFilter.operator || !queryFilter.field} placeholder="Query search..." onInput={getPublishHistory} icon={MagnifyingGlassIcon} />
         </div>
-        <Table hoverable={true}>
+        <Table>
           <Table.Head>
             <Table.HeadCell className='!p-4'>
               SN
@@ -261,7 +261,7 @@ export default function Deployments() {
               Publish Id
             </Table.HeadCell>
             <Table.HeadCell>
-              Publish Initiated Through
+              Initiated Through
             </Table.HeadCell>
             <Table.HeadCell>
               Start Date
