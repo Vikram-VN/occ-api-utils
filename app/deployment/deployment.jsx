@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { Pagination, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
@@ -62,7 +63,7 @@ const Deployment = (props) => {
             setDeploymentResults({});
         }
 
-    }, 3000);
+    }, 2000);
 
     const deploymentPaginationHandler = (pageNo) => {
         setDeploymentPaginationResults({ ...deploymentPaginationResults, results: deploymentResults.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });

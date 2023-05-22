@@ -135,7 +135,7 @@ export default function Files() {
     const searchText = e.target.value;
     updateFilters({ ...fileFilters, filter: searchText });
     router.push(`/files`);
-  }, 3000);
+  }, 2000);
 
 
   const filterResults = (filterType, filterText) => {

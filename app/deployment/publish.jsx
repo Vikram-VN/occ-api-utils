@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import { Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
 import httpCall from '../utils/httpCall';
@@ -43,8 +44,8 @@ const Publish = (props) => {
                 setPublishResults({});
             }
 
-        }, 3000)
-    }, [newOffset, publishPaginationResults, query, queryFilter.field, queryFilter.operator, toast]);
+        }, 2000)
+    }, [newOffset, publishPaginationResults, query, queryFilter, toast]);
 
 
 

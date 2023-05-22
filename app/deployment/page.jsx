@@ -29,14 +29,14 @@ export default function Deployments() {
         active={true}
         icon={InboxArrowDownIcon}
       >
-        <Deployment {...actions} />
+        {/* <Deployment {...actions} /> */}
       </Tabs.Item>
 
       <Tabs.Item
         title="Publish History"
         icon={ServerIcon}
       >
-        <Publish {...actions} />
+        {/* <Publish {...actions} /> */}
       </Tabs.Item>
     </Tabs.Group>
   )
