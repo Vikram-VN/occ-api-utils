@@ -248,7 +248,7 @@ export default function Deployments() {
           <Table.Body className='divide-y'>
             {(publishPaginationResults.results && publishPaginationResults.results.length) > 0 ? publishPaginationResults.results.map((item, index) => publishTableData(item, index + 1)) :
               <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
+                <Table.Cell colSpan={7} className='text-center'>No Results Found.</Table.Cell>
               </Table.Row>
             }
           </Table.Body>
