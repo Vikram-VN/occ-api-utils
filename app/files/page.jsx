@@ -259,8 +259,8 @@ export default function Files() {
         </div>
         <div className='flex gap-4'>
           <Button type='button' onClick={() => setFileUploadModal(true)}>Upload Files</Button>
-          <Button type='button' disabled={!(selectedFiles.length > 0) || !allFilesSelected} onClick={filesDownload}>Download Files</Button>
-          <Button type='button' disabled={!(selectedFiles.length > 0) || !allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
+          <Button type='button' disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={filesDownload}>Download Files</Button>
+          <Button type='button' disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
         </div>
       </Card>
       {
