@@ -38,7 +38,7 @@ export default function Login(props) {
   const onError = (error) => {
     toast.show({
       status: 'failure',
-      message: error.message,
+      message: 'Login Failed',
       delay: 3,
     });
 
