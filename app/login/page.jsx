@@ -114,8 +114,8 @@ export default function Login(props) {
               value='App Key'
             />
           </div>
-          <TextInput type='password' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
-          <Button className='mt-10 m-auto w-2/6' value='signin' type='submit'>Sign in </Button>
+          <TextInput type='text' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
+          <Button className='mt-10 m-auto w-2/6' value='sign-in' type='submit'>Sign in </Button>
         </div>
       </section>
     </form>
