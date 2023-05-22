@@ -83,8 +83,8 @@ export default function Home() {
           <p>By utilizing this versatile tool, developers can expedite the development process, accelerate time-to-market, and ensure the stability and reliability of their e-commerce solutions, empowering businesses to thrive in the competitive online marketplace.</p><br />
           <p>Commerce API Utils Tool is a game-changer for developers, offering an intuitive interface and robust support, making it the go-to choice for simplifying and enhancing e-commerce API integrations.</p><br />
         </div>
-        <div className='w-max hover:scale-105 ease-in duration-300 bg-white   mt-10 mb-4 text-justify bold rounded pt-16 pl-5 pr-5 text-slate-950 font-serif'>
-          <h1 className='flex justify-evenly text-red-800 text-4xl mb-8 hover:scale-105 ease-in duration-300'>Quick Guide</h1>
+        <div className='w-max hover:scale-105 ease-in duration-300 bg-white mt-10 mb-4 text-justify bold rounded pt-16 pl-5 pr-5 text-slate-950 font-serif dark:bg-gray-800 dark:text-white'>
+          <h1 className='flex justify-evenly text-red-800 text-4xl font-bold mb-8 hover:scale-105 ease-in duration-300'>Quick Guide</h1>
           <div className='flex flex-col items-center '>
             <p className='text-lg	hover:scale-105 ease-in duration-300'>In the top right corner of the screen, select Log in.</p>
             <ArrowDownIcon className="h-10 w-7 " />
