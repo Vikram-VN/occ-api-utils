@@ -21,7 +21,7 @@ export default function Deployments() {
   const currentPageNo = Number(useSearchParams().get('page')) || 1;
   const [publishResults, setPublishResults] = useState({});
   const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
-  const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: [] });
+  const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: deployments?.items?.slice((currentPageNo - 1) * 10, ((currentPageNo - 1) * 10) + 10) || [] });
   const [publishPaginationResults, setPublishPaginationResults] = useState({ limit: 10, totalPages: 1, results: [] });
 
   const newOffset = (currentPageNo - 1) * publishPaginationResults.limit;
@@ -38,7 +38,7 @@ export default function Deployments() {
     }
 
   }
-  const list = deploymentResults.items && deploymentResults.items.splice(newOffset, deploymentPaginationResults.limit);
+  const list = deploymentResults.items && deploymentResults.items.slice(newOffset, newOffset * 2);
   console.log(newOffset, deploymentPaginationResults.limit, list);
 
   // Getting deployment results
@@ -59,7 +59,7 @@ export default function Deployments() {
         delay: 3,
       });
       setDeploymentResults(apiResponse);
-      setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.splice(newOffset, deploymentPaginationResults.limit) });
+      setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
     } else {
       toast.show({
         status: 'failure',
@@ -87,7 +87,7 @@ export default function Deployments() {
         delay: 3,
       });
       setPublishResults(apiResponse);
-      setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, publishPaginationResults.limit) })
+      setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
     } else {
       toast.show({
         status: 'failure',
@@ -100,12 +100,12 @@ export default function Deployments() {
   }, 3000);
 
   const deploymentPaginationHandler = (pageNo) => {
-    setDeploymentPaginationResults({ ...deploymentPaginationResults, results: deploymentResults.items.slice(newOffset, deploymentPaginationResults.limit) });
+    setDeploymentPaginationResults({ ...deploymentPaginationResults, results: deploymentResults.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
     router.push(`/deployment?page=${pageNo}`);
   }
 
   const publishPaginationHandler = (pageNo) => {
-    setPublishPaginationResults({ ...publishPaginationResults, results: publishResults.items.slice(newOffset, deploymentPaginationResults.limit) });
+    setPublishPaginationResults({ ...publishPaginationResults, results: publishResults.items.slice(newOffset, newOffset + publishPaginationResults.limit) });
     router.push(`/deployment?page=${pageNo}`);
   }
 
@@ -230,6 +230,7 @@ export default function Deployments() {
           >
             <option value='none' disabled>Select Field</option>
             <option value='publishInitiator'>Publisher</option>
+            <option value='worksetName'>WorkSet Name</option>
             <option value='id'>WorkSet Id</option>
             <option value='startTime'>Start Date</option>
             <option value='endTime'>End Date</option>
