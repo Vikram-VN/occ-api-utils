@@ -1,26 +1,45 @@
 "use client";
 import { Tabs, Table, TextInput, Pagination, Select } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useToasts } from '../components/toast';
 import { formatDate, debounce } from '../utils';
 import httpCall from '../utils/httpCall';
 import { InboxArrowDownIcon, MagnifyingGlassIcon, ServerIcon } from '@heroicons/react/24/solid';
+import { StoreContext } from '../store/context';
+import { getDeployments } from '../store/selector';
 
 export default function Deployments() {
 
+  const { action, getState } = useContext(StoreContext);
+  const deployments = getDeployments(getState());
+
   const router = useRouter();
   const toast = useToasts();
-  const [deploymentResults, setDeploymentResults] = useState({});
+  const [deploymentResults, setDeploymentResults] = useState(deployments);
   const currentPageNo = Number(useSearchParams().get('page')) || 1;
   const [publishResults, setPublishResults] = useState({});
-  const [queryFilter, setQueryFilter] = useState({operator: '', field: ''});
-  const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: 1, results: [] });
+  const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
+  const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: [] });
   const [publishPaginationResults, setPublishPaginationResults] = useState({ limit: 10, totalPages: 1, results: [] });
 
   const newOffset = (currentPageNo - 1) * publishPaginationResults.limit;
 
+  // Updating the state based on need.
+  const stateHandler = (apiResponse) => {
+    if (apiResponse.items) {
+      return {
+        key: 'occRepository',
+        value: {
+          deployments: apiResponse
+        }
+      }
+    }
+
+  }
+  const list = deploymentResults.items && deploymentResults.items.splice(newOffset, deploymentPaginationResults.limit);
+  console.log(newOffset, deploymentPaginationResults.limit, list);
 
   // Getting deployment results
   const getDeploymentHistory = debounce(async (e) => {
@@ -31,14 +50,16 @@ export default function Deployments() {
       url: `applicationDeployment/?appName=${appName}`
     });
 
+
     if (apiResponse.items) {
+      action('stateUpdate', { stateHandler, data: apiResponse });
       toast.show({
         status: 'success',
         message: 'Results fetched successfully..',
         delay: 3,
       });
       setDeploymentResults(apiResponse);
-      setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, deploymentPaginationResults.limit) });
+      setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.splice(newOffset, deploymentPaginationResults.limit) });
     } else {
       toast.show({
         status: 'failure',
@@ -50,7 +71,7 @@ export default function Deployments() {
 
   }, 3000);
 
-  // Getting deployment results
+  // Getting publish results
   const getPublishHistory = debounce(async (e) => {
 
     const query = e.target.value;
@@ -93,7 +114,7 @@ export default function Deployments() {
     return (
       <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.creationDate}>
         <Table.Cell>
-          {data.index}
+          {index}
         </Table.Cell>
         <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
           {data.applicationId}
@@ -102,10 +123,13 @@ export default function Deployments() {
           {data.id}
         </Table.Cell>
         <Table.Cell>
-          {data.status}
+          {data.state}
         </Table.Cell>
         <Table.Cell>
           {formatDate(data.creationDate)}
+        </Table.Cell>
+        <Table.Cell>
+          {data.warningMessages}
         </Table.Cell>
       </Table.Row>
 
@@ -116,7 +140,7 @@ export default function Deployments() {
     return (
       <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.creationDate}>
         <Table.Cell>
-          {data.index}
+          {index}
         </Table.Cell>
         <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
           {data.worksetName}
@@ -148,12 +172,12 @@ export default function Deployments() {
       className='bg-white dark:bg-gray-800 rounded-md gap-4'
     >
       <Tabs.Item
-        title="Deployment History"
+        title="Deployments History"
         active={true}
         icon={InboxArrowDownIcon}
       >
         <TextInput id="large" className="mb-4" type="text" sizing="md" placeholder="Application name..." onInput={getDeploymentHistory} icon={MagnifyingGlassIcon} />
-        <Table hoverable={true}>
+        <Table>
           <Table.Head>
             <Table.HeadCell className='!p-4'>
               SN
@@ -219,7 +243,7 @@ export default function Deployments() {
             <option value='ne'>Not Equal</option>
             <option value='co'>Contains</option>
           </Select>
-          <TextInput id="large" className="mb-4" type="text" sizing="md" disabled={!queryFilter.operator || !queryFilter.field } placeholder="Query search..." onInput={getPublishHistory} icon={MagnifyingGlassIcon} />
+          <TextInput id="large" className="mb-4" type="text" sizing="md" disabled={!queryFilter.operator || !queryFilter.field} placeholder="Query search..." onInput={getPublishHistory} icon={MagnifyingGlassIcon} />
         </div>
         <Table hoverable={true}>
           <Table.Head>
