@@ -8,7 +8,7 @@ import Login from './login/page';
 import Header from './components/header';
 import SideBar from './components/navbar';
 import Footer from './components/footer';
-import './globals.css';
+import './styles/globals.css';
 import { StoreContext } from './store/context';
 import { useRouter } from 'next/navigation';
 

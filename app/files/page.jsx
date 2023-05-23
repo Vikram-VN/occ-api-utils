@@ -301,7 +301,7 @@ export default function Files() {
           onPageChange={paginationHandler}
           showIcons={true}
           totalPages={pagination.totalPages}
-          previousLabel="Previous"
+          previousLabel="Back"
           nextLabel="Next"
         />}
       </div>

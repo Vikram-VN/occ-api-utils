@@ -150,7 +150,7 @@ const Publish = (props) => {
                     onPageChange={publishPaginationHandler}
                     showIcons={true}
                     totalPages={publishPaginationResults.totalPages}
-                    previousLabel="Previous"
+                    previousLabel="Back"
                     nextLabel="Next"
                 />}
             </div>

@@ -120,7 +120,7 @@ export default function Profiles() {
           <div className="text-center">
             <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete files?
+              Are you sure you want to contact?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={profileDelete}>
@@ -200,7 +200,7 @@ export default function Profiles() {
             onPageChange={publishPaginationHandler}
             showIcons={true}
             totalPages={publishPaginationResults.totalPages}
-            previousLabel="Previous"
+            previousLabel="Back"
             nextLabel="Next"
         /> */}
       </div>

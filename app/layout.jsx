@@ -1,7 +1,6 @@
 import React from 'react';
 import { StoreProvider } from './store';
 import OccUtilsApp from './app';
-import './globals.css';
 
 export const metadata = {
   title: 'OCC API Utils',

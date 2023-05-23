@@ -136,7 +136,7 @@ const Deployment = (props) => {
                     onPageChange={deploymentPaginationHandler}
                     showIcons={true}
                     totalPages={deploymentPaginationResults.totalPages}
-                    previousLabel="Previous"
+                    previousLabel="Back"
                     nextLabel="Next"
                 />}
             </div>
