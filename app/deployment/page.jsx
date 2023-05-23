@@ -2,7 +2,7 @@
 import { Tabs } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { useToasts } from '../components/toast';
+import { useToasts } from '../store/hooks';
 import { InboxArrowDownIcon, ServerIcon } from '@heroicons/react/24/solid';
 import { StoreContext } from '../store/context';
 

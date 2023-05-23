@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useToasts } from '../components/toast';
+import { useToasts } from '../store/hooks';
 import { useSearchParams } from 'next/navigation';
 import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
 import { debounce, formatBytes, formatDate } from '../utils';

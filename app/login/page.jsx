@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { useLoginStatus } from '../store/hooks';
 import { useRouter, usePathname } from 'next/navigation';
-import { useToasts } from '../components/toast/';
+import { useToasts } from '../store/hooks';
 import { StoreContext } from '../store/context';
 import { formToJson } from '../utils';
 import { TextInput, Button, Label } from 'flowbite-react';

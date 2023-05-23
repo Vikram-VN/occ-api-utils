@@ -12,6 +12,7 @@ import { StoreContext } from './context';
 import * as utils from '../utils';
 import * as crypto from '../utils/crypto';
 import * as api from '../utils/httpCall';
+import { useToasts } from '../store/hooks';
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -64,6 +65,7 @@ export const { store, persistedStore } = createStore({});
 export function StoreProvider({ children }) {
 
     const { dispatch } = store;
+    const toast = useToasts();
 
     const action = (type, payload) => {
         new Promise((resolve, reject) => {
@@ -77,7 +79,7 @@ export function StoreProvider({ children }) {
         });
     };
 
-    const storeValue = { action, ...api, ...store, ...utils, ...crypto };
+    const storeValue = { action, ...api, ...store, ...utils, ...crypto, ...toast };
 
     return (
         <Provider store={store}>

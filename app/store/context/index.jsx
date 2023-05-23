@@ -8,3 +8,5 @@ export const ContainerContext = createContext();
 export const ComponentsContext = createContext();
 
 export const UserContext = createContext();
+
+export const ToastContext = createContext();

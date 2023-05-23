@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState, useCallback, useContext } from 'react';
-import { ToastProvider } from '../toast';
+import ToastProvider from '../toast';
 import { Modal as FlowBiteModal } from 'flowbite-react';
 
 const Modal = (props) => {
