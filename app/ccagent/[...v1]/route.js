@@ -30,11 +30,11 @@ export async function GET(request) {
       headers: modifiedHeaders
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const agentApi = await axios.request(payload);
+    const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json(adminApi.data, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json(agentApi.data, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })
@@ -66,11 +66,11 @@ export async function POST(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const agentApi = await axios.request(payload);
+    const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
@@ -101,11 +101,11 @@ export async function PUT(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const agentApi = await axios.request(payload);
+    const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '03', message: `${error.message}.` }, { status: error.response?.status })
@@ -136,11 +136,11 @@ export async function DELETE(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const agentApi = await axios.request(payload);
+    const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '04', message: `${error.message}.` }, { status: error.response?.status })
@@ -171,11 +171,11 @@ export async function PATCH(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const agentApi = await axios.request(payload);
+    const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '05', message: `${error.message}.` }, { status: error.response?.status })

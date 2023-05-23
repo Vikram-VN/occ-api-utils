@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { getDeployments } from '../store/selector';
 import { formatDate, debounce } from '../utils';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import httpCall from '../utils/httpCall';
+import adminApi from '../utils/api';
 
 const Deployment = (props) => {
 
@@ -40,7 +40,7 @@ const Deployment = (props) => {
 
         const appName = e.target.value;
 
-        const apiResponse = await httpCall({
+        const apiResponse = await adminApi({
             url: `applicationDeployment/?appName=${appName}`
         });
 

@@ -6,7 +6,7 @@ import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } f
 import { debounce, formatBytes, formatDate } from '../utils';
 import FileUpload from '../components/file';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
-import httpCall, { fileDownload } from '../utils/httpCall';
+import adminApi, { fileDownload } from '../utils/api';
 import { useRouter } from 'next/navigation';
 
 export default function Files() {
@@ -62,7 +62,7 @@ export default function Files() {
   // Refreshing table data based on filters
   useEffect(() => {
     (async () => {
-      const apiResponse = await httpCall({
+      const apiResponse = await adminApi({
         url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sortBy}`
       });
       if (apiResponse.items) {
@@ -81,7 +81,7 @@ export default function Files() {
   }, [counter, fileFilters, currentPageNo]);
 
   const fileDelete = async (filePath) => {
-    httpCall({
+    adminApi({
       method: 'post',
       url: '/files/deleteFile',
       data: {
@@ -94,7 +94,7 @@ export default function Files() {
   }
 
   const filesDelete = () => {
-    httpCall({
+    adminApi({
       method: 'post',
       url: '/files/deleteFiles',
       data: {
@@ -149,7 +149,7 @@ export default function Files() {
     formData.append('uploadType', uploadType);
     formData.append('fileUpload', file);
 
-    httpCall({
+    adminApi({
       method: 'post',
       url: '/files',
       data: formData,
