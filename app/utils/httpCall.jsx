@@ -53,7 +53,7 @@ export const fileDownload = async (fileLink) => {
     const fileName = fileLink.split('/').pop();
     const contentType = fileData.headers['content-type'];
     const buffer = fileData.data.content;
-    var bytes = new Uint8Array(buffer.data);
+    const bytes = new Uint8Array(buffer.data);
     const link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
     link.download = fileName;

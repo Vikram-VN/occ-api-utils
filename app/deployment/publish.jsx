@@ -21,8 +21,9 @@ const Publish = (props) => {
 
 
     // Getting publish results
-    useEffect(() => {
-        debounce(async () => {
+    useEffect(() => debounce(async () => {
+        if (query) {
+
             const apiResponse = await httpCall({
                 url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
             });
@@ -43,9 +44,10 @@ const Publish = (props) => {
                 });
                 setPublishResults({});
             }
+        }
 
-        }, 2000)
-    }, [newOffset, publishPaginationResults, query, queryFilter, toast]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, 2000), [query, queryFilter]);
 
 
 

@@ -1,7 +1,9 @@
 import { useContext, useState, useEffect, useCallback } from 'react';
 import { isAuthenticated, getAccessToken } from '../selector';
-import { StoreContext } from '../context';
+import { StoreContext, ToastContext } from '../context';
 import { useSelector } from 'react-redux';
+
+export const useToasts = () => useContext(ToastContext);
 
 export const useLoginStatus = () => {
     const { getState } = useContext(StoreContext);
@@ -95,3 +97,4 @@ export const useDragging = ({
 
     return dragging;
 }
+

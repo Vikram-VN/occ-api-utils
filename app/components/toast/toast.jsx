@@ -2,14 +2,15 @@
 import { useEffect } from 'react';
 import Alert from '../alert';
 
-const Toast = ({ id, remove, status, description, removeById, delay, ...props }) => {
+const Toast = ({ id, clearAll, removeAll, remove, status, description, removeById, delay, ...props }) => {
 
     useEffect(() => {
+        clearAll && removeAll();
         const timeout = setTimeout(() => {
             delay && remove();
-        }, delay * 1000)
-        return () => clearTimeout(timeout)
-    }, [delay, remove]);
+        }, delay * 1000);
+        return () => clearTimeout(timeout);
+    }, [clearAll, delay, remove, removeAll]);
 
     return (
         !delay ? <Alert

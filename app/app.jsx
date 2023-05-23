@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import { ToastProvider } from './components/toast';
+import ToastProvider from './components/toast';
 import { useLoginStatus } from './store/hooks';
 import Login from './login/page';
 import Header from './components/header';
