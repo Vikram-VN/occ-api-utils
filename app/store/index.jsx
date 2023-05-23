@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
-import logger from 'redux-logger';
+import reduxLogger from 'redux-logger';
 import actions from './actions';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -18,7 +18,7 @@ import { useToasts } from '../store/hooks';
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [sagaMiddleware];
-process.env.NODE_ENV !== 'production' && middleware.push(logger);
+process.env.NODE_ENV !== 'production' && middleware.push(reduxLogger);
 
 
 const createNoopStorage = () => {
