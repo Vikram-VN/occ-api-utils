@@ -3,7 +3,7 @@ import { noop } from './index';
 import { getInstanceId, getAccessToken, getAppKey } from '../store/selector';
 import { store } from '../store'
 
-const httpCall = async (request) => {
+const adminApi = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {} } = request;
 
     const instanceId = getInstanceId(store.getState());
@@ -25,7 +25,31 @@ const httpCall = async (request) => {
 
 };
 
-export const apiCall = async (request) => {
+export default adminApi;
+
+export const agentApi = async (request) => {
+    const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {} } = request;
+
+    const instanceId = getInstanceId(store.getState());
+    const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
+
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
+
+    const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
+
+    return axios.request({ url: '/ccagent/v1/'.concat(url), data, method, headers: newHeaders })
+        .then(res => {
+            showNotification && onSuccess(res);
+            return res.data;
+
+        }).catch(error => {
+            showNotification && onError(error.response?.data || error.message);
+            return error.response?.data || error.message;
+        });
+
+};
+
+export const adminApiCall = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {}, responseType = 'json' } = request;
 
     const instanceId = getInstanceId(store.getState());
@@ -49,7 +73,7 @@ export const apiCall = async (request) => {
 
 
 export const fileDownload = async (fileLink) => {
-    const fileData = await apiCall({ url: 'file'.concat(fileLink) });
+    const fileData = await adminApiCall({ url: 'file'.concat(fileLink) });
     const fileName = fileLink.split('/').pop();
     const contentType = fileData.headers['content-type'];
     const buffer = fileData.data.content;
@@ -60,6 +84,3 @@ export const fileDownload = async (fileLink) => {
     link.click();
     link.remove();
 };
-
-export default httpCall;
-

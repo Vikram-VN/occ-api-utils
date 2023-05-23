@@ -29,7 +29,7 @@ export default function Login(props) {
       delay: 3,
     });
     setTimeout(() => {
-      router.push('/files?page=1');
+      router.push('/');
       props.loginModalRef?.current();
     }, 2000);
   }
@@ -80,7 +80,7 @@ export default function Login(props) {
     action('stateUpdate', { stateHandler: updateStore, data: payload });
 
     // Doing login
-    action('apiCall', {
+    action('adminApiCall', {
       method: 'post',
       url: 'login',
       headers: {

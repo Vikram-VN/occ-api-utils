@@ -44,7 +44,7 @@ export const OccUtilsApp = ({ children }) => {
 
     if (isLoggedIn) {
       const refresh = setInterval(() => {
-        action('apiCall', {
+        action('adminApiCall', {
           method: 'post',
           url: 'refresh',
           data: {},

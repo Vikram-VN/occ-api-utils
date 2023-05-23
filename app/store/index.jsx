@@ -11,7 +11,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { StoreContext } from './context';
 import * as utils from '../utils';
 import * as crypto from '../utils/crypto';
-import * as api from '../utils/httpCall';
+import * as api from '../utils/api';
 import { useToasts } from '../store/hooks';
 
 // Creating saga actions

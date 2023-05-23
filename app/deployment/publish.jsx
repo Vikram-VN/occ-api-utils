@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
-import httpCall from '../utils/httpCall';
+import adminApi from '../utils/api';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { formatDate, debounce } from '../utils';
 
@@ -24,7 +24,7 @@ const Publish = (props) => {
     useEffect(() => debounce(async () => {
         if (query) {
 
-            const apiResponse = await httpCall({
+            const apiResponse = await adminApi({
                 url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
             });
 

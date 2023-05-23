@@ -1,9 +1,9 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { noop } from '../../utils';
-import httpCall from '../../utils/httpCall';
+import adminApi, { agentApi } from '../../utils/api';
 
-function* apiHandler(action) {
+function* adminApiHandler(action) {
   try {
     const requestEndpoint = action.payload.url || '/';
     const requestMethod = action.payload.method || 'get';
@@ -15,7 +15,7 @@ function* apiHandler(action) {
     const stateAction = action.payload.stateAction || '';
     const stateHandler = action.payload.stateHandler || noop;
 
-    const apiRequest = yield call(httpCall, {
+    const apiRequest = yield call(adminApi, {
       method: requestMethod,
       url: requestEndpoint,
       data: newRequest,
@@ -36,6 +36,40 @@ function* apiHandler(action) {
   }
 }
 
+function* agentApiHandler(action) {
+  try {
+    const requestEndpoint = action.payload.url || '/';
+    const requestMethod = action.payload.method || 'get';
+    const requestHeaders = action.payload.headers || { 'content-type': 'application/json' };
+    const newRequest = action.payload.data || '';
+    const userNotification = action.payload.showNotification || false;
+    const successHandler = action.payload.onSuccess || noop;
+    const errorHandler = action.payload.onError || noop;
+    const stateAction = action.payload.stateAction || '';
+    const stateHandler = action.payload.stateHandler || noop;
+
+    const apiRequest = yield call(agentApi, {
+      method: requestMethod,
+      url: requestEndpoint,
+      data: newRequest,
+      headers: requestHeaders,
+      onSuccess: successHandler,
+      onError: errorHandler,
+      showNotification: userNotification
+    });
+
+    const stateUpdate = stateHandler(action.payload.data, apiRequest);
+
+    if (stateUpdate) {
+      yield put({ type: stateAction, ...stateUpdate });
+    }
+
+  } catch (e) {
+    console.info(`API Action Call Error: `, e)
+  }
+}
+
+
 function* sagasHandler(action) {
   try {
 
@@ -52,7 +86,8 @@ function* sagasHandler(action) {
 }
 
 function* appSaga() {
-  yield takeEvery('apiCall', apiHandler);
+  yield takeEvery('adminApiCall', adminApiHandler);
+  yield takeEvery('agentApiCall', agentApiHandler);
   yield takeEvery('stateUpdate', sagasHandler);
 }
 
