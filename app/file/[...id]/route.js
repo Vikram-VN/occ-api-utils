@@ -16,6 +16,10 @@ export async function GET(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const hostId = request.headers.get('X-InstanceId');
 
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
+
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
       if (!blocklistHeaders.includes(key)) {
@@ -38,7 +42,7 @@ export async function GET(request) {
     return NextResponse.json({ content: adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }

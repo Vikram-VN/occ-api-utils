@@ -16,6 +16,10 @@ export async function GET(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const hostId = request.headers.get('X-InstanceId');
 
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
+
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
       if (!blocklistHeaders.includes(key)) {
@@ -37,7 +41,7 @@ export async function GET(request) {
     return NextResponse.json(agentApi.data, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '01', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }
@@ -50,6 +54,10 @@ export async function POST(request) {
     // Parsing the binary large object as it is into occ server
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get('X-InstanceId');
+
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
 
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
@@ -86,6 +94,10 @@ export async function PUT(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get('X-InstanceId');
 
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
+
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
       if (!blocklistHeaders.includes(key)) {
@@ -108,7 +120,7 @@ export async function PUT(request) {
     return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '03', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }
@@ -120,6 +132,10 @@ export async function DELETE(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get('X-InstanceId');
+
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
 
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
@@ -143,7 +159,7 @@ export async function DELETE(request) {
     return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '04', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }
@@ -155,6 +171,10 @@ export async function PATCH(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get('X-InstanceId');
+
+    if(!hostId){
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+    }
 
     const modifiedHeaders = {};
     request.headers.forEach((value, key) => {
@@ -178,7 +198,7 @@ export async function PATCH(request) {
     return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '05', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
   }
 
 }
