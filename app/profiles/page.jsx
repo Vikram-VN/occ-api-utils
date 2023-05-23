@@ -74,8 +74,6 @@ export default function Profiles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryFilter, query]);
 
-  console.log("Profiles", response)
-
   const profileTableData = (data, index) => {
     return (
       <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.creationDate}>
