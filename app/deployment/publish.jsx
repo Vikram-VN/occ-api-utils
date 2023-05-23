@@ -142,7 +142,7 @@ const Publish = (props) => {
                 </Table.Body>
             </Table>
             <div className="flex items-center justify-center text-center mt-4 h-20">
-                <Pagination
+                {publishPaginationResults.totalPages > 1 && <Pagination
                     currentPage={currentPageNo}
                     layout="pagination"
                     onPageChange={publishPaginationHandler}
@@ -150,7 +150,7 @@ const Publish = (props) => {
                     totalPages={publishPaginationResults.totalPages}
                     previousLabel="Previous"
                     nextLabel="Next"
-                />
+                />}
             </div>
         </React.Fragment>
     )
