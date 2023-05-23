@@ -17,7 +17,7 @@ export async function GET(request) {
     const hostId = request.headers.get('X-InstanceId');
 
     if(!hostId){
-      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header missing in request.` }, { status: 400 })
+      return NextResponse.json({ errorCode: '01', message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
     const modifiedHeaders = {};
