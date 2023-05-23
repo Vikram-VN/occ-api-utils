@@ -295,7 +295,7 @@ export default function Files() {
         </Table>
       }
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        <Pagination
+        {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
@@ -303,7 +303,7 @@ export default function Files() {
           totalPages={pagination.totalPages}
           previousLabel="Previous"
           nextLabel="Next"
-        />
+        />}
       </div>
     </React.Fragment >
   )

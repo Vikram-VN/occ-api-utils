@@ -130,7 +130,7 @@ const Deployment = (props) => {
                 </Table.Body>
             </Table>
             <div className="flex items-center justify-center text-center mt-4 h-20">
-                <Pagination
+                {deploymentPaginationResults.totalPages > 1 && <Pagination
                     currentPage={currentPageNo}
                     layout="pagination"
                     onPageChange={deploymentPaginationHandler}
@@ -138,7 +138,7 @@ const Deployment = (props) => {
                     totalPages={deploymentPaginationResults.totalPages}
                     previousLabel="Previous"
                     nextLabel="Next"
-                />
+                />}
             </div>
         </React.Fragment>
     )
