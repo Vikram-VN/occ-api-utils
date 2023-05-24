@@ -22,8 +22,7 @@ export default function Profiles() {
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
-      message: 'Profile deleted successfully..',
-      delay: 3,
+      message: 'Profile deleted successfully..'
     });
   }
   // Used to show notifications
@@ -31,7 +30,6 @@ export default function Profiles() {
     toast.show({
       status: 'failure',
       message: error.message,
-      delay: 3,
     });
 
   }
@@ -63,8 +61,7 @@ export default function Profiles() {
           toast.show({
             status: 'failure',
             message: response.message || 'Something went wrong while fetching results',
-            clearAll: true,
-            delay: 3,
+            clearAll: true
           });
           setResponse({});
         }

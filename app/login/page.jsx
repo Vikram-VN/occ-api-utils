@@ -25,8 +25,7 @@ export default function Login(props) {
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
-      message: 'You are successfully logged in..',
-      delay: 3,
+      message: 'You are successfully logged in..'
     });
     setTimeout(() => {
       router.push('/');
@@ -38,8 +37,7 @@ export default function Login(props) {
   const onError = (error) => {
     toast.show({
       status: 'failure',
-      message: 'Login Failed',
-      delay: 3,
+      message: 'Login Failed'
     });
 
   }
@@ -114,7 +112,7 @@ export default function Login(props) {
               value='App Key'
             />
           </div>
-          <TextInput type='password' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
+          <TextInput type='text' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
           <Button className='mt-10 m-auto w-2/6' value='sign-in' type='submit'>Sign in </Button>
         </div>
       </section>

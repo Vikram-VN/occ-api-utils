@@ -28,8 +28,7 @@ export default function Files() {
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
-      message: 'Files deleted successfully..',
-      delay: 3,
+      message: 'Files deleted successfully..'
     });
     setCounter(counter + 1);
   }
@@ -37,8 +36,7 @@ export default function Files() {
   const onUploadSuccess = (res) => {
     toast.show({
       status: 'success',
-      message: 'File uploaded successfully..',
-      delay: 3,
+      message: 'File uploaded successfully..'
     });
     setCounter(counter + 1);
   }
@@ -48,8 +46,7 @@ export default function Files() {
   const onError = (error) => {
     toast.show({
       status: 'failure',
-      message: error.message,
-      delay: 3,
+      message: error.message
     });
     setCounter(counter + 1);
 
@@ -71,8 +68,7 @@ export default function Files() {
       } else {
         toast.show({
           status: 'failure',
-          message: apiResponse.message || 'Something went wrong while fetching results',
-          delay: 3,
+          message: apiResponse.message || 'Something went wrong while fetching results'
         });
         setFiles({});
       }

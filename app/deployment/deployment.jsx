@@ -49,16 +49,14 @@ const Deployment = (props) => {
             action('stateUpdate', { stateHandler, data: apiResponse });
             toast.show({
                 status: 'success',
-                message: 'Results fetched successfully..',
-                delay: 3,
+                message: 'Results fetched successfully..'
             });
             setDeploymentResults(apiResponse);
             setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
         } else {
             toast.show({
                 status: 'failure',
-                message: apiResponse.message || 'Something went wrong while fetching results',
-                delay: 3,
+                message: apiResponse.message || 'Something went wrong while fetching results'
             });
             setDeploymentResults({});
         }
