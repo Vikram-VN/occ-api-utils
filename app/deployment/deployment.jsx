@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
 import { Pagination, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
@@ -99,7 +99,7 @@ const Deployment = (props) => {
 
     return (
         <React.Fragment>
-            <TextInput id="large" className="mb-4" type="text" sizing="md" placeholder="Application name..." onInput={getDeploymentHistory} icon={MagnifyingGlassIcon} />
+            <TextInput id='large' className='mb-4' type='text' sizing='md' placeholder='Application name...' onInput={getDeploymentHistory} icon={MagnifyingGlassIcon} />
             <Table>
                 <Table.Head>
                     <Table.HeadCell className='!p-4'>
@@ -129,15 +129,15 @@ const Deployment = (props) => {
                     }
                 </Table.Body>
             </Table>
-            <div className="flex items-center justify-center text-center mt-4 h-20">
+            <div className='flex items-center justify-center text-center mt-4 h-20'>
                 {deploymentPaginationResults.totalPages > 1 && <Pagination
                     currentPage={currentPageNo}
-                    layout="pagination"
+                    layout='pagination'
                     onPageChange={deploymentPaginationHandler}
                     showIcons={true}
                     totalPages={deploymentPaginationResults.totalPages}
-                    previousLabel="Back"
-                    nextLabel="Next"
+                    previousLabel='Back'
+                    nextLabel='Next'
                 />}
             </div>
         </React.Fragment>

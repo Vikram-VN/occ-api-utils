@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Tabs } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
@@ -20,12 +20,12 @@ export default function Deployments() {
 
   return (
     <Tabs.Group
-      aria-label="Tabs with icons"
-      style="underline"
+      aria-label='Tabs with icons'
+      style='underline'
       className='bg-white dark:bg-gray-800 rounded-md gap-4'
     >
       <Tabs.Item
-        title="Deployments History"
+        title='Deployments History'
         active={true}
         icon={InboxArrowDownIcon}
       >
@@ -33,7 +33,7 @@ export default function Deployments() {
       </Tabs.Item>
 
       <Tabs.Item
-        title="Publish History"
+        title='Publish History'
         icon={ServerIcon}
       >
         <Publish {...actions} />

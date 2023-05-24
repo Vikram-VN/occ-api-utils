@@ -10,43 +10,43 @@
 
 
 @font-face {
-	font-family: "OpenSans-Bol";
-	src: local("OpenSans-Bold"),
-		url(../../public/fonts/OpenSans-Bold.ttf) format("truetype");
+	font-family: 'OpenSans-Bol';
+	src: local('OpenSans-Bold'),
+		url(../../public/fonts/OpenSans-Bold.ttf) format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans-Bla";
-	src: local("OpenSans-ExtraBold"),
-		url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
+	font-family: 'OpenSans-Bla';
+	src: local('OpenSans-ExtraBold'),
+		url(../../public/fonts/OpenSans-ExtraBold.ttf) format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans-Ita";
-	src: local("OpenSans-Italic"),
-		url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
+	font-family: 'OpenSans-Ita';
+	src: local('OpenSans-Italic'),
+		url(../../public/fonts/OpenSans-ExtraBold.ttf) format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans-Lig";
-	src: local("OpenSans-Light"),
-		url(../../public/fonts/OpenSans-Light.ttf) format("truetype");
+	font-family: 'OpenSans-Lig';
+	src: local('OpenSans-Light'),
+		url(../../public/fonts/OpenSans-Light.ttf) format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans-Medium";
-	src: local("OpenSans-Medium"),
-		url(../../public/fonts/OpenSans-Medium.ttf) format("truetype");
+	font-family: 'OpenSans-Medium';
+	src: local('OpenSans-Medium'),
+		url(../../public/fonts/OpenSans-Medium.ttf) format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans-Regular";
-	src: local("OpenSans-Regular"),
-		url(../../public/fonts/OpenSans-Regular.ttf) format("truetype");
+	font-family: 'OpenSans-Regular';
+	src: local('OpenSans-Regular'),
+		url(../../public/fonts/OpenSans-Regular.ttf) format('truetype');
 }
 
 h1{
-  font-family: "OpenSans-Medium";
+  font-family: 'OpenSans-Medium';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -84,7 +84,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    font-family: "OpenSans-Medium";
+    font-family: 'OpenSans-Medium';
 }
 
 .next-error-h1 {

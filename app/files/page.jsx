@@ -182,8 +182,8 @@ export default function Files() {
           {data.type.toUpperCase()}
         </Table.Cell>
         <Table.Cell className='flex justify-around'>
-          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path)} />
-          <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDelete(data.path)} />
+          <ArrowDownTrayIcon className='h-6 w-6 cursor-pointer' onClick={() => fileDownload(data.path)} />
+          <TrashIcon className='h-6 w-6 cursor-pointer' onClick={() => fileDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
 
@@ -194,21 +194,21 @@ export default function Files() {
     <React.Fragment>
       <Modal
         show={showModal}
-        size="md"
+        size='md'
         popup={true}
         onClose={() => setModalView(false)}
       >
         <Modal.Body>
-          <div className="text-center">
-            <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <div className='text-center'>
+            <ExclamationCircleIcon className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+            <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
               Are you sure you want to delete files?
             </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={filesDelete}>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={filesDelete}>
                 Yes, I am sure
               </Button>
-              <Button color="gray" onClick={() => setModalView(false)} >
+              <Button color='gray' onClick={() => setModalView(false)} >
                 No, cancel
               </Button>
             </div>
@@ -218,7 +218,7 @@ export default function Files() {
 
       <Modal
         show={showFileUploadModal}
-        size="md"
+        size='md'
         popup={true}
         onClose={() => setFileUploadModal(false)}
       >
@@ -231,7 +231,7 @@ export default function Files() {
       <Card className='mb-4'>
         <div className='flex justify-end gap-4'>
           <div className='flex gap-4'>
-            <TextInput id="large" type="text" sizing="md" placeholder="Search by name..." onInput={searchFiles} icon={MagnifyingGlassIcon} />
+            <TextInput id='large' type='text' sizing='md' placeholder='Search by name...' onInput={searchFiles} icon={MagnifyingGlassIcon} />
             <Select
               defaultValue='none'
               onChange={(e) => filterResults('assetType', e.target.value)}
@@ -267,7 +267,7 @@ export default function Files() {
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell className='!p-4'>
-              <Checkbox name="selectAll" onChange={selectFiles} />
+              <Checkbox name='selectAll' onChange={selectFiles} />
             </Table.HeadCell>
             <Table.HeadCell>
               File name <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'name:desc')} />
@@ -294,15 +294,15 @@ export default function Files() {
           </Table.Body>
         </Table>
       }
-      <div className="flex items-center justify-center text-center mt-4 h-20">
+      <div className='flex items-center justify-center text-center mt-4 h-20'>
         {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
-          layout="pagination"
+          layout='pagination'
           onPageChange={paginationHandler}
           showIcons={true}
           totalPages={pagination.totalPages}
-          previousLabel="Back"
-          nextLabel="Next"
+          previousLabel='Back'
+          nextLabel='Next'
         />}
       </div>
     </React.Fragment >
