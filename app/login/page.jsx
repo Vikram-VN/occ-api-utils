@@ -107,7 +107,7 @@ export default function Login(props) {
               value='Instance Id'
             />
           </div>
-          <TextInput id='instanceId' className='mb-2' name='instanceId' required placeholder='Ex: p1234567890dev' icon={WindowIcon} />
+          <TextInput type='text' id='instanceId' className='mb-2' name='instanceId' required placeholder='Ex: p1234567890dev' icon={WindowIcon} />
           <div className='mb-2 block mt-4'>
             <Label
               htmlFor='token'
