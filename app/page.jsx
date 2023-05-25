@@ -87,11 +87,11 @@ export default function Home() {
           <div className='flex justify-evenly text-white text-4xl font-bold mb-8 hover:scale-105 ease-in duration-300  '>Quick Guide</div>
           <div className='flex flex-col items-center '>
             <p className='text-lg	hover:scale-105 ease-in duration-300'>In the top right corner of the screen, select Log in.</p>
-            <ArrowDownIcon className="h-10 w-7 " />
+            <ArrowDownIcon className='h-10 w-7 ' />
             <p className='text-lg	hover:scale-105 ease-in duration-300'>Login with the instance ID and AppKey.</p>
-            <ArrowDownIcon className="h-10 w-7 " />
+            <ArrowDownIcon className='h-10 w-7 ' />
             <p className='text-lg	hover:scale-105 ease-in duration-300'>Use the sidebar to navigate to the menu of your choice.</p>
-            <ArrowDownIcon className="h-10 w-7 " />
+            <ArrowDownIcon className='h-10 w-7 ' />
             <p className='text-lg	hover:scale-105 ease-in duration-300'>Start using it</p>
           </div>
 

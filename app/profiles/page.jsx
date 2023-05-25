@@ -27,13 +27,12 @@ export default function Profiles() {
 
 
   const [response, setResponse] = useState({});
-  const [id, setId] = useState("")
+  const [id, setId] = useState('')
   const [showModal, setModalView] = useState(false);
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
-      message: 'Profile deleted successfully..',
-      delay: 3,
+      message: 'Profile deleted successfully..'
     });
   }
   // Used to show notifications
@@ -41,7 +40,6 @@ export default function Profiles() {
     toast.show({
       status: 'failure',
       message: error.message,
-      delay: 3,
     });
 
   }
@@ -74,8 +72,7 @@ export default function Profiles() {
           toast.show({
             status: 'failure',
             message: response.message || 'Something went wrong while fetching results',
-            clearAll: true,
-            delay: 3,
+            clearAll: true
           });
           setResponse({});
         }
@@ -107,7 +104,7 @@ export default function Profiles() {
           {data.email}
         </Table.Cell>
         <Table.Cell>
-          <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => {
+          <TrashIcon className='h-6 w-6 cursor-pointer' onClick={() => {
             setId(data.id);
             setModalView(true);
           }
@@ -123,23 +120,23 @@ export default function Profiles() {
     <React.Fragment>
       <Modal
         show={showModal}
-        size="md"
+        size='md'
         popup={true}
         onClose={() => setModalView(false)}
       >
         <Modal.Body>
-          <div className="text-center">
-            <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <div className='text-center'>
+            <ExclamationCircleIcon className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+            <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
               Are you sure you want delete contact?
             </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={profileDelete}>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={profileDelete}>
                 Yes, I am sure
               </Button>
-              <Button color="gray" onClick={() => {
+              <Button color='gray' onClick={() => {
                 setModalView(false)
-                setId("");
+                setId('');
               }} >
                 No, cancel
               </Button>
@@ -150,7 +147,7 @@ export default function Profiles() {
       <Card className='mb-4'>
         <h1 className='mb-4 text-4xl text-justify bold '>Profiles</h1>
         <div className='flex gap-4'>
-          <Select className="mb-4"
+          <Select className='mb-4'
             defaultValue={'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
           >
@@ -160,7 +157,7 @@ export default function Profiles() {
             <option value='email'>Email</option>
             <option value='id'>ID</option>
           </Select>
-          <Select className="mb-4"
+          <Select className='mb-4'
             defaultValue={'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
           >
@@ -169,7 +166,7 @@ export default function Profiles() {
             <option value='ne'>Not Equal</option>
             <option value='co'>Contains</option>
           </Select>
-          <TextInput id="large" className="mb-4" type="text" sizing="md" disabled={!queryFilter.operator || !queryFilter.field} placeholder="Query search..." onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
         </div>
       </Card>
       <Table>

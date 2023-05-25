@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
@@ -25,22 +25,20 @@ const Publish = (props) => {
         if (query) {
 
             const apiResponse = await adminApi({
-                url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
+                url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} '${query}'&limit=${publishPaginationResults.limit}&offset=${newOffset}`
             });
 
             if (apiResponse.items) {
                 toast.show({
                     status: 'success',
-                    message: 'Results fetched successfully..',
-                    delay: 3,
+                    message: 'Results fetched successfully..'
                 });
                 setPublishResults(apiResponse);
                 setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
             } else {
                 toast.show({
                     status: 'failure',
-                    message: apiResponse.message || 'Something went wrong while fetching results',
-                    delay: 3,
+                    message: apiResponse.message || 'Something went wrong while fetching results'
                 });
                 setPublishResults({});
             }
@@ -89,7 +87,7 @@ const Publish = (props) => {
     return (
         <React.Fragment>
             <div className='flex gap-4'>
-                <Select className="mb-4"
+                <Select className='mb-4'
                     defaultValue={'none'}
                     onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
                 >
@@ -100,7 +98,7 @@ const Publish = (props) => {
                     <option value='startTime'>Start Date</option>
                     <option value='endTime'>End Date</option>
                 </Select>
-                <Select className="mb-4"
+                <Select className='mb-4'
                     defaultValue={'none'}
                     onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
                 >
@@ -109,7 +107,7 @@ const Publish = (props) => {
                     <option value='ne'>Not Equal</option>
                     <option value='co'>Contains</option>
                 </Select>
-                <TextInput id="large" className="mb-4" type="text" sizing="md" disabled={!queryFilter.operator || !queryFilter.field} placeholder="Query search..." onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+                <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
             </div>
             <Table>
                 <Table.Head>
@@ -143,15 +141,15 @@ const Publish = (props) => {
                     }
                 </Table.Body>
             </Table>
-            <div className="flex items-center justify-center text-center mt-4 h-20">
+            <div className='flex items-center justify-center text-center mt-4 h-20'>
                 {publishPaginationResults.totalPages > 1 && <Pagination
                     currentPage={currentPageNo}
-                    layout="pagination"
+                    layout='pagination'
                     onPageChange={publishPaginationHandler}
                     showIcons={true}
                     totalPages={publishPaginationResults.totalPages}
-                    previousLabel="Back"
-                    nextLabel="Next"
+                    previousLabel='Back'
+                    nextLabel='Next'
                 />}
             </div>
         </React.Fragment>
