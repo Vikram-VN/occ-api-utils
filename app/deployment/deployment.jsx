@@ -121,7 +121,7 @@ const Deployment = (props) => {
                 </Table.Head>
                 <Table.Body className='divide-y'>
                     {(deploymentPaginationResults.results && deploymentPaginationResults.results.length) > 0 ? deploymentPaginationResults.results.map((item, index) => deploymentTableData(item, index + 1)) :
-                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
                             <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
                         </Table.Row>
                     }

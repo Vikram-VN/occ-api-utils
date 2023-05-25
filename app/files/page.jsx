@@ -244,7 +244,7 @@ export default function Files() {
               defaultValue='none'
               onChange={(e) => filterResults('folder', e.target.value)} >
               <option value='none' disabled>Select Folder</option>
-              <option value='thirdparty'>Third-party</option>
+              <option value='thirdparty'>Third-Party</option>
               <option value='general'>General</option>
               <option value='import'>Import</option>
               <option value='export'>Export</option>
@@ -285,7 +285,7 @@ export default function Files() {
           </Table.Head>
           <Table.Body className='divide-y'>
             {(files.items && files.items.length) > 0 ? files.items.map(item => tableData(item)) :
-              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
                 <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
               </Table.Row>
             }

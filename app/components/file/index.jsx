@@ -19,7 +19,7 @@ const FileUploader = props => {
         'crashReport': 'Crash Report',
         'general': 'General',
         'manualCollectionImage': 'Manual Collection Image',
-        'manualProductImage': 'ManualProductImage',
+        'manualProductImage': 'Manual Product Image',
         'productImage': 'Product Image',
         'thirdPartyFile': 'Third-Party',
         'bulkImport': 'Bulk Import',
@@ -92,7 +92,7 @@ const FileUploader = props => {
                 <div className='mb-2 block'>
                     <Label
                         htmlFor='uploadType'
-                        value='Select Upload Type'
+                        value='Select Folder (Default folder will be Third-Party) *'
                     />
                 </div>
                 <Select id='uploadType'
