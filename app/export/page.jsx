@@ -131,7 +131,7 @@ export default function Export() {
         {
           exportList.items && exportList.items.map(item => {
             return (
-              <Card className='mb-4 gap-2' key={item.typeName}>
+              item.formats.length > 0 && <Card className='mb-4 gap-2' key={item.typeName}>
                 <div className='flex gap-2 items-center justify-between'>
                   <div className='flex gap-4 items-center'>
                     <Checkbox name={item.typeName} className='inline'
