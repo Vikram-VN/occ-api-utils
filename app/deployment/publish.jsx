@@ -32,14 +32,14 @@ const Publish = (props) => {
             if (apiResponse.items) {
                 toast.show({
                     status: 'success',
-                    message: 'Results fetched successfully..'
+                    message: 'Publish results fetched successfully..'
                 });
                 setPublishResults(apiResponse);
                 setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
             } else {
                 toast.show({
                     status: 'failure',
-                    message: apiResponse.message || 'Something went wrong while fetching results'
+                    message: apiResponse.message || 'Something went wrong while fetching publish results'
                 });
                 setPublishResults({});
             }

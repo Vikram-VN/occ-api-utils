@@ -1,5 +1,5 @@
 'use client';
-import { Button, Card, Checkbox, Select } from 'flowbite-react';
+import { Button, Card, Checkbox, Select, Spinner } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import adminApi from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
@@ -22,13 +22,13 @@ export default function Export() {
       if (response.items) {
         toast.show({
           status: 'success',
-          message: 'Results fetched successfully'
+          message: 'Export results fetched successfully'
         });
         setExportList(response);
       } else {
         toast.show({
           status: 'failure',
-          message: response.message || 'Something went wrong while fetching results'
+          message: response.message || 'Something went wrong while fetching export results'
         });
         setExportList({});
       }
@@ -58,9 +58,21 @@ export default function Export() {
   }
 
   useEffect(() => {
-    setInterval(() => {
+    const exportStatus = Object.keys(exportProcessList).length > 0 && setInterval(() => {
+      Object.keys(exportProcessList).forEach(async key => {
+        const token = exportProcessList[key].processId;
+        if (token) {
+          const result = await adminApi({ url: `exportProcess/${token}` });
+          if (result.completed) {
+            exportProcessList[key].downloadLink = result.links[2].href;
+            delete exportProcessList[key].processId;
+            setExportProcessList({ ...exportProcessList });
+          }
+        }
+      })
     }, 1000 * 30);
-  }, [])
+    return () => clearInterval(exportStatus);
+  }, [exportProcessList]);
 
   // Stopping export process
   const stopProcess = async (id, processId) => {
@@ -135,6 +147,7 @@ export default function Export() {
                   </div>
                   <div className='flex gap-4 items-center'>
                     {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && <Spinner aria-label="Export started" />}
                     {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' />}
                   </div>
                 </div>

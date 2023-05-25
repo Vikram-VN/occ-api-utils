@@ -67,12 +67,12 @@ export default function Profiles() {
           setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
           toast.show({
             status: 'success',
-            message: 'Results fetched successfully'
+            message: 'Profile results fetched successfully'
           });
         } else {
           toast.show({
             status: 'failure',
-            message: response.message || 'Something went wrong while fetching results'
+            message: response.message || 'Something went wrong while fetching profile results'
           });
           setResponse({});
         }
