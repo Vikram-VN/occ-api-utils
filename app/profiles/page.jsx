@@ -63,12 +63,12 @@ export default function Profiles() {
           url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
         });
         if (response.items) {
+          setResponse(response);
+          setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
           toast.show({
             status: 'success',
             message: 'Results fetched successfully'
           });
-          setResponse(response);
-          setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) })
         } else {
           toast.show({
             status: 'failure',
@@ -148,7 +148,7 @@ export default function Profiles() {
         <h1 className='mb-4 text-4xl text-justify bold '>Profiles</h1>
         <div className='flex gap-4'>
           <Select className='mb-4'
-            defaultValue={'none'}
+            defaultValue={queryFilter.field || 'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
           >
             <option value='none' disabled>Select Field</option>
@@ -158,7 +158,7 @@ export default function Profiles() {
             <option value='id'>ID</option>
           </Select>
           <Select className='mb-4'
-            defaultValue={'none'}
+            defaultValue={queryFilter.operator || 'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
           >
             <option value='none' disabled>Select Operator</option>
@@ -166,7 +166,7 @@ export default function Profiles() {
             <option value='ne'>Not Equal</option>
             <option value='co'>Contains</option>
           </Select>
-          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' value={query} onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
         </div>
       </Card>
       <Table>
