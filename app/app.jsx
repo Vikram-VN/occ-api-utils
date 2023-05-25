@@ -22,7 +22,9 @@ export const OccUtilsApp = ({ children }) => {
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
   const pagePath = usePathname();
+  // Allowing routes without login
   const isHomePage = pagePath === '/';
+  const isTools = pagePath === '/tools';
 
   // Calling refresh API to get the new access token
   useEffect(() => {
@@ -75,7 +77,7 @@ export const OccUtilsApp = ({ children }) => {
           <section className='grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white'>
             <SideBar />
             <section className='px-6 pt-2 relative pb-6 custom-col-span'>
-              <ToastProvider>{(isHomePage || isLoggedIn) ? children : <Login />}</ToastProvider>
+              <ToastProvider>{(isHomePage || isTools || isLoggedIn) ? children : <Login />}</ToastProvider>
             </section>
           </section>
           <Footer />

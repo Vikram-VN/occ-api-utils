@@ -12,7 +12,8 @@ import {
    PuzzlePieceIcon,
    UserGroupIcon,
    UsersIcon,
-   MagnifyingGlassIcon
+   MagnifyingGlassIcon,
+   WrenchScrewdriverIcon
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { Tooltip } from 'flowbite-react';
@@ -37,6 +38,14 @@ const NavBar = () => {
                <span className='sr-only'>Open sidebar</span>
                <Bars3BottomLeftIcon className='w-6 h-6' fill='currentColor' viewBox='0 0 20 20' />
             </button>
+
+            
+            <Tooltip content='General Tools' placement='auto'>
+               <Link href='/tools' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
+                  <WrenchScrewdriverIcon className='w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white' fill='currentColor' stroke='currentColor' />
+                  <span className='sr-only'>General Tools</span>
+               </Link>
+            </Tooltip>
 
             <Tooltip content='Deployment' placement='auto'>
                <Link href='/deployment' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
