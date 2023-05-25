@@ -1,7 +1,7 @@
 'use client';
 import { Button, Card, Checkbox, Select, Spinner } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
-import adminApi from '../utils/api';
+import adminApi, { adminFileDownload } from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
 import { useToasts } from '../store/hooks';
 
@@ -10,7 +10,6 @@ export default function Export() {
   const toast = useToasts();
   const [exportList, setExportList] = useState({});
   const [multiExportList, setMultiExportList] = useState({});
-  const [exportProcessList, setExportProcessList] = useState({});
   const [exportItems, setExportItems] = useState([]);
 
   useEffect(() => {
@@ -47,32 +46,29 @@ export default function Export() {
     }
   }
 
-  const exportStatusCheck = async processId => {
-    const response = await adminApi({
-      url: `exportProcess/${processId}`,
-      method: 'get'
-    });
-    if (response.completed) {
-      setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href } });
-    }
-  }
+
 
   useEffect(() => {
-    const exportStatus = Object.keys(exportProcessList).length > 0 && setInterval(() => {
-      Object.keys(exportProcessList).forEach(async key => {
-        const token = exportProcessList[key].processId;
+    const exportStatusCheck = async (id, processId) => {
+      const response = await adminApi({
+        url: `exportProcess/${processId}`,
+        method: 'get'
+      });
+      if (response.completed) {
+        setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href } });
+      }
+    }
+
+    const exportStatus = Object.keys(multiExportList).length > 0 && setInterval(() => {
+      Object.keys(multiExportList).forEach(async key => {
+        const token = multiExportList[key].processId;
         if (token) {
-          const result = await adminApi({ url: `exportProcess/${token}` });
-          if (result.completed) {
-            exportProcessList[key].downloadLink = result.links[2].href;
-            delete exportProcessList[key].processId;
-            setExportProcessList({ ...exportProcessList });
-          }
+          exportStatusCheck(key, token);
         }
       })
-    }, 1000 * 30);
+    }, (1000 * 30));
     return () => clearInterval(exportStatus);
-  }, [exportProcessList]);
+  }, [multiExportList]);
 
   // Stopping export process
   const stopProcess = async (id, processId) => {
@@ -100,7 +96,7 @@ export default function Export() {
       url: `exportProcess`,
       method: 'post',
       data: {
-        fileName: `export${id}.zip`,
+        fileName: `export${id}.${multiExportList[id]?.format.toLowerCase()}`,
         format: multiExportList[id]?.format,
         id,
         mode: 'standalone'
@@ -112,7 +108,6 @@ export default function Export() {
         message: 'Export process started'
       });
       setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], processId: response.processId } });
-      setExportProcessList({ ...exportProcessList, [id]: response.processId });
     } else {
       toast.show({
         status: 'failure',
@@ -146,9 +141,9 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
-                    {multiExportList[item.id]?.processId && <Spinner aria-label="Export started" />}
-                    {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' />}
+                    {multiExportList[item.id]?.processId && !multiExportList[item.id]?.downloadLink && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && !multiExportList[item.id]?.downloadLink && <Spinner aria-label="Export started" />}
+                    {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
                   </div>
                 </div>
                 <div className='grid md:grid-flow-col gap-4'>

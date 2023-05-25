@@ -84,3 +84,18 @@ export const fileDownload = async (fileLink) => {
     link.click();
     link.remove();
 };
+
+
+export const adminFileDownload = async (fileLink) => {
+    const modifiedLink = fileLink.split('admin.occa.ocs.oraclecloud.com')[1];
+    const fileData = await adminApiCall({ url: modifiedLink });
+    const fileName = fileLink.split('/').pop();
+    const contentType = fileData.headers['content-type'];
+    const buffer = fileData.data.content;
+    const bytes = new Uint8Array(buffer.data);
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+    link.download = fileName;
+    link.click();
+    link.remove();
+};

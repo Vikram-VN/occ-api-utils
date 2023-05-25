@@ -35,11 +35,11 @@ export async function GET(request) {
       responseType: 'arraybuffer'
     }
 
-    const storeApi = await axios.request(payload);
-    const newHeaders = new Headers(storeApi.headers);
+    const adminApi = await axios.request(payload);
+    const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete('content-length');
 
-    return NextResponse.json({ content: storeApi.data }, { status: storeApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ content: adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
