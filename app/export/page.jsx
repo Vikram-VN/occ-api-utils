@@ -63,12 +63,12 @@ export default function Export() {
   }, [])
 
   // Stopping export process
-  const stopProcess = async processId => {
+  const stopProcess = async (id, processId) => {
     const response = await adminApi({
       url: `exportProcess/${processId}/abort`,
       method: 'post'
     });
-    if (response.status === 'success') {
+    if (response.success === true) {
       toast.show({
         status: 'success',
         message: 'Export process stopped successfully'
@@ -134,7 +134,7 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
                     {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' />}
                   </div>
                 </div>
