@@ -54,13 +54,6 @@ const NavBar = () => {
                </Link>
             </Tooltip>
 
-            <Tooltip content='Email' placement='auto'>
-               <Link href='/email' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
-                  <EnvelopeIcon className='w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white' fill='currentColor' stroke='currentColor' />
-                  <span className='sr-only'>Email</span>
-               </Link>
-            </Tooltip>
-
             <Tooltip content='Export' placement='auto'>
                <Link href='/export' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
                   <ArrowUpTrayIcon className='w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white' fill='currentColor' stroke='currentColor' />
@@ -129,20 +122,6 @@ const NavBar = () => {
                      <ul id='dropdown-example' className={`${subNav?.deployment ? '' : 'hidden'} py-2 space-y-2`}>
                         <li>
                            <Link href='/deployment/status' className='flex items-center w-full p-2 text-slate-900 transform duration-75 rounded-lg pl-11 group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>Deploy Status</Link>
-                        </li>
-                     </ul>
-                  </li>
-                  <li>
-                     <button type='button' className='flex items-center w-full p-2 text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>
-                        <Link href='/email' className='flex items-center w-full text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>
-                           <span className='flex-1 ml-3 text-left whitespace-nowrap'>Email</span>
-                        </Link>
-                        <ChevronDownIcon className={`${subNav?.email ? 'hidden' : ''} w-6 h-6`} onClick={() => showSubNav('email')} fill='currentColor' viewBox='0 0 20 20' />
-                        <ChevronUpIcon className={`${subNav?.email ? '' : 'hidden'} w-6 h-6`} onClick={() => showSubNav('email')} fill='currentColor' viewBox='0 0 20 20' />
-                     </button>
-                     <ul id='dropdown-example' className={`${subNav?.email ? '' : 'hidden'} py-2 space-y-2`}>
-                        <li>
-                           <Link href='/email/manage' className='flex items-center w-full p-2 text-slate-900 transform duration-75 rounded-lg pl-11 group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>Manage Email</Link>
                         </li>
                      </ul>
                   </li>
