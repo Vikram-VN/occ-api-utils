@@ -13,8 +13,9 @@ const Publish = (props) => {
 
     const [publishResults, setPublishResults] = useState({});
     const [query, setQuery] = useState('');
+    const searchParams = useSearchParams();
+    const currentPageNo = Number(searchParams.get('page')) || 1;
     const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
-    const currentPageNo = Number(useSearchParams().get('page')) || 1;
     const [publishPaginationResults, setPublishPaginationResults] = useState({ limit: 10, totalPages: 1, results: [] });
 
     const newOffset = (currentPageNo - 1) * publishPaginationResults.limit;

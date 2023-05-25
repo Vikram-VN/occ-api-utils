@@ -6,29 +6,23 @@ import { useToasts } from '../store/hooks';
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
-import { StoreContext } from '../store/context';
-
 
 export default function Profiles() {
 
   const toast = useToasts();
-  const [query, setQuery] = useState('');
-  const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
-
   const router = useRouter();
-  const currentPageNo = Number(useSearchParams().get('page')) || 1;
-
+  const searchParams = useSearchParams();
+  const currentPageNo = Number(searchParams.get('page')) || 1;
+  const [query, setQuery] = useState(searchParams.get('query') || '');
+  const [queryFilter, setQueryFilter] = useState({ operator: searchParams.get('operator') || '', field: searchParams.get('field') || '' });
   const [pagination, setPagination] = useState({ limit: 5, totalPages: 1 });
-  const newOffset = (currentPageNo - 1) * pagination.limit;
-
-  const paginationHandler = (pageNo) => {
-    router.push(`/profiles?page=${pageNo}`);
-  }
-
-
   const [response, setResponse] = useState({});
   const [id, setId] = useState('')
   const [showModal, setModalView] = useState(false);
+
+
+  const newOffset = (currentPageNo - 1) * pagination.limit;
+
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
@@ -57,6 +51,10 @@ export default function Profiles() {
     setModalView(false);
   }
 
+  const paginationHandler = (pageNo) => {
+    router.push(`/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`);
+  }
+
   useEffect(() => {
     (async () => {
       if (query) {
@@ -65,14 +63,16 @@ export default function Profiles() {
           url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
         });
         if (response.items) {
+          toast.show({
+            status: 'success',
+            message: 'Results fetched successfully'
+          });
           setResponse(response);
-          console.log("Res", response)
           setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) })
         } else {
           toast.show({
             status: 'failure',
-            message: response.message || 'Something went wrong while fetching results',
-            clearAll: true
+            message: response.message || 'Something went wrong while fetching results'
           });
           setResponse({});
         }
