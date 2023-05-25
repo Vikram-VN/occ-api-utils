@@ -1,6 +1,6 @@
 'use client';
 import { Button, Card, Checkbox, Select, Spinner } from 'flowbite-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import adminApi, { adminFileDownload } from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
 import { useToasts } from '../store/hooks';
@@ -37,7 +37,7 @@ export default function Export() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const exportItemsHandler = (isSelected, id) => {
+  const exportItemsHandler = useCallback((isSelected, id) => {
     if (isSelected) {
       setExportItems([...exportItems, id]);
     } else {
@@ -45,7 +45,7 @@ export default function Export() {
       itemIdex >= 0 && exportItems.splice(itemIdex, 1);
       setExportItems([...exportItems]);
     }
-  }
+  }, [exportItems]);
 
   // Running process check for export items
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function Export() {
 
 
   // Stopping export process
-  const stopProcess = async (id = '', processId) => {
+  const stopProcess = useCallback(async (id = '', processId) => {
     const response = await adminApi({
       url: `exportProcess/${processId}/abort`,
       method: 'post'
@@ -117,9 +117,9 @@ export default function Export() {
         message: response.message || 'Something went wrong while trying to stop export'
       });
     }
-  }
+  }, [bundleExport, multiExportList, toast]);
 
-  const exportHandler = async id => {
+  const exportHandler = useCallback(async id => {
     setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: '' } });
     const response = await adminApi({
       url: `exportProcess`,
@@ -143,9 +143,9 @@ export default function Export() {
         message: response.message || 'Something went wrong while fetching export process status'
       });
     }
-  }
+  }, [multiExportList, toast]);
 
-  const bulkExportHandler = async () => {
+  const bulkExportHandler = useCallback(async () => {
     setBundleExport({ ...bundleExport, downloadLink: '' });
     const response = await adminApi({
       url: `exportProcess`,
@@ -173,7 +173,7 @@ export default function Export() {
         message: response.message || 'Something went wrong while fetching export process status'
       });
     }
-  }
+  }, []);
 
   return (
     <React.Fragment>

@@ -8,6 +8,7 @@ import FileUpload from '../components/file';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import adminApi, { fileDownload } from '../utils/api';
 import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
 
 export default function Files() {
 
@@ -25,32 +26,32 @@ export default function Files() {
 
   const newOffset = (currentPageNo - 1) * pagination.limit;
 
-  const onSuccess = (res) => {
+  const onSuccess = useCallback((res) => {
     toast.show({
       status: 'success',
       message: 'Files deleted successfully..'
     });
     setCounter(counter + 1);
-  }
+  }, [counter, toast]);
 
-  const onUploadSuccess = (res) => {
+  const onUploadSuccess = useCallback((res) => {
     toast.show({
       status: 'success',
       message: 'File uploaded successfully..'
     });
     setCounter(counter + 1);
-  }
+  }, [counter, toast])
 
 
   // Used to show notifications
-  const onError = (error) => {
+  const onError = useCallback((error) => {
     toast.show({
       status: 'failure',
       message: error.message
     });
     setCounter(counter + 1);
 
-  }
+  }, [counter, toast]);
 
   const paginationHandler = (pageNo) => {
     router.push(`/files?page=${pageNo}`);
@@ -74,9 +75,10 @@ export default function Files() {
       }
     })();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter, fileFilters, currentPageNo]);
 
-  const fileDelete = async (filePath) => {
+  const fileDelete = useCallback(async (filePath) => {
     adminApi({
       method: 'post',
       url: '/files/deleteFile',
@@ -87,9 +89,9 @@ export default function Files() {
       onSuccess,
       onError,
     });
-  }
+  }, [onError, onSuccess]);
 
-  const filesDelete = () => {
+  const filesDelete = useCallback(() => {
     adminApi({
       method: 'post',
       url: '/files/deleteFiles',
@@ -101,7 +103,7 @@ export default function Files() {
       onError,
     });
     setModalView(false);
-  };
+  }, [onError, onSuccess, selectedFiles]);
 
   const filesDownload = () => {
     selectedFiles.map(file => fileDownload(file))
@@ -139,7 +141,7 @@ export default function Files() {
   }
 
   // File upload function
-  const fileUploadHandler = (uploadType, file) => {
+  const fileUploadHandler = useCallback((uploadType, file) => {
     const formData = new FormData();
     formData.append('filename', file.name);
     formData.append('uploadType', uploadType);
@@ -154,7 +156,7 @@ export default function Files() {
       onError,
     });
     setFileUploadModal(false);
-  }
+  }, [onError, onUploadSuccess])
 
   const tableData = data => {
     return (

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Pagination, Table, TextInput } from 'flowbite-react';
 import { useSearchParams } from 'next/navigation';
 import { getDeployments } from '../store/selector';
@@ -23,7 +23,7 @@ const Deployment = (props) => {
     const newOffset = (currentPageNo - 1) * deploymentPaginationResults.limit;
 
     // Updating the state based on need.
-    const stateHandler = (apiResponse) => {
+    const stateHandler = useCallback((apiResponse) => {
         if (apiResponse.items) {
             return {
                 key: 'occRepository',
@@ -33,7 +33,7 @@ const Deployment = (props) => {
             }
         }
 
-    }
+    }, []);
 
     // Getting deployment results
     const getDeploymentHistory = debounce(async (e) => {

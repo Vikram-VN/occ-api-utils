@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { agentApi } from '../utils/api';
 import { useSearchParams } from 'next/navigation';
 import { useToasts } from '../store/hooks';
@@ -23,22 +23,25 @@ export default function Profiles() {
 
   const newOffset = (currentPageNo - 1) * pagination.limit;
 
-  const onSuccess = (res) => {
-    toast.show({
-      status: 'success',
-      message: 'Profile deleted successfully..'
-    });
-  }
-  // Used to show notifications
-  const onError = (error) => {
-    toast.show({
-      status: 'failure',
-      message: error.message,
-    });
 
-  }
 
-  const profileDelete = async () => {
+  const profileDelete = useCallback(async () => {
+
+    const onSuccess = (res) => {
+      toast.show({
+        status: 'success',
+        message: 'Profile deleted successfully..'
+      });
+    }
+    // Used to show notifications
+    const onError = (error) => {
+      toast.show({
+        status: 'failure',
+        message: error.message,
+      });
+
+    }
+
     agentApi({
       method: 'delete',
       data: {},
@@ -49,7 +52,7 @@ export default function Profiles() {
     });
     setQueryFilter({ ...queryFilter });
     setModalView(false);
-  }
+  }, [id, queryFilter, toast]);
 
   const paginationHandler = (pageNo) => {
     router.push(`/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`);
@@ -195,7 +198,7 @@ export default function Profiles() {
         </Table.Head>
         <Table.Body className='divide-y'>
           {(response.items && response.items.length) > 0 ? response.items.map((item, index) => profileTableData(item, index + 1)) :
-            <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+            <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
               <Table.Cell colSpan={7} className='text-center'>No Results Found.</Table.Cell>
             </Table.Row>
           }

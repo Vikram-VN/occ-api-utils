@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useLoginStatus } from '../store/hooks';
 import { useRouter, usePathname } from 'next/navigation';
 import { useToasts } from '../store/hooks';
@@ -43,7 +43,7 @@ export default function Login(props) {
   }
 
   // Updating the state based on need.
-  const stateHandler = (payload, apiResponse) => {
+  const stateHandler = useCallback((payload, apiResponse) => {
     const result = apiResponse;
     if (result.access_token) {
       return {
@@ -54,10 +54,10 @@ export default function Login(props) {
       }
     }
 
-  }
+  }, []);
 
 
-  const updateStore = (payload) => {
+  const updateStore = useCallback((payload) => {
     if (payload.instanceId) {
       return {
         key: 'occRepository',
@@ -67,7 +67,7 @@ export default function Login(props) {
         }
       }
     }
-  }
+  }, []);
 
   const submitForm = (event) => {
     event.preventDefault();
