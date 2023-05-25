@@ -46,8 +46,7 @@ export default function Export() {
     }
   }
 
-
-
+  // Running process check for export items
   useEffect(() => {
     const exportStatusCheck = async (id, processId) => {
       const response = await adminApi({
@@ -55,7 +54,7 @@ export default function Export() {
         method: 'get'
       });
       if (response.completed) {
-        setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href } });
+        setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href, processId: '' } });
       }
     }
 
@@ -141,8 +140,8 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && !multiExportList[item.id]?.downloadLink && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
-                    {multiExportList[item.id]?.processId && !multiExportList[item.id]?.downloadLink && <Spinner aria-label="Export started" />}
+                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && <Spinner aria-label="Export started" />}
                     {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
                   </div>
                 </div>
@@ -156,7 +155,7 @@ export default function Export() {
                       {item.formats.map(format => <option value={format} key={format}>{format.toUpperCase()}</option>)}
                     </Select>
                   }
-                  <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format)}>{`Export ${item.id}`}</Button>
+                  <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId }>{`Export ${item.id}`}</Button>
                 </div>
               </Card>
             )
