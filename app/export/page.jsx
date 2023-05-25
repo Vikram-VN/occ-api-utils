@@ -140,14 +140,15 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
                     {multiExportList[item.id]?.processId && <Spinner aria-label="Export started" />}
-                    {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
+                    {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8 cursor-pointer' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
                   </div>
                 </div>
                 <div className='grid md:grid-flow-col gap-4'>
                   {
                     item.formats.length > 0 && <Select className='mb-4'
+                      disabled={multiExportList[item.id]?.processId}
                       defaultValue={'none'}
                       onChange={(e) => setMultiExportList({ ...multiExportList, [item.id]: { id: item.id, format: e.target.value } })}
                     >
@@ -155,7 +156,7 @@ export default function Export() {
                       {item.formats.map(format => <option value={format} key={format}>{format.toUpperCase()}</option>)}
                     </Select>
                   }
-                  <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId }>{`Export ${item.id}`}</Button>
+                  <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId}>{`Export ${item.id}`}</Button>
                 </div>
               </Card>
             )
