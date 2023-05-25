@@ -1,24 +1,28 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { agentApi } from '../utils/api';
-// import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useToasts } from '../store/hooks';
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/navigation';
 
 export default function Profiles() {
 
   const toast = useToasts();
-  const [query, setQuery] = useState('');
-  const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
-
-  // const currentPageNo = Number(useSearchParams().get('page')) || 1;
-  // const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
-  // const newOffset = (currentPageNo - 1) * pagination.limit;
-
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPageNo = Number(searchParams.get('page')) || 1;
+  const [query, setQuery] = useState(searchParams.get('query') || '');
+  const [queryFilter, setQueryFilter] = useState({ operator: searchParams.get('operator') || '', field: searchParams.get('field') || '' });
+  const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const [response, setResponse] = useState({});
   const [id, setId] = useState('')
   const [showModal, setModalView] = useState(false);
+
+
+  const newOffset = (currentPageNo - 1) * pagination.limit;
+
   const onSuccess = (res) => {
     toast.show({
       status: 'success',
@@ -47,21 +51,28 @@ export default function Profiles() {
     setModalView(false);
   }
 
+  const paginationHandler = (pageNo) => {
+    router.push(`/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`);
+  }
+
   useEffect(() => {
     (async () => {
       if (query) {
 
         const response = await agentApi({
-          url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} '${query}'&queryFormat=SCIM`
+          url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
         });
         if (response.items) {
           setResponse(response);
-          // setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) })
+          setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
+          toast.show({
+            status: 'success',
+            message: 'Results fetched successfully'
+          });
         } else {
           toast.show({
             status: 'failure',
-            message: response.message || 'Something went wrong while fetching results',
-            clearAll: true
+            message: response.message || 'Something went wrong while fetching results'
           });
           setResponse({});
         }
@@ -80,7 +91,7 @@ export default function Profiles() {
         <Table.Cell>
           {data.id}
         </Table.Cell>
-        <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+        <Table.Cell className='whitespace-nowrap '>
           {data.lastName}
         </Table.Cell>
         <Table.Cell>
@@ -134,10 +145,10 @@ export default function Profiles() {
         </Modal.Body>
       </Modal>
       <Card className='mb-4'>
-        <span className='mb-4 text-4xl text-justify bold '>Profiles</span>
+        <h1 className='mb-4 text-4xl text-justify bold '>Profiles</h1>
         <div className='flex gap-4'>
           <Select className='mb-4'
-            defaultValue={'none'}
+            defaultValue={queryFilter.field || 'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
           >
             <option value='none' disabled>Select Field</option>
@@ -147,7 +158,7 @@ export default function Profiles() {
             <option value='id'>ID</option>
           </Select>
           <Select className='mb-4'
-            defaultValue={'none'}
+            defaultValue={queryFilter.operator || 'none'}
             onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
           >
             <option value='none' disabled>Select Operator</option>
@@ -155,7 +166,7 @@ export default function Profiles() {
             <option value='ne'>Not Equal</option>
             <option value='co'>Contains</option>
           </Select>
-          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' value={query} onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
         </div>
       </Card>
       <Table>
@@ -190,16 +201,16 @@ export default function Profiles() {
           }
         </Table.Body>
       </Table>
-      <div className='flex items-center justify-center text-center mt-4 h-20'>
-        {/* <Pagination
-            currentPage={currentPageNo}
-            layout='pagination'
-            onPageChange={publishPaginationHandler}
-            showIcons={true}
-            totalPages={publishPaginationResults.totalPages}
-            previousLabel='Back'
-            nextLabel='Next'
-        /> */}
+      <div className="flex items-center justify-center text-center mt-4 h-20">
+        {pagination.totalPages > 1 && <Pagination
+          currentPage={currentPageNo}
+          layout="pagination"
+          onPageChange={paginationHandler}
+          showIcons={true}
+          totalPages={pagination.totalPages}
+          previousLabel="Back"
+          nextLabel="Next"
+        />}
       </div>
     </React.Fragment>
   )
