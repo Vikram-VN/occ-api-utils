@@ -1,10 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { agentApi } from '../utils/api';
-// import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useToasts } from '../store/hooks';
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/navigation';
+import { StoreContext } from '../store/context';
+
 
 export default function Profiles() {
 
@@ -12,9 +15,16 @@ export default function Profiles() {
   const [query, setQuery] = useState('');
   const [queryFilter, setQueryFilter] = useState({ operator: '', field: '' });
 
-  // const currentPageNo = Number(useSearchParams().get('page')) || 1;
-  // const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
-  // const newOffset = (currentPageNo - 1) * pagination.limit;
+  const router = useRouter();
+  const currentPageNo = Number(useSearchParams().get('page')) || 1;
+
+  const [pagination, setPagination] = useState({ limit: 5, totalPages: 1 });
+  const newOffset = (currentPageNo - 1) * pagination.limit;
+
+  const paginationHandler = (pageNo) => {
+    router.push(`/profiles?page=${pageNo}`);
+  }
+
 
   const [response, setResponse] = useState({});
   const [id, setId] = useState("")
@@ -54,11 +64,12 @@ export default function Profiles() {
       if (query) {
 
         const response = await agentApi({
-          url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM`
+          url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
         });
         if (response.items) {
           setResponse(response);
-          // setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) })
+          console.log("Res", response)
+          setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) })
         } else {
           toast.show({
             status: 'failure',
@@ -137,7 +148,7 @@ export default function Profiles() {
         </Modal.Body>
       </Modal>
       <Card className='mb-4'>
-        <span className='mb-4 text-4xl text-justify bold '>Profiles</span>
+        <h1 className='mb-4 text-4xl text-justify bold '>Profiles</h1>
         <div className='flex gap-4'>
           <Select className="mb-4"
             defaultValue={'none'}
@@ -193,16 +204,17 @@ export default function Profiles() {
           }
         </Table.Body>
       </Table>
+      {console.log("TptalPage", pagination.totalPages)}
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        {/* <Pagination
-            currentPage={currentPageNo}
-            layout="pagination"
-            onPageChange={publishPaginationHandler}
-            showIcons={true}
-            totalPages={publishPaginationResults.totalPages}
-            previousLabel="Back"
-            nextLabel="Next"
-        /> */}
+        <Pagination
+          currentPage={currentPageNo}
+          layout="pagination"
+          onPageChange={paginationHandler}
+          showIcons={true}
+          totalPages={pagination.totalPages}
+          previousLabel="Back"
+          nextLabel="Next"
+        />
       </div>
     </React.Fragment>
   )
