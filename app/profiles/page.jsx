@@ -201,7 +201,6 @@ export default function Profiles() {
           }
         </Table.Body>
       </Table>
-      {console.log("TptalPage", pagination.totalPages)}
       <div className="flex items-center justify-center text-center mt-4 h-20">
         {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
