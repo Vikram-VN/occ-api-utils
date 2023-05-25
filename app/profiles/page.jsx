@@ -91,7 +91,7 @@ export default function Profiles() {
         <Table.Cell>
           {data.id}
         </Table.Cell>
-        <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+        <Table.Cell className='whitespace-nowrap '>
           {data.lastName}
         </Table.Cell>
         <Table.Cell>
