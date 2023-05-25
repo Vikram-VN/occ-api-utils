@@ -15,7 +15,7 @@ export default function Profiles() {
   const currentPageNo = Number(searchParams.get('page')) || 1;
   const [query, setQuery] = useState(searchParams.get('query') || '');
   const [queryFilter, setQueryFilter] = useState({ operator: searchParams.get('operator') || '', field: searchParams.get('field') || '' });
-  const [pagination, setPagination] = useState({ limit: 5, totalPages: 1 });
+  const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const [response, setResponse] = useState({});
   const [id, setId] = useState('')
   const [showModal, setModalView] = useState(false);
@@ -203,7 +203,7 @@ export default function Profiles() {
       </Table>
       {console.log("TptalPage", pagination.totalPages)}
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        <Pagination
+        {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
@@ -211,7 +211,7 @@ export default function Profiles() {
           totalPages={pagination.totalPages}
           previousLabel="Back"
           nextLabel="Next"
-        />
+        />}
       </div>
     </React.Fragment>
   )
