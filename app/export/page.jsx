@@ -190,7 +190,7 @@ export default function Export() {
               {bundleExport?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8 cursor-pointer' onClick={() => adminFileDownload(bundleExport?.downloadLink)} />}
             </div>
             <Button type='button'
-            className='w-full mt-4'
+              className='w-full mt-4'
               disabled={!(exportItems.length > 1)}
               onClick={bulkExportHandler}
             >
