@@ -22,31 +22,28 @@ const Publish = (props) => {
 
 
     // Getting publish results
-    useEffect(() => debounce(async () => {
-        if (query) {
+    const fetchPublishResults = debounce(async () => {
 
-            const apiResponse = await adminApi({
-                url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
+        const apiResponse = await adminApi({
+            url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
+        });
+
+        if (apiResponse.items) {
+            toast.show({
+                status: 'success',
+                message: 'Publish results fetched successfully..'
             });
-
-            if (apiResponse.items) {
-                toast.show({
-                    status: 'success',
-                    message: 'Publish results fetched successfully..'
-                });
-                setPublishResults(apiResponse);
-                setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
-            } else {
-                toast.show({
-                    status: 'failure',
-                    message: apiResponse.message || 'Something went wrong while fetching publish results'
-                });
-                setPublishResults({});
-            }
+            setPublishResults(apiResponse);
+            setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
+        } else {
+            toast.show({
+                status: 'failure',
+                message: apiResponse.message || 'Something went wrong while fetching publish results'
+            });
+            setPublishResults({});
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, 2000), [query, queryFilter]);
+    }, 2000);
 
 
 
@@ -90,6 +87,7 @@ const Publish = (props) => {
             <div className='flex gap-4'>
                 <Select className='mb-4'
                     defaultValue={'none'}
+                    onClick={fetchPublishResults}
                     onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
                 >
                     <option value='none' disabled>Select Field</option>
@@ -101,6 +99,7 @@ const Publish = (props) => {
                 </Select>
                 <Select className='mb-4'
                     defaultValue={'none'}
+                    onClick={fetchPublishResults}
                     onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
                 >
                     <option value='none' disabled>Select Operator</option>
@@ -108,7 +107,13 @@ const Publish = (props) => {
                     <option value='ne'>Not Equal</option>
                     <option value='co'>Contains</option>
                 </Select>
-                <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+                <TextInput id='large' 
+                className='mb-4' type='text' 
+                sizing='md' disabled={!queryFilter.operator || !queryFilter.field} 
+                placeholder='Query search...' onInput={(e) => setQuery(e.target.value)} 
+                icon={MagnifyingGlassIcon}
+                onKeyUp={fetchPublishResults}
+                 />
             </div>
             <Table>
                 <Table.Head>

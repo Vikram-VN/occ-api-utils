@@ -58,25 +58,24 @@ export default function Files() {
   }
 
   // Refreshing table data based on filters
-  useEffect(() => {
-    (async () => {
-      const apiResponse = await adminApi({
-        url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sortBy}`
+  const fetchFiles = debounce(async () => {
+    const apiResponse = await adminApi({
+      url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sortBy}`
+    });
+    if (apiResponse.items) {
+      setFiles(apiResponse);
+      setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
+    } else {
+      toast.show({
+        status: 'failure',
+        message: apiResponse.message || 'Something went wrong while fetching results'
       });
-      if (apiResponse.items) {
-        setFiles(apiResponse);
-        setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
-      } else {
-        toast.show({
-          status: 'failure',
-          message: apiResponse.message || 'Something went wrong while fetching results'
-        });
-        setFiles({});
-      }
-    })();
+      setFiles({});
+    }
+  }, 2000);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [counter, fileFilters, currentPageNo]);
+  useEffect(() => fetchFiles(), []);
 
   const fileDelete = useCallback(async (filePath) => {
     adminApi({
@@ -229,9 +228,14 @@ export default function Files() {
       <Card className='mb-4'>
         <div className='flex justify-end gap-4'>
           <div className='flex gap-4'>
-            <TextInput id='large' type='text' sizing='md' placeholder='Search by name...' onInput={searchFiles} icon={MagnifyingGlassIcon} />
+            <TextInput id='large' type='text'
+              sizing='md' placeholder='Search by name...'
+              onInput={searchFiles} icon={MagnifyingGlassIcon}
+              onKeyUp={fetchFiles}
+            />
             <Select
               defaultValue='none'
+              onClick={fetchFiles}
               onChange={(e) => filterResults('assetType', e.target.value)}
               className='w-min:w-10'
             >
@@ -242,6 +246,7 @@ export default function Files() {
             </Select>
             <Select
               defaultValue='none'
+              onClick={fetchFiles}
               onChange={(e) => filterResults('folder', e.target.value)} >
               <option value='none' disabled>Select Folder</option>
               <option value='thirdparty'>Third-Party</option>

@@ -6,6 +6,7 @@ import { useToasts } from '../store/hooks';
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
+import { debounce } from '../utils';
 
 export default function Profiles() {
 
@@ -54,32 +55,30 @@ export default function Profiles() {
     router.push(`/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`);
   }
 
-  useEffect(() => {
-    (async () => {
-      if (query) {
 
-        const response = await agentApi({
-          url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
+  const filterProfiles = debounce(async () => {
+    if (query) {
+
+      const response = await agentApi({
+        url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
+      });
+      if (response.items) {
+        setResponse(response);
+        setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
+        toast.show({
+          status: 'success',
+          message: 'Profile results fetched successfully'
         });
-        if (response.items) {
-          setResponse(response);
-          setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
-          toast.show({
-            status: 'success',
-            message: 'Profile results fetched successfully'
-          });
-        } else {
-          toast.show({
-            status: 'failure',
-            message: response.message || 'Something went wrong while fetching profile results'
-          });
-          setResponse({});
-        }
+      } else {
+        toast.show({
+          status: 'failure',
+          message: response.message || 'Something went wrong while fetching profile results'
+        });
+        setResponse({});
       }
-    })();
+    }
+  }, 2000);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryFilter, query]);
 
   const profileTableData = (data, index) => {
     return (
@@ -148,6 +147,7 @@ export default function Profiles() {
         <div className='flex gap-4'>
           <Select className='mb-4'
             defaultValue={queryFilter.field || 'none'}
+            onClick={filterProfiles}
             onChange={(e) => setQueryFilter({ ...queryFilter, field: e.target.value })}
           >
             <option value='none' disabled>Select Field</option>
@@ -158,6 +158,7 @@ export default function Profiles() {
           </Select>
           <Select className='mb-4'
             defaultValue={queryFilter.operator || 'none'}
+            onClick={filterProfiles}
             onChange={(e) => setQueryFilter({ ...queryFilter, operator: e.target.value })}
           >
             <option value='none' disabled>Select Operator</option>
@@ -165,7 +166,13 @@ export default function Profiles() {
             <option value='ne'>Not Equal</option>
             <option value='co'>Contains</option>
           </Select>
-          <TextInput id='large' className='mb-4' type='text' sizing='md' disabled={!queryFilter.operator || !queryFilter.field} placeholder='Query search...' value={query} onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon} />
+          <TextInput id='large' className='mb-4'
+            type='text' sizing='md'
+            disabled={!queryFilter.operator || !queryFilter.field}
+            placeholder='Query search...' value={query}
+            onInput={(e) => setQuery(e.target.value)} icon={MagnifyingGlassIcon}
+            onKeyUp={filterProfiles}
+          />
         </div>
       </Card>
       <Table>
