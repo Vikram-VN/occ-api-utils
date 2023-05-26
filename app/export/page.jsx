@@ -133,7 +133,7 @@ export default function Export() {
         format: multiExportList[id]?.format,
         params: {
           q: multiExportList[id]?.query,
-          headersList: multiExportList[id]?.headersList
+          headersList: multiExportList[id]?.headersList || "All"
         }
       }
     });
@@ -165,7 +165,7 @@ export default function Export() {
             format: multiExportList[item].format,
             params: {
               q: multiExportList[item]?.query,
-              headersList: multiExportList[item]?.headersList
+              headersList: multiExportList[item]?.headersList || "All"
             }
           }
         })
