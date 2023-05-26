@@ -22,7 +22,6 @@ export default function Files() {
   const [fileFilters, updateFilters] = useState({ assetType: 'file', filter: '', folder: 'general', sortBy: 'name:asc' });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
-  const [counter, setCounter] = useState(0);
 
   const newOffset = (currentPageNo - 1) * pagination.limit;
 
@@ -31,16 +30,14 @@ export default function Files() {
       status: 'success',
       message: 'Files deleted successfully..'
     });
-    setCounter(counter + 1);
-  }, [counter, toast]);
+  }, [toast]);
 
   const onUploadSuccess = useCallback((res) => {
     toast.show({
       status: 'success',
       message: 'File uploaded successfully..'
     });
-    setCounter(counter + 1);
-  }, [counter, toast])
+  }, [toast])
 
 
   // Used to show notifications
@@ -49,9 +46,8 @@ export default function Files() {
       status: 'failure',
       message: error.message
     });
-    setCounter(counter + 1);
 
-  }, [counter, toast]);
+  }, [toast]);
 
   const paginationHandler = (pageNo) => {
     router.push(`/files?page=${pageNo}`);
