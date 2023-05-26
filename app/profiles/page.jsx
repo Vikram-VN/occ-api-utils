@@ -19,11 +19,7 @@ export default function Profiles() {
   const [response, setResponse] = useState({});
   const [id, setId] = useState('')
   const [showModal, setModalView] = useState(false);
-
-
   const newOffset = (currentPageNo - 1) * pagination.limit;
-
-
 
   const profileDelete = useCallback(async () => {
 
