@@ -55,7 +55,8 @@ export default function Export() {
         method: 'get'
       });
       if (response.completed) {
-        setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href, processId: '' } });
+        response.links[1].rel === 'file' &&
+          setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href, processId: '' } });
       }
     }
 
@@ -82,7 +83,8 @@ export default function Export() {
         method: 'get'
       });
       if (response.completed) {
-        setBundleExport({ ...bundleExport, downloadLink: response.links[1].href, processId: '' });
+        response.links[1].rel === 'file' &&
+          setBundleExport({ ...bundleExport, downloadLink: response.links[1].href, processId: '' });
       }
     }
 
@@ -97,7 +99,7 @@ export default function Export() {
 
 
   // Stopping export process
-  const stopProcess = useCallback(async (id = '', processId) => {
+  const stopProcess = useCallback(async (processId, id = '') => {
     const response = await adminApi({
       url: `exportProcess/${processId}/abort`,
       method: 'post'
@@ -108,8 +110,8 @@ export default function Export() {
         message: 'Export process stopped successfully'
       });
 
-      id ? setMultiExportList({ ...multiExportList, processId: '' }) :
-        setMultiExportList({ ...bundleExport, processId: '' });
+      id ? setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], processId: '' } }) :
+        setBundleExport({ ...bundleExport, processId: '' });
 
     } else {
       toast.show({
@@ -173,7 +175,7 @@ export default function Export() {
         message: response.message || 'Something went wrong while fetching export process status'
       });
     }
-  }, []);
+  }, [bundleExport, exportItems, multiExportList, toast]);
 
   return (
     <React.Fragment>
@@ -213,7 +215,7 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
+                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(multiExportList[item.id]?.processId, item.id)} />}
                     {multiExportList[item.id]?.processId && <Spinner title='Export is started' />}
                     {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8 cursor-pointer' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
                   </div>
