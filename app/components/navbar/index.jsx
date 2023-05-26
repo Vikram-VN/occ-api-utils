@@ -8,7 +8,6 @@ import {
    ArrowDownTrayIcon,
    ArrowUpTrayIcon,
    InboxArrowDownIcon,
-   EnvelopeIcon,
    PuzzlePieceIcon,
    UserGroupIcon,
    UsersIcon,
