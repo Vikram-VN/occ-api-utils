@@ -1,7 +1,7 @@
 'use client';
 import { Button, Card, Checkbox, Label, Select, Spinner, TextInput } from 'flowbite-react';
 import React, { useCallback, useEffect, useState } from 'react';
-import adminApi, { adminFileDownload, currentUTCDateTime } from '../utils/api';
+import adminApi, { adminFileDownload } from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
 import { useToasts } from '../store/hooks';
 
@@ -153,6 +153,7 @@ export default function Export() {
 
   const bulkExportHandler = useCallback(async () => {
     setBundleExport({ ...bundleExport, downloadLink: '' });
+    const currentUTCDateTime = new Date().toISOString();
     const response = await adminApi({
       url: `exportProcess`,
       method: 'post',
