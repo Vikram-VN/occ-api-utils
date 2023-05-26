@@ -82,6 +82,13 @@ const NavBar = () => {
                </Link>
             </Tooltip>
 
+            <Tooltip content='Organizations' placement='auto'>
+               <Link href='/organizations' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
+                  <UserGroupIcon className='w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white' fill='currentColor' stroke='currentColor' />
+                  <span className='sr-only'>Organizations</span>
+               </Link>
+            </Tooltip>
+
             <Tooltip content='Profiles' placement='auto'>
                <Link href='/profiles' className='h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'>
                   <UsersIcon className='w-6 h-6 text-slate-500 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white' fill='currentColor' stroke='currentColor' />
@@ -179,6 +186,21 @@ const NavBar = () => {
                         <li>
                            <Link href='/import/track
                            ' className='flex items-center w-full p-2 text-slate-900 transform duration-75 rounded-lg pl-11 group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>Track Imports</Link>
+                        </li>
+                     </ul>
+                  </li>
+
+                  <li>
+                     <button type='button' className='flex items-center w-full p-2 text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>
+                        <Link href='/organizations' className='flex items-center w-full text-slate-900 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>
+                           <span className='flex-1 ml-3 text-left whitespace-nowrap'>Organizations</span>
+                        </Link>
+                        <ChevronDownIcon className={`${subNav?.organizations ? 'hidden' : ''} w-6 h-6`} onClick={() => showSubNav('organizations')} fill='currentColor' viewBox='0 0 20 20' />
+                        <ChevronUpIcon className={`${subNav?.organizations ? '' : 'hidden'} w-6 h-6`} onClick={() => showSubNav('organizations')} fill='currentColor' viewBox='0 0 20 20' />
+                     </button>
+                     <ul id='dropdown-example' className={`${subNav?.organizations ? '' : 'hidden'} py-2 space-y-2`}>
+                        <li>
+                           <Link href='/organizations/manage' className='flex items-center w-full p-2 text-slate-900 transform duration-75 rounded-lg pl-11 group hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700'>Manage Organizations</Link>
                         </li>
                      </ul>
                   </li>
