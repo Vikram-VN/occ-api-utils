@@ -26,7 +26,7 @@ const Publish = (props) => {
         if (query) {
 
             const apiResponse = await adminApi({
-                url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} '${query}'&limit=${publishPaginationResults.limit}&offset=${newOffset}`
+                url: `publishingHistory/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${publishPaginationResults.limit}&offset=${newOffset}`
             });
 
             if (apiResponse.items) {
