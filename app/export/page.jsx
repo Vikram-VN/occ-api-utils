@@ -1,7 +1,7 @@
 'use client';
-import { Button, Card, Checkbox, Select, Spinner } from 'flowbite-react';
+import { Button, Card, Checkbox, Label, Select, Spinner, TextInput } from 'flowbite-react';
 import React, { useCallback, useEffect, useState } from 'react';
-import adminApi, { adminFileDownload } from '../utils/api';
+import adminApi, { adminFileDownload, currentUTCDateTime } from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
 import { useToasts } from '../store/hooks';
 
@@ -127,10 +127,14 @@ export default function Export() {
       url: `exportProcess`,
       method: 'post',
       data: {
+        id,
+        mode: 'standalone',
         fileName: `export${id}.${multiExportList[id]?.format.toLowerCase()}`,
         format: multiExportList[id]?.format,
-        id,
-        mode: 'standalone'
+        params: {
+          q: multiExportList[id]?.query,
+          headersList: multiExportList[id]?.headersList
+        }
       }
     });
     if (response.processId) {
@@ -154,11 +158,15 @@ export default function Export() {
       method: 'post',
       data: {
         mode: 'bundle',
-        fileName: 'exportItems.zip',
+        fileName: `exportItems_${currentUTCDateTime}.zip`,
         items: exportItems.map(item => {
           return {
             id: item,
-            format: multiExportList[item].format
+            format: multiExportList[item].format,
+            params: {
+              q: multiExportList[item]?.query,
+              headersList: multiExportList[item]?.headersList
+            }
           }
         })
       }
@@ -232,6 +240,30 @@ export default function Export() {
                     </Select>
                   }
                   <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId}>{`Export ${item.id}`}</Button>
+                </div>
+                <div className='w-full m-auto'>
+                  <div className='mb-2 block'>
+                    <Label
+                      value='Query Filter (Optional)'
+                    />
+                  </div>
+                  <TextInput type='text'
+                    placeholder='Ex: email ne null and active eq true'
+                    name='query'
+                    onInput={(e) => setMultiExportList({ ...multiExportList, [item.id]: { ...multiExportList[item.id], query: e.target.value } })}
+                  />
+                </div>
+                <div className='w-full m-auto'>
+                  <div className='mb-2 block'>
+                    <Label
+                      value='Headers List (Optional)'
+                    />
+                  </div>
+                  <TextInput type='text'
+                    name='headersList'
+                    placeholder='Ex: id,name,email,active,members,shippingAddress,BillingAddress'
+                    onInput={(e) => setMultiExportList({ ...multiExportList, [item.id]: { ...multiExportList[item.id], headersList: e.target.value } })}
+                  />
                 </div>
               </Card>
             )

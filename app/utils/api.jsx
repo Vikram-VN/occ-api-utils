@@ -49,6 +49,19 @@ export const agentApi = async (request) => {
 
 };
 
+export const currentDate = (sp = '-') => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //As January is 0.
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+    return (dd + sp + mm + sp + yyyy);
+};
+
+export const currentUTCDateTime = new Date().toISOString();
+
 export const adminApiCall = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {}, responseType = 'json' } = request;
 
