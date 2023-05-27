@@ -8,6 +8,7 @@ import FileUpload from '../components/file';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import adminApi, { fileDownload } from '../utils/api';
 import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
 
 export default function Files() {
 
@@ -21,62 +22,58 @@ export default function Files() {
   const [fileFilters, updateFilters] = useState({ assetType: 'file', filter: '', folder: 'general', sortBy: 'name:asc' });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
-  const [counter, setCounter] = useState(0);
 
   const newOffset = (currentPageNo - 1) * pagination.limit;
 
-  const onSuccess = (res) => {
+  const onSuccess = useCallback((res) => {
     toast.show({
       status: 'success',
       message: 'Files deleted successfully..'
     });
-    setCounter(counter + 1);
-  }
+  }, [toast]);
 
-  const onUploadSuccess = (res) => {
+  const onUploadSuccess = useCallback((res) => {
     toast.show({
       status: 'success',
       message: 'File uploaded successfully..'
     });
-    setCounter(counter + 1);
-  }
+  }, [toast])
 
 
   // Used to show notifications
-  const onError = (error) => {
+  const onError = useCallback((error) => {
     toast.show({
       status: 'failure',
       message: error.message
     });
-    setCounter(counter + 1);
 
-  }
+  }, [toast]);
 
   const paginationHandler = (pageNo) => {
     router.push(`/files?page=${pageNo}`);
   }
 
   // Refreshing table data based on filters
-  useEffect(() => {
-    (async () => {
-      const apiResponse = await adminApi({
-        url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sortBy}`
+  const fetchFiles = debounce(async () => {
+    const apiResponse = await adminApi({
+      url: `files/?assetType=${fileFilters.assetType}&filter=${fileFilters.filter}&folder=${fileFilters.folder}&limit=${pagination.limit}&offset=${newOffset}&sort=${fileFilters.sortBy}`
+    });
+    if (apiResponse.items) {
+      setFiles(apiResponse);
+      setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
+    } else {
+      toast.show({
+        status: 'failure',
+        message: apiResponse.message || 'Something went wrong while fetching results'
       });
-      if (apiResponse.items) {
-        setFiles(apiResponse);
-        setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
-      } else {
-        toast.show({
-          status: 'failure',
-          message: apiResponse.message || 'Something went wrong while fetching results'
-        });
-        setFiles({});
-      }
-    })();
+      setFiles({});
+    }
+  }, 2000);
 
-  }, [counter, fileFilters, currentPageNo]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => fetchFiles(), []);
 
-  const fileDelete = async (filePath) => {
+  const fileDelete = useCallback(async (filePath) => {
     adminApi({
       method: 'post',
       url: '/files/deleteFile',
@@ -87,9 +84,9 @@ export default function Files() {
       onSuccess,
       onError,
     });
-  }
+  }, [onError, onSuccess]);
 
-  const filesDelete = () => {
+  const filesDelete = useCallback(() => {
     adminApi({
       method: 'post',
       url: '/files/deleteFiles',
@@ -101,7 +98,7 @@ export default function Files() {
       onError,
     });
     setModalView(false);
-  };
+  }, [onError, onSuccess, selectedFiles]);
 
   const filesDownload = () => {
     selectedFiles.map(file => fileDownload(file))
@@ -139,7 +136,7 @@ export default function Files() {
   }
 
   // File upload function
-  const fileUploadHandler = (uploadType, file) => {
+  const fileUploadHandler = useCallback((uploadType, file) => {
     const formData = new FormData();
     formData.append('filename', file.name);
     formData.append('uploadType', uploadType);
@@ -154,7 +151,7 @@ export default function Files() {
       onError,
     });
     setFileUploadModal(false);
-  }
+  }, [onError, onUploadSuccess])
 
   const tableData = data => {
     return (
@@ -227,9 +224,14 @@ export default function Files() {
       <Card className='mb-4'>
         <div className='flex justify-end gap-4'>
           <div className='flex gap-4'>
-            <TextInput id='large' type='text' sizing='md' placeholder='Search by name...' onInput={searchFiles} icon={MagnifyingGlassIcon} />
+            <TextInput id='large' type='text'
+              sizing='md' placeholder='Search by name...'
+              onInput={searchFiles} icon={MagnifyingGlassIcon}
+              onKeyUp={fetchFiles}
+            />
             <Select
               defaultValue='none'
+              onClick={fetchFiles}
               onChange={(e) => filterResults('assetType', e.target.value)}
               className='w-min:w-10'
             >
@@ -240,9 +242,10 @@ export default function Files() {
             </Select>
             <Select
               defaultValue='none'
+              onClick={fetchFiles}
               onChange={(e) => filterResults('folder', e.target.value)} >
               <option value='none' disabled>Select Folder</option>
-              <option value='thirdparty'>Third-party</option>
+              <option value='thirdparty'>Third-Party</option>
               <option value='general'>General</option>
               <option value='import'>Import</option>
               <option value='export'>Export</option>
@@ -283,7 +286,7 @@ export default function Files() {
           </Table.Head>
           <Table.Body className='divide-y'>
             {(files.items && files.items.length) > 0 ? files.items.map(item => tableData(item)) :
-              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
                 <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
               </Table.Row>
             }

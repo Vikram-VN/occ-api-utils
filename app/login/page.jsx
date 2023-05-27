@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useLoginStatus } from '../store/hooks';
 import { useRouter, usePathname } from 'next/navigation';
 import { useToasts } from '../store/hooks';
@@ -27,23 +27,24 @@ export default function Login(props) {
       status: 'success',
       message: 'You are successfully logged in..'
     });
-    setTimeout(() => {
-      router.push('/');
+    const redirect = setTimeout(() => {
+      pagePath.includes('login') && router.push('/');
       props.loginModalRef?.current();
     }, 2000);
+    return () => clearTimeout(redirect);
   }
 
   // Used to show notifications
   const onError = (error) => {
     toast.show({
       status: 'failure',
-      message: 'Login Failed'
+      message: error.message || 'Login Failed'
     });
 
   }
 
   // Updating the state based on need.
-  const stateHandler = (payload, apiResponse) => {
+  const stateHandler = useCallback((payload, apiResponse) => {
     const result = apiResponse;
     if (result.access_token) {
       return {
@@ -54,10 +55,10 @@ export default function Login(props) {
       }
     }
 
-  }
+  }, []);
 
 
-  const updateStore = (payload) => {
+  const updateStore = useCallback((payload) => {
     if (payload.instanceId) {
       return {
         key: 'occRepository',
@@ -67,7 +68,7 @@ export default function Login(props) {
         }
       }
     }
-  }
+  }, []);
 
   const submitForm = (event) => {
     event.preventDefault();
