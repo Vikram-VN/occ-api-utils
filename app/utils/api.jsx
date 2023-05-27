@@ -49,6 +49,19 @@ export const agentApi = async (request) => {
 
 };
 
+export const currentDate = (sp = '-') => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //As January is 0.
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+    return (dd + sp + mm + sp + yyyy);
+};
+
+export const currentUTCDateTime = new Date().toISOString();
+
 export const adminApiCall = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {}, responseType = 'json' } = request;
 
@@ -73,29 +86,39 @@ export const adminApiCall = async (request) => {
 
 
 export const fileDownload = async (fileLink) => {
-    const fileData = await adminApiCall({ url: 'file'.concat(fileLink) });
-    const fileName = fileLink.split('/').pop();
-    const contentType = fileData.headers['content-type'];
-    const buffer = fileData.data.content;
-    const bytes = new Uint8Array(buffer.data);
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-    link.download = fileName;
-    link.click();
-    link.remove();
+    try {
+        const fileData = await adminApiCall({ url: 'file'.concat(fileLink) });
+        const fileName = fileLink.split('/').pop();
+        const contentType = fileData.headers['content-type'];
+        const buffer = fileData.data.content;
+        const bytes = new Uint8Array(buffer.data);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+        link.download = fileName;
+        link.click();
+        link.remove();
+    } catch (e) {
+        console.log('Error occurred while downloading file: ' + e.message);
+    }
+
 };
 
 
 export const adminFileDownload = async (fileLink) => {
-    const modifiedLink = fileLink.split('admin.occa.ocs.oraclecloud.com')[1];
-    const fileData = await adminApiCall({ url: modifiedLink });
-    const fileName = fileLink.split('/').pop();
-    const contentType = fileData.headers['content-type'];
-    const buffer = fileData.data.content;
-    const bytes = new Uint8Array(buffer.data);
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-    link.download = fileName;
-    link.click();
-    link.remove();
+    try {
+        const modifiedLink = fileLink.split('admin.occa.ocs.oraclecloud.com')[1];
+        const fileData = await adminApiCall({ url: modifiedLink });
+        const fileName = fileLink.split('/').pop();
+        const contentType = fileData.headers['content-type'];
+        const buffer = fileData.data.content;
+        const bytes = new Uint8Array(buffer.data);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+        link.download = fileName;
+        link.click();
+        link.remove();
+    } catch (e) {
+        console.log('Error occurred while downloading exported file: ' + e.message);
+    }
+
 };

@@ -53,7 +53,7 @@ export const OccUtilsApp = ({ children }) => {
           stateAction: 'updateKeyValue',
           stateHandler
         })
-      }, (60 * 1000));
+      }, (1 * 60 * 1000));
       return () => clearInterval(refresh);
     }
   }, [action, isLoggedIn, router]);
