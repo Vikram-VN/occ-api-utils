@@ -30,7 +30,7 @@ export default function Organizations() {
   const filterOrganizations = debounce(async () => {
     const response = await agentApi({
       url:
-        query ? `organizations/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${pagination.limit}&offset=${newOffset}` :
+        query ? `organizations/?q=${queryFilter.field} ${queryFilter.operator} '${query}'&limit=${pagination.limit}&offset=${newOffset}` :
           `organizations/?limit=${pagination.limit}&offset=${newOffset}`
     });
     if (response.items) {
@@ -143,15 +143,15 @@ export default function Organizations() {
           }
         </Table.Body>
       </Table>
-      <div className="flex items-center justify-center text-center mt-4 h-20">
+      <div className='flex items-center justify-center text-center mt-4 h-20'>
         {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
-          layout="pagination"
+          layout='pagination'
           onPageChange={paginationHandler}
           showIcons={true}
           totalPages={pagination.totalPages}
-          previousLabel="Back"
-          nextLabel="Next"
+          previousLabel='Back'
+          nextLabel='Next'
         />}
       </div>
     </React.Fragment>

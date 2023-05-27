@@ -60,7 +60,7 @@ export default function Profiles() {
     if (query) {
 
       const response = await agentApi({
-        url: query ? `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}` :
+        url: query ? `profiles/?q=${queryFilter.field} ${queryFilter.operator} '${query}'&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}` :
           `profiles/?limit=${pagination.limit}&offset=${newOffset}`
       });
       if (response.items) {
@@ -208,15 +208,15 @@ export default function Profiles() {
           }
         </Table.Body>
       </Table>
-      <div className="flex items-center justify-center text-center mt-4 h-20">
+      <div className='flex items-center justify-center text-center mt-4 h-20'>
         {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
-          layout="pagination"
+          layout='pagination'
           onPageChange={paginationHandler}
           showIcons={true}
           totalPages={pagination.totalPages}
-          previousLabel="Back"
-          nextLabel="Next"
+          previousLabel='Back'
+          nextLabel='Next'
         />}
       </div>
     </React.Fragment>

@@ -1,6 +1,8 @@
-import { useContext, useState, useEffect, useCallback } from 'react';
+'use client';
+import { useContext, useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import { isAuthenticated, getAccessToken } from '../selector';
 import { StoreContext, ToastContext } from '../context';
+import { debounce } from '../../utils'
 import { useSelector } from 'react-redux';
 
 export const useToasts = () => useContext(ToastContext);
@@ -98,3 +100,42 @@ export const useDragging = ({
     return dragging;
 }
 
+export const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useLayoutEffect(() => {
+        const updateSize = () => {
+            setIsMobile(window.innerWidth < 768);
+        }
+
+        window.addEventListener('resize', debounce(updateSize, 250));
+        // updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, [])
+
+    return isMobile
+}
+
+export const getMobileDetect = userAgent => {
+    const isAndroid = () => Boolean(userAgent.match(/Android/i))
+    const isIos = () => Boolean(userAgent.match(/iPhone|iPad|iPod/i))
+    const isOpera = () => Boolean(userAgent.match(/Opera Mini/i))
+    const isWindows = () => Boolean(userAgent.match(/IEMobile/i))
+    const isSSR = () => Boolean(userAgent.match(/SSR/i))
+
+    const isMobile = () =>
+        Boolean(isAndroid() || isIos() || isOpera() || isWindows())
+    const isDesktop = () => Boolean(!isMobile() && !isSSR())
+    return {
+        isMobile,
+        isDesktop,
+        isAndroid,
+        isIos,
+        isSSR
+    }
+}
+export const useMobileDetect = () => {
+    const userAgent =
+        typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent
+    return getMobileDetect(userAgent)
+}

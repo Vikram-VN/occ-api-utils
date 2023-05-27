@@ -1,30 +1,24 @@
 'use client';
 import React, { useContext, useEffect } from 'react';
-import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import ToastProvider from './components/toast';
-import { useLoginStatus } from './store/hooks';
-import Login from './login/page';
-import Header from './components/header';
-import SideBar from './components/navbar';
-import Footer from './components/footer';
-import './styles/globals.css';
 import { StoreContext } from './store/context';
 import { useRouter } from 'next/navigation';
+import { useLoginStatus } from './store/hooks';
+import ToastProvider from './components/toast';
+import Login from './login/page';
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const OccUtilsApp = ({ children }) => {
+const OccUtilsApp = ({ children }) => {
 
   const router = useRouter();
-
   const { action } = useContext(StoreContext);
+
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
   const pagePath = usePathname();
   // Allowing routes without login
   const isHomePage = pagePath === '/';
   const isTools = pagePath === '/tools';
+
 
   // Calling refresh API to get the new access token
   useEffect(() => {
@@ -59,33 +53,8 @@ export const OccUtilsApp = ({ children }) => {
   }, [action, isLoggedIn, router]);
 
   return (
-    <html lang='en'>
-      <head>
-        <meta charSet='UTF-8' />
-        <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-        <link rel='icon' href='/svg/apexit/favicon.svg' sizes='32x32' />
-        <link rel='icon' href='/svg/apexit/favicon.svg' sizes='192x192' />
-        <link rel='apple-touch-icon' href='/svg/apexit/favicon.svg' />
-        <meta name='apexIT-logo' content='/svg/apexit/favicon.svg' />
-      </head>
-      <body className={inter.className}
-        suppressHydrationWarning={true}
-      >
-        <main className='grid grid-flow-row min-h-full custom-grid-flow'>
-          <Header />
-          <section className='grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white'>
-            <SideBar />
-            <section className='px-6 pt-2 relative pb-6 custom-col-span'>
-              <ToastProvider>{(isHomePage || isTools || isLoggedIn) ? children : <Login />}</ToastProvider>
-            </section>
-          </section>
-          <Footer />
-        </main>
-      </body>
-    </html>
+    <ToastProvider>{(isHomePage || isTools || isLoggedIn) ? children : <Login />}</ToastProvider>
   )
 }
-
 
 export default OccUtilsApp;

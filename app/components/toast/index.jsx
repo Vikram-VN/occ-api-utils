@@ -35,20 +35,22 @@ const ToastProvider = ({ children }) => {
 
     return (
         <ToastContext.Provider value={{ show, removeAll, remove, removeByStatus, removeByStatus }}>
-            <div id='toast-placeholder' className='block'>
-                {toasts.map(({ message, id, status, delay = 3 }) => (
-                    <Toast
-                        key={id}
-                        id={id}
-                        status={status}
-                        description={message}
-                        remove={remove}
-                        removeById={removeById}
-                        delay={delay}
-                    />
-                ))}
-            </div>
-            {children}
+            <React.Fragment>
+                <div id='toast-placeholder' className='block'>
+                    {toasts.map(({ message, id, status, delay = 3 }) => (
+                        <Toast
+                            key={id}
+                            id={id}
+                            status={status}
+                            description={message}
+                            remove={remove}
+                            removeById={removeById}
+                            delay={delay}
+                        />
+                    ))}
+                </div>
+                {children}
+            </React.Fragment>
         </ToastContext.Provider>
     )
 }
