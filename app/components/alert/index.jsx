@@ -17,7 +17,8 @@ export const success = (infoMessage, onDismiss = () => { }, link = '#') => {
                     </button>
                 </Link>
                 <button type='button' className='rounded-lg border border-green-700 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-green-700 hover:bg-green-800 hover:text-white focus:ring-4 focus:ring-green-300 dark:border-green-800 dark:text-green-800 dark:hover:text-white' onClick={onDismiss}>Dismiss</button>
-            </div></React.Fragment>
+            </div>
+        </React.Fragment>
     );
 }
 
@@ -33,7 +34,8 @@ export const warning = (infoMessage, onDismiss = () => { }, link = '#') => {
                     </button>
                 </Link>
                 <button type='button' className='rounded-lg border border-yellow-700 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-yellow-700 hover:bg-yellow-800 hover:text-white focus:ring-4 focus:ring-yellow-300 dark:border-yellow-800 dark:text-yellow-800 dark:hover:text-white' onClick={onDismiss}>Dismiss</button>
-            </div></React.Fragment>
+            </div>
+        </React.Fragment>
     );
 }
 
@@ -49,7 +51,8 @@ export const failure = (infoMessage, onDismiss = () => { }, link = '#') => {
                     </button>
                 </Link>
                 <button type='button' className='rounded-lg border border-red-700 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-red-700 hover:bg-red-800 hover:text-white focus:ring-4 focus:ring-red-300 dark:border-red-800 dark:text-red-800 dark:hover:text-white' onClick={onDismiss}>Dismiss</button>
-            </div></React.Fragment>
+            </div>
+        </React.Fragment>
     );
 }
 
@@ -66,7 +69,8 @@ export const info = (infoMessage, onDismiss = () => { }, link = '#') => {
                     </button>
                 </Link>
                 <button type='button' className='rounded-lg border border-blue-700 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:ring-blue-300 dark:border-blue-800 dark:text-blue-800 dark:hover:text-white' onClick={onDismiss}>Dismiss</button>
-            </div></React.Fragment>
+            </div>
+        </React.Fragment>
     );
 }
 
