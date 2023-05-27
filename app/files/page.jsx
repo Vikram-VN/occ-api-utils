@@ -150,8 +150,9 @@ export default function Files() {
       onSuccess: onUploadSuccess,
       onError,
     });
+    fetchFiles();
     setFileUploadModal(false);
-  }, [onError, onUploadSuccess])
+  }, [fetchFiles, onError, onUploadSuccess])
 
   const tableData = data => {
     return (
