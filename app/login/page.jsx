@@ -27,17 +27,18 @@ export default function Login(props) {
       status: 'success',
       message: 'You are successfully logged in..'
     });
-    setTimeout(() => {
-      router.push('/');
+    const redirect = setTimeout(() => {
+      pagePath.includes('login') && router.push('/');
       props.loginModalRef?.current();
     }, 2000);
+    return () => clearTimeout(redirect);
   }
 
   // Used to show notifications
   const onError = (error) => {
     toast.show({
       status: 'failure',
-      message: 'Login Failed'
+      message: error.message || 'Login Failed'
     });
 
   }
