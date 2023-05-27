@@ -1,6 +1,6 @@
 'use client';
-import { Button, Card, Checkbox, Select, Spinner } from 'flowbite-react';
-import React, { useEffect, useState } from 'react';
+import { Button, Card, Checkbox, Label, Select, Spinner, TextInput } from 'flowbite-react';
+import React, { useCallback, useEffect, useState } from 'react';
 import adminApi, { adminFileDownload } from '../utils/api';
 import { CloudArrowDownIcon, StopCircleIcon } from '@heroicons/react/24/solid';
 import { useToasts } from '../store/hooks';
@@ -11,6 +11,7 @@ export default function Export() {
   const [exportList, setExportList] = useState({});
   const [multiExportList, setMultiExportList] = useState({});
   const [exportItems, setExportItems] = useState([]);
+  const [bundleExport, setBundleExport] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -36,15 +37,15 @@ export default function Export() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const exportItemsHandler = (isSelected, itemName) => {
+  const exportItemsHandler = useCallback((isSelected, id) => {
     if (isSelected) {
-      setExportItems([...exportItems, itemName]);
+      setExportItems([...exportItems, id]);
     } else {
-      const itemIdex = exportItems.indexOf(itemName);
+      const itemIdex = exportItems.indexOf(id);
       itemIdex >= 0 && exportItems.splice(itemIdex, 1);
       setExportItems([...exportItems]);
     }
-  }
+  }, [exportItems]);
 
   // Running process check for export items
   useEffect(() => {
@@ -54,23 +55,51 @@ export default function Export() {
         method: 'get'
       });
       if (response.completed) {
-        setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href, processId: '' } });
+        response.links[1].rel === 'file' &&
+          setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: response.links[1].href, processId: '' } });
       }
     }
 
-    const exportStatus = Object.keys(multiExportList).length > 0 && setInterval(() => {
-      Object.keys(multiExportList).forEach(async key => {
-        const token = multiExportList[key].processId;
-        if (token) {
-          exportStatusCheck(key, token);
-        }
-      })
-    }, (1000 * 30));
+    const exportStatus = Object.keys(multiExportList)
+      .map(key => multiExportList[key].processId).length > 0
+      && setInterval(() => {
+        Object.keys(multiExportList)
+          .forEach(async key => {
+            const token = multiExportList[key].processId;
+            if (token) {
+              exportStatusCheck(key, token);
+            }
+          })
+      }, (1000 * 10));
     return () => clearInterval(exportStatus);
   }, [multiExportList]);
 
+
+  // Bundle export 
+  useEffect(() => {
+    const exportStatusCheck = async (processId) => {
+      const response = await adminApi({
+        url: `exportProcess/${processId}`,
+        method: 'get'
+      });
+      if (response.completed) {
+        response.links[1].rel === 'file' &&
+          setBundleExport({ ...bundleExport, downloadLink: response.links[1].href, processId: '' });
+      }
+    }
+
+    const exportStatus = bundleExport.processId
+      && setInterval(() => {
+        const token = bundleExport.processId;
+        exportStatusCheck(token);
+      }
+        , (1000 * 10));
+    return () => clearInterval(exportStatus);
+  }, [bundleExport]);
+
+
   // Stopping export process
-  const stopProcess = async (id, processId) => {
+  const stopProcess = useCallback(async (processId, id = '') => {
     const response = await adminApi({
       url: `exportProcess/${processId}/abort`,
       method: 'post'
@@ -80,25 +109,32 @@ export default function Export() {
         status: 'success',
         message: 'Export process stopped successfully'
       });
-      delete multiExportList[id].processId
-      setMultiExportList({ ...multiExportList });
+
+      id ? setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], processId: '' } }) :
+        setBundleExport({ ...bundleExport, processId: '' });
+
     } else {
       toast.show({
         status: 'failure',
-        message: response.message
+        message: response.message || 'Something went wrong while trying to stop export'
       });
     }
-  }
+  }, [bundleExport, multiExportList, toast]);
 
-  const exportHandler = async id => {
+  const exportHandler = useCallback(async id => {
+    setMultiExportList({ ...multiExportList, [id]: { ...multiExportList[id], downloadLink: '' } });
     const response = await adminApi({
       url: `exportProcess`,
       method: 'post',
       data: {
+        id,
+        mode: 'standalone',
         fileName: `export${id}.${multiExportList[id]?.format.toLowerCase()}`,
         format: multiExportList[id]?.format,
-        id,
-        mode: 'standalone'
+        params: {
+          q: multiExportList[id]?.query,
+          headersList: multiExportList[id]?.headersList || "All"
+        }
       }
     });
     if (response.processId) {
@@ -110,10 +146,45 @@ export default function Export() {
     } else {
       toast.show({
         status: 'failure',
-        message: response.message || 'Something went wrong while fetching results'
+        message: response.message || 'Something went wrong while fetching export process status'
       });
     }
-  }
+  }, [multiExportList, toast]);
+
+  const bulkExportHandler = useCallback(async () => {
+    setBundleExport({ ...bundleExport, downloadLink: '' });
+    const currentUTCDateTime = new Date().toISOString();
+    const response = await adminApi({
+      url: `exportProcess`,
+      method: 'post',
+      data: {
+        mode: 'bundle',
+        fileName: `exportItems_${currentUTCDateTime}.zip`,
+        items: exportItems.map(item => {
+          return {
+            id: item,
+            format: multiExportList[item].format,
+            params: {
+              q: multiExportList[item]?.query,
+              headersList: multiExportList[item]?.headersList || "All"
+            }
+          }
+        })
+      }
+    });
+    if (response.processId) {
+      toast.show({
+        status: 'success',
+        message: 'Export process started'
+      });
+      setBundleExport({ ...bundleExport, processId: response.processId });
+    } else {
+      toast.show({
+        status: 'failure',
+        message: response.message || 'Something went wrong while fetching export process status'
+      });
+    }
+  }, [bundleExport, exportItems, multiExportList, toast]);
 
   return (
     <React.Fragment>
@@ -123,7 +194,20 @@ export default function Export() {
             <h1 className='mb-2 text-4xl text-justify bold '>Export</h1>
             <p>Export items from the server.</p>
           </div>
-          <Button type='button' disabled={!(exportItems.length > 1)}>Export Items</Button>
+          <div className='block w-full'>
+            <div className='flex gap-4 items-center justify-end'>
+              {bundleExport?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(bundleExport?.processId)} />}
+              {bundleExport?.processId && <Spinner title='Bulk export is started' />}
+              {bundleExport?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8 cursor-pointer' onClick={() => adminFileDownload(bundleExport?.downloadLink)} />}
+            </div>
+            <Button type='button'
+              className='w-full mt-4'
+              disabled={!(exportItems.length > 1)}
+              onClick={bulkExportHandler}
+            >
+              Export Items
+            </Button>
+          </div>
         </div>
       </Card>
       <div className='grid gap-4 sm:grid-cols-1 md:grid-cols-2'>
@@ -140,8 +224,8 @@ export default function Export() {
                     <h1 className='text-bold text-2xl'>{item.typeName}</h1>
                   </div>
                   <div className='flex gap-4 items-center'>
-                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(item.id, multiExportList[item.id]?.processId)} />}
-                    {multiExportList[item.id]?.processId && <Spinner aria-label="Export started" />}
+                    {multiExportList[item.id]?.processId && <StopCircleIcon title='Stop export' className='w-8 h-8 cursor-pointer' onClick={() => stopProcess(multiExportList[item.id]?.processId, item.id)} />}
+                    {multiExportList[item.id]?.processId && <Spinner title='Export is started' />}
                     {multiExportList[item.id]?.downloadLink && <CloudArrowDownIcon title='Download exported file' className='w-8 h-8 cursor-pointer' onClick={() => adminFileDownload(multiExportList[item.id]?.downloadLink)} />}
                   </div>
                 </div>
@@ -157,6 +241,30 @@ export default function Export() {
                     </Select>
                   }
                   <Button type='button' onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId}>{`Export ${item.id}`}</Button>
+                </div>
+                <div className='w-full m-auto'>
+                  <div className='mb-2 block'>
+                    <Label
+                      value='Query Filter (Optional)'
+                    />
+                  </div>
+                  <TextInput type='text'
+                    placeholder='Ex: email ne null and active eq true'
+                    name='query'
+                    onInput={(e) => setMultiExportList({ ...multiExportList, [item.id]: { ...multiExportList[item.id], query: e.target.value } })}
+                  />
+                </div>
+                <div className='w-full m-auto'>
+                  <div className='mb-2 block'>
+                    <Label
+                      value='Headers List (Optional)'
+                    />
+                  </div>
+                  <TextInput type='text'
+                    name='headersList'
+                    placeholder='Ex: id,name,email,active,members,shippingAddress,BillingAddress'
+                    onInput={(e) => setMultiExportList({ ...multiExportList, [item.id]: { ...multiExportList[item.id], headersList: e.target.value } })}
+                  />
                 </div>
               </Card>
             )

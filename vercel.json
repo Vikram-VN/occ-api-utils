@@ -1,0 +1,16 @@
+{
+    "functions": {
+        "app/ccadmin/[...v1]/route.js": {
+            "maxDuration": 10
+        },
+        "app/agent/[...v1]/route.js": {
+            "maxDuration": 10
+        },
+        "app/adminfile/[...id]/route.js": {
+            "maxDuration": 10
+        },
+        "app/file/[...id]/route.js": {
+            "maxDuration": 10
+        }
+    }
+}

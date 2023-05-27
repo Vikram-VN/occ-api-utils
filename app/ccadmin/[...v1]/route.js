@@ -41,7 +41,7 @@ export async function GET(request) {
     return NextResponse.json(adminApi.data, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
@@ -81,7 +81,7 @@ export async function POST(request) {
     return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
@@ -120,7 +120,7 @@ export async function PUT(request) {
     return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
@@ -159,7 +159,7 @@ export async function DELETE(request) {
     return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
@@ -198,7 +198,7 @@ export async function PATCH(request) {
     return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
