@@ -53,7 +53,10 @@ const OccUtilsApp = ({ children }) => {
   }, [action, isLoggedIn, router]);
 
   return (
-    <ToastProvider>{(isHomePage || isTools || isLoggedIn) ? children : <Login />}</ToastProvider>
+    <ToastProvider>
+    {/* children remove issue has to fix  */}
+      {(isHomePage || isTools || isLoggedIn) ? children : <Login />}
+    </ToastProvider>
   )
 }
 
