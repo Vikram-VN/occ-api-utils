@@ -60,7 +60,8 @@ export default function Profiles() {
     if (query) {
 
       const response = await agentApi({
-        url: `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
+        url: query ? `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}` :
+          `profiles/?limit=${pagination.limit}&offset=${newOffset}`
       });
       if (response.items) {
         setResponse(response);

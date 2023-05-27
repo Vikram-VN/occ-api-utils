@@ -29,7 +29,9 @@ export default function Organizations() {
 
   const filterOrganizations = debounce(async () => {
     const response = await agentApi({
-      url: `organizations/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${pagination.limit}&offset=${newOffset}`
+      url:
+        query ? `organizations/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&limit=${pagination.limit}&offset=${newOffset}` :
+          `organizations/?limit=${pagination.limit}&offset=${newOffset}`
     });
     if (response.items) {
       setResponse(response);

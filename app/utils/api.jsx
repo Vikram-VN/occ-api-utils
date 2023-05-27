@@ -86,29 +86,39 @@ export const adminApiCall = async (request) => {
 
 
 export const fileDownload = async (fileLink) => {
-    const fileData = await adminApiCall({ url: 'file'.concat(fileLink) });
-    const fileName = fileLink.split('/').pop();
-    const contentType = fileData.headers['content-type'];
-    const buffer = fileData.data.content;
-    const bytes = new Uint8Array(buffer.data);
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-    link.download = fileName;
-    link.click();
-    link.remove();
+    try {
+        const fileData = await adminApiCall({ url: 'file'.concat(fileLink) });
+        const fileName = fileLink.split('/').pop();
+        const contentType = fileData.headers['content-type'];
+        const buffer = fileData.data.content;
+        const bytes = new Uint8Array(buffer.data);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+        link.download = fileName;
+        link.click();
+        link.remove();
+    } catch (e) {
+        console.log('Error occurred while downloading file: ' + e.message);
+    }
+
 };
 
 
 export const adminFileDownload = async (fileLink) => {
-    const modifiedLink = fileLink.split('admin.occa.ocs.oraclecloud.com')[1];
-    const fileData = await adminApiCall({ url: modifiedLink });
-    const fileName = fileLink.split('/').pop();
-    const contentType = fileData.headers['content-type'];
-    const buffer = fileData.data.content;
-    const bytes = new Uint8Array(buffer.data);
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-    link.download = fileName;
-    link.click();
-    link.remove();
+    try {
+        const modifiedLink = fileLink.split('admin.occa.ocs.oraclecloud.com')[1];
+        const fileData = await adminApiCall({ url: modifiedLink });
+        const fileName = fileLink.split('/').pop();
+        const contentType = fileData.headers['content-type'];
+        const buffer = fileData.data.content;
+        const bytes = new Uint8Array(buffer.data);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+        link.download = fileName;
+        link.click();
+        link.remove();
+    } catch (e) {
+        console.log('Error occurred while downloading exported file: ' + e.message);
+    }
+
 };

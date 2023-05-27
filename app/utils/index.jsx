@@ -396,3 +396,137 @@ export const loginValidation = (data, setError, checkDetails) => {
 
   return true;
 }
+
+export const getCookie = (cookies, key) => {
+  if (!cookies || !key) {
+    return;
+  }
+
+  return cookies
+    .trim()
+    .split(/; */)
+    .find(cookie => new RegExp(`^${key}=`).test(cookie));
+};
+
+export const getCookieValue = (cookies, key) => {
+  const cookie = getCookie(cookies, key);
+
+  if (cookie) {
+    return decodeURIComponent(cookie.replace(new RegExp(`^${key}=`), '').trim());
+  }
+};
+
+const splitSetCookieString = cookies => {
+  if (typeof cookies !== 'string') return [];
+
+  let start = 0,
+    curPos = 0,
+    lastComma = -1,
+    nextStart = 0,
+    cookiesSeparatorFound = false;
+  const listOfCookie = [];
+  const cookiesLength = cookies.length;
+
+  const skipWhiteSpaces = () => {
+    while (curPos < cookiesLength && /\s/.test(cookies.charAt(curPos))) {
+      curPos += 1;
+    }
+
+    return curPos < cookiesLength;
+  };
+
+  const isSpecialCharacter = char => {
+    return char === '=' || char === ',';
+  };
+
+  while (skipWhiteSpaces()) {
+    if (cookies.charAt(curPos) === ',') {
+      //look for a next = to mark the start of next cookie
+      lastComma = curPos;
+      curPos += 1;
+      skipWhiteSpaces();
+      nextStart = curPos;
+      while (curPos < cookiesLength && !isSpecialCharacter(cookies.charAt(curPos))) {
+        curPos += 1;
+      }
+      if (curPos < cookiesLength && cookies.charAt(curPos) === '=') {
+        cookiesSeparatorFound = true;
+        listOfCookie.push(cookies.substring(start, lastComma));
+        start = nextStart;
+      }
+    } else {
+      curPos += 1;
+    }
+  }
+  if (!cookiesSeparatorFound || curPos >= cookiesLength) {
+    listOfCookie.push(cookies.substring(start, cookiesLength));
+  }
+
+  return listOfCookie;
+};
+
+export const getCookieFromSetCookieHeader = (cookieHeader, key) => {
+  if (!cookieHeader || !key) {
+    return;
+  }
+
+  const listOfCookies = splitSetCookieString(cookieHeader);
+
+  return listOfCookies.find(cookie => new RegExp(`^${key}=`).test(cookie));
+};
+
+export const getValueFromSetCookieHeader = (cookieHeader, key) => {
+  const cookie = getCookieFromSetCookieHeader(cookieHeader, key);
+
+  return getCookieValue(cookie, key);
+};
+
+export const squeeze = (text, keep = 10) => {
+  if (!text || typeof text !== 'string') {
+    return text;
+  }
+  let output = '';
+  keep = parseInt(keep, 10);
+  if (keep < 0) {
+    return output;
+  }
+
+  if (text.length <= keep) {
+    output = text;
+  } else if (text.length > keep && text.length < 2 * keep) {
+    output = `${text.substring(0, keep)}${'...'}`;
+  } else if (text.length === 2 * keep) {
+    output = text;
+  } else if (text.length > 2 * keep) {
+    output = `${text.substring(0, keep)}...${text.substring(text.length - keep)}`;
+  }
+
+  return output;
+}
+
+export const splitMultiWordIdentifier = (text) => {
+  return text.trim().match(/^[a-z]+|[a-z]+|[A-Z][a-z]+|\d+|[A-Z]+(?![a-z])/g);
+}
+
+export const dashCase = (text) => {
+  if (!text || typeof text !== 'string' || !text.trim()) {
+    return;
+  }
+
+  const matches = splitMultiWordIdentifier(text);
+
+  return matches.map(word => word.toLowerCase()).join('-');
+}
+
+export const camelCase = (text) => {
+  const capitalize = s => s[0].toUpperCase() + s.slice(1);
+
+  if (!text || typeof text !== 'string' || !text.trim()) {
+    return;
+  }
+
+  const matches = splitMultiWordIdentifier(text);
+  const capitalizedString = matches.map(word => capitalize(word)).join('');
+
+  return capitalizedString[0].toLowerCase() + capitalizedString.slice(1);
+}
