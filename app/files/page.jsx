@@ -84,7 +84,8 @@ export default function Files() {
       onSuccess,
       onError,
     });
-  }, [onError, onSuccess]);
+    fetchFiles();
+  }, [fetchFiles, onError, onSuccess]);
 
   const filesDelete = useCallback(() => {
     adminApi({
@@ -98,7 +99,8 @@ export default function Files() {
       onError,
     });
     setModalView(false);
-  }, [onError, onSuccess, selectedFiles]);
+    fetchFiles();
+  }, [fetchFiles, onError, onSuccess, selectedFiles]);
 
   const filesDownload = () => {
     selectedFiles.map(file => fileDownload(file))
