@@ -6,7 +6,7 @@ import { StoreContext } from '../../store/context';
 import { useLoginStatus } from '../../store/hooks';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import ApexitLogo from '../logo';
+import AppLogo from '../logo';
 import './styles.css';
 import Modal from '../modal';
 import Login from '../../login/page';
@@ -37,7 +37,7 @@ const Header = () => {
         <div className='flex flex-wrap justify-between items-center'>
           <div className='CAU__FlexBox'>
             <Link href='/' className='flex items-center dark:text-white'>
-              <ApexitLogo />
+              <AppLogo />
             </Link>
             <h1 className='text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText'>Commerce API Utils</h1>
           </div>

@@ -7,6 +7,7 @@ import { StoreContext } from '../store/context';
 import { formToJson } from '../utils';
 import { TextInput, Button, Label } from 'flowbite-react';
 import { KeyIcon, WindowIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 
 export default function Login(props) {
 
@@ -97,7 +98,7 @@ export default function Login(props) {
     <form onSubmit={submitForm} className='block'>
       <section className='m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg'>
         <div className='w-3/1 flex m-auto mb-4 lg:mb-0'>
-          <img src='/media/apexian.jpg' className='rounded' alt='apexit banner' />
+          <Image src='/media/apexit/apexian.jpg' className='rounded w-full' alt='apexit banner' width={100} height={100}/>
         </div>
         <div className='w-full m-auto'>
           <div className='mb-2 block'>
