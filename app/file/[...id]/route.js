@@ -42,7 +42,7 @@ export async function GET(request) {
     return NextResponse.json({ content: storeApi.data }, { status: storeApi.data.statusCode, headers: newHeaders });
 
   } catch (error) {
-    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: error.response?.status })
+    return NextResponse.json(error.response?.data || { errorCode: '02', message: `${error.message}.` }, { status: 400 })
   }
 
 }
