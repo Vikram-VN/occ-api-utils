@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { agentApi } from '../utils/api';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useToasts } from '../store/hooks';
 import { Card, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
 import { debounce } from '../utils';
 
 export default function Organizations() {

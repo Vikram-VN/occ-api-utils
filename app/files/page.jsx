@@ -1,13 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useToasts } from '../store/hooks';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
 import { debounce, formatBytes, formatDate } from '../utils';
 import FileUpload from '../components/file';
 import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import adminApi, { fileDownload } from '../utils/api';
-import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
 export default function Files() {

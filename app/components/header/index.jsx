@@ -4,12 +4,11 @@ import React, { useRef, useContext } from 'react';
 import Link from 'next/link';
 import { StoreContext } from '../../store/context';
 import { useLoginStatus } from '../../store/hooks';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import AppLogo from '../logo';
-import './styles.css';
 import Modal from '../modal';
 import Login from '../../login/page';
+import './styles.css';
 
 const Header = ({ children }) => {
 

@@ -1,11 +1,10 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import { agentApi } from '../utils/api';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useToasts } from '../store/hooks';
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from 'flowbite-react';
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
 import { debounce } from '../utils';
 
 export default function Profiles() {

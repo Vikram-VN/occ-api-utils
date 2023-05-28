@@ -2,12 +2,16 @@
 import React, { useContext, useEffect } from 'react';
 import { StoreContext } from './store/context';
 import { useLoginStatus } from './store/hooks';
-import { deleteCookie } from './utils';
+import { usePathname } from 'next/navigation';
 import ToastProvider from './components/toast';
+import Login from './login/page';
 
-const OccUtilsApp = ({ children }) => {
+const OccUtilsApp = (props) => {
 
   const { action } = useContext(StoreContext);
+  const currentPath = usePathname();
+
+  const publicRoutes = ['/', '/login', 'tools'];
 
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
@@ -38,14 +42,14 @@ const OccUtilsApp = ({ children }) => {
       }, (1 * 60 * 1000));
       return () => clearInterval(refresh);
     }
-    else {
-      deleteCookie('X-InstanceId');
-    }
+    
   }, [action, isLoggedIn]);
+
+  const component = (isLoggedIn || publicRoutes.includes(currentPath)) ? props.children : <Login />;
 
   return (
     <ToastProvider>
-      {children}
+      {component}
     </ToastProvider>
   )
 }

@@ -7,7 +7,6 @@ import { StoreContext } from '../store/context';
 import { formToJson } from '../utils';
 import { TextInput, Button, Label } from 'flowbite-react';
 import { KeyIcon, WindowIcon } from '@heroicons/react/24/solid';
-import { setCookie } from '../utils';
 import Image from 'next/image';
 
 export default function Login(props) {
@@ -76,8 +75,6 @@ export default function Login(props) {
     event.preventDefault();
     const formData = event.target;
     const payload = formToJson(formData);
-
-    setCookie('X-InstanceId', payload.instanceId);
 
     // Adding instance and token fields to redux store
     action('stateUpdate', { stateHandler: updateStore, data: payload });
