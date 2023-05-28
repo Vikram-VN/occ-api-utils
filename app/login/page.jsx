@@ -77,7 +77,7 @@ export default function Login(props) {
     const formData = event.target;
     const payload = formToJson(formData);
 
-    setCookie('X-InstanceId', payload.instanceId)
+    setCookie('X-InstanceId', payload.instanceId);
 
     // Adding instance and token fields to redux store
     action('stateUpdate', { stateHandler: updateStore, data: payload });
