@@ -18,7 +18,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout(props) {
 
-  const theme = cookies().get('cctheme')?.value;
+  const theme = cookies().get('occTheme')?.value;
 
   const { children } = props;
 

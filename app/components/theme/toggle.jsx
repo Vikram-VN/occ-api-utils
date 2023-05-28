@@ -9,7 +9,7 @@ const ThemeToggle = () => {
     light: 'light'
   }
 
-  const theme = cookies().get("cctheme")?.value === "dark" ? Theme.dark : Theme.light;
+  const theme = cookies().get("occTheme")?.value === "dark" ? Theme.dark : Theme.light;
 
   return (
     <ThemeSwitcher theme={theme} />
