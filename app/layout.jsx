@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import Header from './components/header';
 import SideBar from './components/navbar'
 import Footer from './components/footer';
-import ThemeToggle from './components/header/toggle';
+import ThemeToggle from './components/theme/toggle';
 import OccUtilsApp from './app';
 import { cookies } from 'next/headers';
 import './styles/globals.css';

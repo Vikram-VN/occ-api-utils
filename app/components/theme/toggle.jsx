@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeSwitcher } from '../theme';
+import { ThemeSwitcher } from '.';
 import { cookies } from 'next/headers';
 
 const ThemeToggle = () => {

@@ -50,7 +50,7 @@ const Header = ({ children }) => {
       </nav>
       <input name='logout-modal' type='text' id='user-logout' className='hidden' onClick={clearReduxState} />
       {!loginPath && <Modal title={'OCC Login'} loginModalRef={loginModalRef}>
-        <Login loginModalRef={loginModalRef} />
+          <Login loginModalRef={loginModalRef} />
       </Modal>}
     </header>
   )

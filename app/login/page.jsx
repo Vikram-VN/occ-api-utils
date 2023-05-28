@@ -95,29 +95,31 @@ export default function Login(props) {
   }
 
   return (
-    <form onSubmit={submitForm} className='block'>
-      <section className='m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg'>
-        <div className='w-3/1 flex m-auto mb-4 lg:mb-0'>
-          <Image src='/media/apexit/apexian.jpg' className='rounded w-full' alt='apexit banner' width={100} height={100}/>
-        </div>
-        <div className='w-full m-auto'>
-          <div className='mb-2 block'>
-            <Label
-              htmlFor='instanceId'
-              value='Instance Id'
-            />
+    <div id='login-form'>
+      <form onSubmit={submitForm} className='block'>
+        <section className='m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg'>
+          <div className='w-3/1 flex m-auto mb-4 lg:mb-0'>
+            <Image src='/media/apexit/apexian.jpg' className='rounded w-full' alt='apexit banner' width={100} height={100} />
           </div>
-          <TextInput type='text' id='instanceId' className='mb-2' name='instanceId' required placeholder='Ex: p1234567890dev' icon={WindowIcon} />
-          <div className='mb-2 block mt-4'>
-            <Label
-              htmlFor='token'
-              value='App Key'
-            />
+          <div className='w-full m-auto'>
+            <div className='mb-2 block'>
+              <Label
+                htmlFor='instanceId'
+                value='Instance Id'
+              />
+            </div>
+            <TextInput type='text' id='instanceId' className='mb-2' name='instanceId' required placeholder='Ex: p1234567890dev' icon={WindowIcon} />
+            <div className='mb-2 block mt-4'>
+              <Label
+                htmlFor='token'
+                value='App Key'
+              />
+            </div>
+            <TextInput type='text' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
+            <Button className='mt-10 m-auto w-2/6' value='sign-in' type='submit'>Sign in </Button>
           </div>
-          <TextInput type='text' id='token' className='block' name='accessToken' required autoComplete='off' placeholder='Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==' icon={KeyIcon} />
-          <Button className='mt-10 m-auto w-2/6' value='sign-in' type='submit'>Sign in </Button>
-        </div>
-      </section>
-    </form>
+        </section>
+      </form>
+    </div>
   )
 }

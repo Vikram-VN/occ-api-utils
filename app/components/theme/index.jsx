@@ -25,9 +25,9 @@ export const ThemeSwitcher = ({ theme }) => {
     return (
         <button onClick={toggleTheme}>
             {_theme == Theme.dark ? (
-                <SunIcon className='h-8 w-8 text-yellow-300' />
+                <SunIcon className='h-12 w-12 text-yellow-300 cursor-pointer dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 rounded-lg mr-2 p-2' />
             ) : (
-                <MoonIcon className='h-8 w-8 text-slate-600' />
+                <MoonIcon className='h-12 w-12 text-slate-600 cursor-pointer font-medium rounded-lg hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 focus:outline-none mr-2 p-2' />
             )}
         </button>
     )

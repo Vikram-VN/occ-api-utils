@@ -1,8 +1,7 @@
 'use client';
 import React, { useContext, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { StoreContext } from './store/context';
-import { useRouter } from 'next/navigation';
 import { useLoginStatus } from './store/hooks';
 import ToastProvider from './components/toast';
 import Login from './login/page';
@@ -32,8 +31,6 @@ const OccUtilsApp = ({ children }) => {
             accessToken: result.access_token
           }
         }
-      } else {
-        router.push('/login');
       }
 
     }
@@ -54,8 +51,7 @@ const OccUtilsApp = ({ children }) => {
 
   return (
     <ToastProvider>
-    {/* children remove issue has to fix  */}
-      {(isHomePage || isTools || isLoggedIn) ? children : <Login />}
+      {(isHomePage || isTools || isLoggedIn) ? children : children}
     </ToastProvider>
   )
 }
