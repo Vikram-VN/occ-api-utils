@@ -18,14 +18,14 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout(props) {
 
-  const theme = cookies().get('occTheme');
+  const theme = cookies().get('cctheme')?.value;
 
   const { children } = props;
 
   return (
     <StoreProvider>
       <OccUtilsApp>
-        <html lang='en' className={theme?.value}>
+        <html lang='en' className={theme}>
           <head>
             <meta charSet='UTF-8' />
             <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
