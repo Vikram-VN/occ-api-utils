@@ -11,7 +11,7 @@ const OccUtilsApp = (props) => {
   const { action } = useContext(StoreContext);
   const currentPath = usePathname();
 
-  const publicRoutes = ['/', '/login', 'tools'];
+  const publicRoutes = ['/', '/login', '/tools'];
 
   // Rendering children's conditionally
   const isLoggedIn = useLoginStatus();
