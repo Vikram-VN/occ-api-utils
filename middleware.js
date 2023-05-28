@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
-  const isLoggedIn = request.cookies.get('X-InstanceId')?.value;
+  const isLoggedIn = request.cookies.get('X-InstanceId')?.value || request.cookies.get('JSESSIONID')?.value;
   if (!isLoggedIn) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
