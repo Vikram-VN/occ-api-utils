@@ -2,7 +2,6 @@
 import React, { useContext, useEffect } from 'react';
 import { StoreContext } from './store/context';
 import { useLoginStatus } from './store/hooks';
-import { deleteCookie } from './utils';
 import ToastProvider from './components/toast';
 
 const OccUtilsApp = ({ children }) => {
@@ -37,9 +36,6 @@ const OccUtilsApp = ({ children }) => {
         })
       }, (1 * 60 * 1000));
       return () => clearInterval(refresh);
-    }
-    else {
-      deleteCookie('X-InstanceId');
     }
   }, [action, isLoggedIn]);
 
