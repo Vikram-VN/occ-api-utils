@@ -6,11 +6,12 @@ import { store } from '../store'
 const adminApi = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {} } = request;
 
+    const instanceId = getInstanceId(store.getState());
     const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
 
-    const customHeaders = { ...headers, 'Authorization': `Bearer ${accessToken}` };
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
 
-    const newHeaders = accessToken ? customHeaders : headers;
+    const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
 
     return axios.request({ url: '/ccadmin/v1/'.concat(url), data, method, headers: newHeaders })
         .then(res => {
@@ -29,11 +30,12 @@ export default adminApi;
 export const agentApi = async (request) => {
     const { method = 'get', url, data, showNotification = false, onSuccess = noop, onError = noop, headers = {} } = request;
 
+    const instanceId = getInstanceId(store.getState());
     const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
 
-    const customHeaders = { ...headers, 'Authorization': `Bearer ${accessToken}` };
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
 
-    const newHeaders = accessToken ? customHeaders : headers;
+    const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
 
     return axios.request({ url: '/ccagent/v1/'.concat(url), data, method, headers: newHeaders })
         .then(res => {
@@ -66,9 +68,9 @@ export const adminApiCall = async (request) => {
     const instanceId = getInstanceId(store.getState());
     const accessToken = url.includes('login') ? getAppKey(store.getState()) : getAccessToken(store.getState());
 
-    const customHeaders = { ...headers, 'Authorization': `Bearer ${accessToken}` };
+    const customHeaders = { ...headers, 'X-InstanceId': instanceId, 'Authorization': `Bearer ${accessToken}` };
 
-    const newHeaders = accessToken ? customHeaders : headers;
+    const newHeaders = (instanceId && accessToken) ? customHeaders : headers;
 
     return axios.request({ url: url, data, method, headers: newHeaders, responseType })
         .then(res => {
