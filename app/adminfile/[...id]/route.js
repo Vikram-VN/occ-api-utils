@@ -14,7 +14,7 @@ export async function GET(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const hostId = request.headers.get('X-InstanceId');
+    const hostId = request.cookies.get('X-InstanceId')?.value;
 
     if(!hostId){
       return NextResponse.json({ errorCode: '01', message: `X-InstanceId header is missing in the request.` }, { status: 400 })

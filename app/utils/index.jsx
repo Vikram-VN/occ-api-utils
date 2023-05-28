@@ -530,3 +530,10 @@ export const camelCase = (text) => {
 
   return capitalizedString[0].toLowerCase() + capitalizedString.slice(1);
 }
+
+export const setCookie = (cookieName, cookieValue) => {
+  document.cookie = cookieName +'='+ cookieValue +'; Path=/;';
+}
+export const deleteCookie = (cookieName) => {
+  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
