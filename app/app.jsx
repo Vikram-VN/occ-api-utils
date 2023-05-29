@@ -1,19 +1,19 @@
-'use client';
-import React, { useContext, useEffect } from 'react';
-import { StoreContext } from './store/context';
-import { useLoginStatus } from './store/hooks';
-import { usePathname } from 'next/navigation';
-import ToastProvider from './components/toast';
-import Login from './login/page';
+"use client";
+import React, { useContext, useEffect } from "react";
+import { StoreContext } from "./store/context";
+import { useLoginStatus } from "./store/hooks";
+import { usePathname } from "next/navigation";
+import ToastProvider from "./components/toast";
+import Login from "./login/page";
 
 const OccUtilsApp = (props) => {
 
   const { action } = useContext(StoreContext);
   const currentPath = usePathname();
 
-  const publicRoutes = ['/', '/login', '/tools'];
+  const publicRoutes = ["/", "/login", "/tools"];
 
-  // Rendering children's conditionally
+  // Rendering children"s conditionally
   const isLoggedIn = useLoginStatus();
 
   // Calling refresh API to get the new access token
@@ -22,9 +22,9 @@ const OccUtilsApp = (props) => {
     const stateHandler = (payload, apiResponse) => {
       const result = apiResponse;
       return {
-        key: 'occRepository',
+        key: "occRepository",
         value: {
-          accessToken: result?.access_token || ''
+          accessToken: result?.access_token || ""
         }
       }
 
@@ -32,11 +32,11 @@ const OccUtilsApp = (props) => {
 
     if (isLoggedIn) {
       const refresh = setInterval(() => {
-        action('adminApiCall', {
-          method: 'post',
-          url: 'refresh',
+        action("adminApiCall", {
+          method: "post",
+          url: "refresh",
           data: {},
-          stateAction: 'updateKeyValue',
+          stateAction: "updateKeyValue",
           stateHandler
         })
       }, (1 * 60 * 1000));

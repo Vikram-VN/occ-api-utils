@@ -1,11 +1,11 @@
-'use client';
-import React, { useState, useCallback } from 'react';
-import { Pagination, Table, TextInput } from 'flowbite-react';
-import { useSearchParams } from 'next/navigation';
-import { getDeployments } from '../store/selector';
-import { formatDate, debounce } from '../utils';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import adminApi from '../utils/api';
+"use client";
+import React, { useState, useCallback } from "react";
+import { Pagination, Table, TextInput } from "flowbite-react";
+import { useSearchParams } from "next/navigation";
+import { getDeployments } from "../store/selector";
+import { formatDate, debounce } from "../utils";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import adminApi from "../utils/api";
 
 const Deployment = (props) => {
 
@@ -18,7 +18,7 @@ const Deployment = (props) => {
 
     const deployments = getDeployments(getState());
     const [deploymentResults, setDeploymentResults] = useState(deployments);
-    const currentPageNo = Number(useSearchParams().get('page')) || 1;
+    const currentPageNo = Number(useSearchParams().get("page")) || 1;
     const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: deployments?.items?.slice((currentPageNo - 1) * 10, ((currentPageNo - 1) * 10) + 10) || [] });
     const newOffset = (currentPageNo - 1) * deploymentPaginationResults.limit;
 
@@ -26,7 +26,7 @@ const Deployment = (props) => {
     const stateHandler = useCallback((apiResponse) => {
         if (apiResponse.items) {
             return {
-                key: 'occRepository',
+                key: "occRepository",
                 value: {
                     deployments: apiResponse
                 }
@@ -46,17 +46,17 @@ const Deployment = (props) => {
 
 
         if (apiResponse.items) {
-            action('stateUpdate', { stateHandler, data: apiResponse });
+            action("stateUpdate", { stateHandler, data: apiResponse });
             toast.show({
-                status: 'success',
-                message: 'Deployment results fetched successfully..'
+                status: "success",
+                message: "Deployment results fetched successfully.."
             });
             setDeploymentResults(apiResponse);
             setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
         } else {
             toast.show({
-                status: 'failure',
-                message: apiResponse.message || 'Something went wrong while fetching deployment results'
+                status: "failure",
+                message: apiResponse.message || "Something went wrong while fetching deployment results"
             });
             setDeploymentResults({});
         }
@@ -70,11 +70,11 @@ const Deployment = (props) => {
 
     const deploymentTableData = (data, index) => {
         return (
-            <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.creationDate}>
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.creationDate}>
                 <Table.Cell>
                     {index}
                 </Table.Cell>
-                <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {data.applicationId}
                 </Table.Cell>
                 <Table.Cell>
@@ -97,10 +97,10 @@ const Deployment = (props) => {
 
     return (
         <React.Fragment>
-            <TextInput id='large' className='mb-4' type='text' sizing='md' placeholder='Application name...' onInput={getDeploymentHistory} icon={MagnifyingGlassIcon} />
+            <TextInput id="large" className="mb-4" type="text" sizing="md" placeholder="Application name..." onInput={getDeploymentHistory} icon={MagnifyingGlassIcon} />
             <Table>
                 <Table.Head>
-                    <Table.HeadCell className='!p-4'>
+                    <Table.HeadCell className="!p-4">
                         SN
                     </Table.HeadCell>
                     <Table.HeadCell>
@@ -119,23 +119,23 @@ const Deployment = (props) => {
                         Warning Messages
                     </Table.HeadCell>
                 </Table.Head>
-                <Table.Body className='divide-y'>
+                <Table.Body className="divide-y">
                     {(deploymentPaginationResults.results && deploymentPaginationResults.results.length) > 0 ? deploymentPaginationResults.results.map((item, index) => deploymentTableData(item, index + 1)) :
-                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
-                            <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={"no-results"}>
+                            <Table.Cell colSpan={6} className="text-center">No Results Found.</Table.Cell>
                         </Table.Row>
                     }
                 </Table.Body>
             </Table>
-            <div className='flex items-center justify-center text-center mt-4 h-20'>
+            <div className="flex items-center justify-center text-center mt-4 h-20">
                 {deploymentPaginationResults.totalPages > 1 && <Pagination
                     currentPage={currentPageNo}
-                    layout='pagination'
+                    layout="pagination"
                     onPageChange={deploymentPaginationHandler}
                     showIcons={true}
                     totalPages={deploymentPaginationResults.totalPages}
-                    previousLabel='Back'
-                    nextLabel='Next'
+                    previousLabel="Back"
+                    nextLabel="Next"
                 />}
             </div>
         </React.Fragment>

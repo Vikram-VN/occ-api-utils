@@ -1,7 +1,7 @@
-'use client';
-import React, { useEffect, useState, useCallback, useContext } from 'react';
-import ToastProvider from '../toast';
-import { Modal as FlowBiteModal } from 'flowbite-react';
+"use client";
+import React, { useEffect, useState, useCallback, useContext } from "react";
+import ToastProvider from "../toast";
+import { Modal as FlowBiteModal } from "flowbite-react";
 
 const Modal = (props) => {
 
@@ -15,8 +15,8 @@ const Modal = (props) => {
 
     return (
         <React.Fragment>
-            <input name='login-modal' type='text' id='user-login' className='hidden' onClick={onModalClose} />
-            <FlowBiteModal show={showModal} size={'7xl'} onClose={onModalClose}>
+            <input name="login-modal" type="text" id="user-login" className="hidden" onClick={onModalClose} />
+            <FlowBiteModal show={showModal} size={"7xl"} onClose={onModalClose}>
                 <FlowBiteModal.Header>
                     {props.title}
                 </FlowBiteModal.Header>

@@ -1,5 +1,5 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 
 const Configuration = () => {
   return <p>Configuration Feature is under constructions</p>

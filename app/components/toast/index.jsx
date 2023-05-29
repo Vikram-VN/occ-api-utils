@@ -1,7 +1,7 @@
-'use client';
-import React, { useState } from 'react';
-import Toast from './toast';
-import { ToastContext } from '../../store/context';
+"use client";
+import React, { useState } from "react";
+import Toast from "./toast";
+import { ToastContext } from "../../store/context";
 
 const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);

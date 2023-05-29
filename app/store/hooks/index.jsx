@@ -1,9 +1,9 @@
-'use client';
-import { useContext, useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { isAuthenticated, getAccessToken } from '../selector';
-import { StoreContext, ToastContext } from '../context';
-import { debounce } from '../../utils'
-import { useSelector } from 'react-redux';
+"use client";
+import { useContext, useState, useEffect, useCallback, useLayoutEffect } from "react";
+import { isAuthenticated, getAccessToken } from "../selector";
+import { StoreContext, ToastContext } from "../context";
+import { debounce } from "../../utils"
+import { useSelector } from "react-redux";
 
 export const useToasts = () => useContext(ToastContext);
 
@@ -76,17 +76,17 @@ export const useDragging = ({
 
     useEffect(() => {
         const ele = labelRef.current;
-        ele.addEventListener('click', handleClick)
-        ele.addEventListener('dragenter', handleDragIn)
-        ele.addEventListener('dragleave', handleDragOut)
-        ele.addEventListener('dragover', handleDrag)
-        ele.addEventListener('drop', handleDrop)
+        ele.addEventListener("click", handleClick)
+        ele.addEventListener("dragenter", handleDragIn)
+        ele.addEventListener("dragleave", handleDragOut)
+        ele.addEventListener("dragover", handleDrag)
+        ele.addEventListener("drop", handleDrop)
         return () => {
-            ele.removeEventListener('click', handleClick)
-            ele.removeEventListener('dragenter', handleDragIn)
-            ele.removeEventListener('dragleave', handleDragOut)
-            ele.removeEventListener('dragover', handleDrag)
-            ele.removeEventListener('drop', handleDrop)
+            ele.removeEventListener("click", handleClick)
+            ele.removeEventListener("dragenter", handleDragIn)
+            ele.removeEventListener("dragleave", handleDragOut)
+            ele.removeEventListener("dragover", handleDrag)
+            ele.removeEventListener("drop", handleDrop)
         }
     }, [
         handleClick,
@@ -108,9 +108,9 @@ export const useIsMobile = () => {
             setIsMobile(window.innerWidth < 768);
         }
 
-        window.addEventListener('resize', debounce(updateSize, 250));
+        window.addEventListener("resize", debounce(updateSize, 250));
         // updateSize();
-        return () => window.removeEventListener('resize', updateSize);
+        return () => window.removeEventListener("resize", updateSize);
     }, [])
 
     return isMobile
@@ -136,6 +136,6 @@ export const getMobileDetect = userAgent => {
 }
 export const useMobileDetect = () => {
     const userAgent =
-        typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent
+        typeof navigator === "undefined" ? "SSR" : navigator.userAgent
     return getMobileDetect(userAgent)
 }

@@ -1,18 +1,18 @@
 
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { noop } from '../../utils';
-import adminApi, { agentApi } from '../../utils/api';
+import { call, put, takeEvery } from "redux-saga/effects";
+import { noop } from "../../utils";
+import adminApi, { agentApi } from "../../utils/api";
 
 function* adminApiHandler(action) {
   try {
-    const requestEndpoint = action.payload.url || '/';
-    const requestMethod = action.payload.method || 'get';
-    const requestHeaders = action.payload.headers || { 'content-type': 'application/json' };
-    const newRequest = action.payload.data || '';
+    const requestEndpoint = action.payload.url || "/";
+    const requestMethod = action.payload.method || "get";
+    const requestHeaders = action.payload.headers || { "content-type": "application/json" };
+    const newRequest = action.payload.data || "";
     const userNotification = action.payload.showNotification || false;
     const successHandler = action.payload.onSuccess || noop;
     const errorHandler = action.payload.onError || noop;
-    const stateAction = action.payload.stateAction || '';
+    const stateAction = action.payload.stateAction || "";
     const stateHandler = action.payload.stateHandler || noop;
 
     const apiRequest = yield call(adminApi, {
@@ -38,14 +38,14 @@ function* adminApiHandler(action) {
 
 function* agentApiHandler(action) {
   try {
-    const requestEndpoint = action.payload.url || '/';
-    const requestMethod = action.payload.method || 'get';
-    const requestHeaders = action.payload.headers || { 'content-type': 'application/json' };
-    const newRequest = action.payload.data || '';
+    const requestEndpoint = action.payload.url || "/";
+    const requestMethod = action.payload.method || "get";
+    const requestHeaders = action.payload.headers || { "content-type": "application/json" };
+    const newRequest = action.payload.data || "";
     const userNotification = action.payload.showNotification || false;
     const successHandler = action.payload.onSuccess || noop;
     const errorHandler = action.payload.onError || noop;
-    const stateAction = action.payload.stateAction || '';
+    const stateAction = action.payload.stateAction || "";
     const stateHandler = action.payload.stateHandler || noop;
 
     const apiRequest = yield call(agentApi, {
@@ -73,7 +73,7 @@ function* agentApiHandler(action) {
 function* sagasHandler(action) {
   try {
 
-    const stateAction = action.payload.stateAction || 'updateKeyValue';
+    const stateAction = action.payload.stateAction || "updateKeyValue";
     const stateHandler = action.payload.stateHandler || noop;
 
     const stateUpdate = stateHandler(action.payload.data);
@@ -86,9 +86,9 @@ function* sagasHandler(action) {
 }
 
 function* appSaga() {
-  yield takeEvery('adminApiCall', adminApiHandler);
-  yield takeEvery('agentApiCall', agentApiHandler);
-  yield takeEvery('stateUpdate', sagasHandler);
+  yield takeEvery("adminApiCall", adminApiHandler);
+  yield takeEvery("agentApiCall", agentApiHandler);
+  yield takeEvery("stateUpdate", sagasHandler);
 }
 
 

@@ -1,24 +1,24 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { useToasts } from '../store/hooks';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } from 'flowbite-react';
-import { debounce, formatBytes, formatDate } from '../utils';
-import FileUpload from '../components/file';
-import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from '@heroicons/react/24/solid';
-import adminApi, { fileDownload } from '../utils/api';
-import { useCallback } from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
+import { useToasts } from "../store/hooks";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Card, Table, Checkbox, Pagination, Modal, TextInput, Button, Select } from "flowbite-react";
+import { debounce, formatBytes, formatDate } from "../utils";
+import FileUpload from "../components/file";
+import { ArrowDownTrayIcon, TrashIcon, MagnifyingGlassIcon, ExclamationCircleIcon, FunnelIcon } from "@heroicons/react/24/solid";
+import adminApi, { fileDownload } from "../utils/api";
+import { useCallback } from "react";
 
 export default function Files() {
 
   const router = useRouter();
   const [files, setFiles] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const currentPageNo = Number(useSearchParams().get('page')) || 1;
+  const currentPageNo = Number(useSearchParams().get("page")) || 1;
   const [allFilesSelected, setAllFilesSelected] = useState(false);
   const [showFileUploadModal, setFileUploadModal] = useState(false);
   const [showModal, setModalView] = useState(false);
-  const [fileFilters, updateFilters] = useState({ assetType: 'file', filter: '', folder: 'general', sortBy: 'name:asc' });
+  const [fileFilters, updateFilters] = useState({ assetType: "file", filter: "", folder: "general", sortBy: "name:asc" });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
 
@@ -26,15 +26,15 @@ export default function Files() {
 
   const onSuccess = useCallback((res) => {
     toast.show({
-      status: 'success',
-      message: 'Files deleted successfully..'
+      status: "success",
+      message: "Files deleted successfully.."
     });
   }, [toast]);
 
   const onUploadSuccess = useCallback((res) => {
     toast.show({
-      status: 'success',
-      message: 'File uploaded successfully..'
+      status: "success",
+      message: "File uploaded successfully.."
     });
   }, [toast])
 
@@ -42,7 +42,7 @@ export default function Files() {
   // Used to show notifications
   const onError = useCallback((error) => {
     toast.show({
-      status: 'failure',
+      status: "failure",
       message: error.message
     });
 
@@ -62,8 +62,8 @@ export default function Files() {
       setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
     } else {
       toast.show({
-        status: 'failure',
-        message: apiResponse.message || 'Something went wrong while fetching results'
+        status: "failure",
+        message: apiResponse.message || "Something went wrong while fetching results"
       });
       setFiles({});
     }
@@ -74,8 +74,8 @@ export default function Files() {
 
   const fileDelete = useCallback(async (filePath) => {
     adminApi({
-      method: 'post',
-      url: '/files/deleteFile',
+      method: "post",
+      url: "/files/deleteFile",
       data: {
         filename: filePath
       },
@@ -88,8 +88,8 @@ export default function Files() {
 
   const filesDelete = useCallback(() => {
     adminApi({
-      method: 'post',
-      url: '/files/deleteFiles',
+      method: "post",
+      url: "/files/deleteFiles",
       data: {
         deletePaths: selectedFiles
       },
@@ -139,13 +139,13 @@ export default function Files() {
   // File upload function
   const fileUploadHandler = useCallback((uploadType, file) => {
     const formData = new FormData();
-    formData.append('filename', file.name);
-    formData.append('uploadType', uploadType);
-    formData.append('fileUpload', file);
+    formData.append("filename", file.name);
+    formData.append("uploadType", uploadType);
+    formData.append("fileUpload", file);
 
     adminApi({
-      method: 'post',
-      url: '/files',
+      method: "post",
+      url: "/files",
       data: formData,
       showNotification: true,
       onSuccess: onUploadSuccess,
@@ -157,14 +157,14 @@ export default function Files() {
 
   const tableData = data => {
     return (
-      <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={data.path}>
-        <Table.Cell className='!p-4'>
+      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.path}>
+        <Table.Cell className="!p-4">
           <Checkbox name={data.name}
             checked={selectedFiles.includes(data.path)}
             onChange={(e) => selectFile(e, data.path)}
           />
         </Table.Cell>
-        <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
           {data.name}
         </Table.Cell>
         <Table.Cell>
@@ -176,9 +176,9 @@ export default function Files() {
         <Table.Cell>
           {data.type.toUpperCase()}
         </Table.Cell>
-        <Table.Cell className='flex justify-around'>
-          <ArrowDownTrayIcon className='h-6 w-6 cursor-pointer' onClick={() => fileDownload(data.path)} />
-          <TrashIcon className='h-6 w-6 cursor-pointer' onClick={() => fileDelete(data.path)} />
+        <Table.Cell className="flex justify-around">
+          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path)} />
+          <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
 
@@ -189,21 +189,21 @@ export default function Files() {
     <React.Fragment>
       <Modal
         show={showModal}
-        size='md'
+        size="md"
         popup={true}
         onClose={() => setModalView(false)}
       >
         <Modal.Body>
-          <div className='text-center'>
-            <ExclamationCircleIcon className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
-            <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
+          <div className="text-center">
+            <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               Are you sure you want to delete files?
             </h3>
-            <div className='flex justify-center gap-4'>
-              <Button color='failure' onClick={filesDelete}>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={filesDelete}>
                 Yes, I am sure
               </Button>
-              <Button color='gray' onClick={() => setModalView(false)} >
+              <Button color="gray" onClick={() => setModalView(false)} >
                 No, cancel
               </Button>
             </div>
@@ -213,7 +213,7 @@ export default function Files() {
 
       <Modal
         show={showFileUploadModal}
-        size='md'
+        size="md"
         popup={true}
         onClose={() => setFileUploadModal(false)}
       >
@@ -223,61 +223,61 @@ export default function Files() {
         </Modal.Body>
       </Modal>
 
-      <Card className='mb-4'>
-        <div className='flex justify-end gap-4'>
-          <div className='flex gap-4'>
-            <TextInput id='large' type='text'
-              sizing='md' placeholder='Search by name...'
+      <Card className="mb-4">
+        <div className="flex justify-end gap-4">
+          <div className="flex gap-4">
+            <TextInput id="large" type="text"
+              sizing="md" placeholder="Search by name..."
               onInput={searchFiles} icon={MagnifyingGlassIcon}
               onKeyUp={fetchFiles}
             />
             <Select
-              defaultValue='none'
+              defaultValue="none"
               onClick={fetchFiles}
-              onChange={(e) => filterResults('assetType', e.target.value)}
-              className='w-min:w-10'
+              onChange={(e) => filterResults("assetType", e.target.value)}
+              className="w-min:w-10"
             >
-              <option value='none' disabled>Select Asset Type</option>
-              <option value='all'>All</option>
-              <option value='file'>File</option>
-              <option value='folder'>Folder</option>
+              <option value="none" disabled>Select Asset Type</option>
+              <option value="all">All</option>
+              <option value="file">File</option>
+              <option value="folder">Folder</option>
             </Select>
             <Select
-              defaultValue='none'
+              defaultValue="none"
               onClick={fetchFiles}
-              onChange={(e) => filterResults('folder', e.target.value)} >
-              <option value='none' disabled>Select Folder</option>
-              <option value='thirdparty'>Third-Party</option>
-              <option value='general'>General</option>
-              <option value='import'>Import</option>
-              <option value='export'>Export</option>
-              <option value='collections'>Collections</option>
-              <option value='crashreports'>Crash Reports</option>
-              <option value='static'>Static</option>
-              <option value='products'>Products</option>
+              onChange={(e) => filterResults("folder", e.target.value)} >
+              <option value="none" disabled>Select Folder</option>
+              <option value="thirdparty">Third-Party</option>
+              <option value="general">General</option>
+              <option value="import">Import</option>
+              <option value="export">Export</option>
+              <option value="collections">Collections</option>
+              <option value="crashreports">Crash Reports</option>
+              <option value="static">Static</option>
+              <option value="products">Products</option>
             </Select>
           </div>
         </div>
-        <div className='flex gap-4'>
-          <Button type='button' onClick={() => setFileUploadModal(true)}>Upload Files</Button>
-          <Button type='button' disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={filesDownload}>Download Files</Button>
-          <Button type='button' disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
+        <div className="flex gap-4">
+          <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Files</Button>
+          <Button type="button" disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={filesDownload}>Download Files</Button>
+          <Button type="button" disabled={!(selectedFiles.length > 1) && !allFilesSelected} onClick={() => setModalView(true)}>Delete Files</Button>
         </div>
       </Card>
       {
         <Table hoverable={true}>
           <Table.Head>
-            <Table.HeadCell className='!p-4'>
-              <Checkbox name='selectAll' onChange={selectFiles} />
+            <Table.HeadCell className="!p-4">
+              <Checkbox name="selectAll" onChange={selectFiles} />
             </Table.HeadCell>
             <Table.HeadCell>
-              File name <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'name:desc')} />
+              File name <FunnelIcon className="w-8 h-8 inline pl-4 cursor-pointer" onClick={() => filterResults("sortBy", "name:desc")} />
             </Table.HeadCell>
             <Table.HeadCell>
-              Size <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'size:desc')} />
+              Size <FunnelIcon className="w-8 h-8 inline pl-4 cursor-pointer" onClick={() => filterResults("sortBy", "size:desc")} />
             </Table.HeadCell>
             <Table.HeadCell>
-              Last Modified <FunnelIcon className='w-8 h-8 inline pl-4 cursor-pointer' onClick={() => filterResults('sortBy', 'lastModified:desc')} />
+              Last Modified <FunnelIcon className="w-8 h-8 inline pl-4 cursor-pointer" onClick={() => filterResults("sortBy", "lastModified:desc")} />
             </Table.HeadCell>
             <Table.HeadCell>
               Type
@@ -286,24 +286,24 @@ export default function Files() {
               Actions
             </Table.HeadCell>
           </Table.Head>
-          <Table.Body className='divide-y'>
+          <Table.Body className="divide-y">
             {(files.items && files.items.length) > 0 ? files.items.map(item => tableData(item)) :
-              <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={'no-results'}>
-                <Table.Cell colSpan={6} className='text-center'>No Results Found.</Table.Cell>
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={"no-results"}>
+                <Table.Cell colSpan={6} className="text-center">No Results Found.</Table.Cell>
               </Table.Row>
             }
           </Table.Body>
         </Table>
       }
-      <div className='flex items-center justify-center text-center mt-4 h-20'>
+      <div className="flex items-center justify-center text-center mt-4 h-20">
         {pagination.totalPages > 1 && <Pagination
           currentPage={currentPageNo}
-          layout='pagination'
+          layout="pagination"
           onPageChange={paginationHandler}
           showIcons={true}
           totalPages={pagination.totalPages}
-          previousLabel='Back'
-          nextLabel='Next'
+          previousLabel="Back"
+          nextLabel="Next"
         />}
       </div>
     </React.Fragment >
