@@ -27,10 +27,10 @@ export default function RootLayout(props) {
           <meta charSet='UTF-8' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-          <link rel='icon' href='/svg/apexit/favicon.svg' sizes='32x32' />
-          <link rel='icon' href='/svg/apexit/favicon.svg' sizes='192x192' />
-          <link rel='apple-touch-icon' href='/svg/apexit/favicon.svg' />
-          <meta name='apexIT-logo' content='/svg/apexit/favicon.svg' />
+          <link rel='icon' href='/favicon.svg' sizes='32x32' />
+          <link rel='icon' href='/favicon.svg' sizes='192x192' />
+          <link rel='apple-touch-icon' href='/favicon.svg' />
+          <meta name='occ-logo' content='/favicon.svg' />
         </head>
         <body className={inter.className}
           suppressHydrationWarning={true} >

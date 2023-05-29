@@ -10,43 +10,43 @@ export default function Home() {
       <div className='h-96 m-auto rounded-md'>
         <Carousel >
           <Image
-            src='/media/apexit/occBanner.png'
+            src='/media/nature.jpg'
             alt='occbanner'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/apexian.jpg'
+            src='/media/nature.jpg'
             alt='apexian'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/camping.jpg'
+            src='/media/nature.jpg'
             alt='camping'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/cycling.jpg'
+            src='/media/nature.jpg'
             alt='cycling'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/help.jpg'
+            src='/media/nature.jpg'
             alt='helping'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/surfing.jpg'
+            src='/media/nature.jpg'
             alt='surfing'
             width={1000}
             height={500}
           />
           <Image
-            src='/media/apexit/trucking.jpg'
+            src='/media/nature.jpg'
             alt='trcuking'
             width={1000}
             height={500}
@@ -65,13 +65,6 @@ export default function Home() {
           <div className='apex-primary'><p>The Oracle Commerce Service REST APIs provide an extensive set of endpoints for configuring and managing your store. You can also use these APIs to extend the capabilities of your store by integrating with other Oracle Cloud offerings and external systems, including order management systems and payment providers.</p><br />
             <span>You can view a list of all &nbsp; </span><a href='https://docs.oracle.com/en/cloud/saas/cx-commerce/cxocc/rest-endpoints.html' target='blank'><button className='rounded-full  bg-red-800 p-2 pl-4 pr-4 hover:scale-105 ease-in duration-300'>REST Endpoints</button></a>
           </div>
-        </div>
-      </div>
-
-      <div className='block'>
-        <h1 className='mt-10 mb-4 text-4xl text-justify bold '>About ApexIT</h1>
-        <div className='aprimary '><p>Since 1997, Apex IT has expanded, but our commitment to assisting business, government, and higher education clients in being more effective, efficient, and lucrative has not changed. Apex IT has successfully completed thousands of engagements in countries all over the world, including the US, India, Asia Pacific, and Europe, assisting clients with everything from long-term planning through implementation.</p><br />
-          <a href='https://apexit.com/expertise/' target='blank'><button className='rounded-full pl-4 pr-4  bg-red-800 p-2 hover:scale-105 ease-in duration-300'>More about ApexIT </button></a>
         </div>
       </div>
 

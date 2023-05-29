@@ -7,7 +7,7 @@ const Footer = () => {
             <div className='mx-auto'>
 
                 <div className='sm:flex sm:items-center sm:justify-between'>
-                    <span className='text-sm text-slate-500 sm:text-center dark:text-slate-400'>© {new Date().getFullYear()} <Link href='https://apexit.com' className='hover:underline'>ApexIT</Link>. All Rights Reserved.
+                    <span className='text-sm text-slate-500 sm:text-center dark:text-slate-400'>© {new Date().getFullYear()} <Link href='#' className='hover:underline'>OCC API Utils</Link>. All Rights Reserved.
                     </span>
                     <div className='flex mt-4 space-x-6 sm:justify-center sm:mt-0'>
                         <Link href='#' className='text-slate-500 hover:text-slate-900 dark:hover:text-white'>
