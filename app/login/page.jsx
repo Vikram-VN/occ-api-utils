@@ -97,9 +97,9 @@ export default function Login(props) {
   return (
     <div id='login-form'>
       <form onSubmit={submitForm} className='block'>
-        <section className='m-auto w-5/6 my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg'>
-          <div className='w-3/1 flex m-auto mb-4 lg:mb-0'>
-            <Image src='/media/appBanner.jpg' className='rounded w-full' alt='occ banner' width={100} height={100} />
+        <section className='m-auto my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-4 lg'>
+          <div className='w-full flex m-auto mb-4 lg:mb-0'>
+            <Image src='/media/nature.jpg' className='rounded w-full' alt='occ banner' width={50} height={50} />
           </div>
           <div className='w-full m-auto'>
             <div className='mb-2 block'>
