@@ -17,7 +17,7 @@ export default function Home() {
           />
           <Image
             src="/media/nature.jpg"
-            alt="apexian"
+            alt="nature"
             width={1000}
             height={500}
           />
@@ -56,13 +56,13 @@ export default function Home() {
       <div className="inline-flex ml-1">
         <div className=" w-1/2">
           <h1 className="mt-10 mb-4 text-4xl text-justify bold ">Oracle Commerce</h1>
-          <div className="apex-primary pr-5"><p>Oracle Commerce is an ecommerce platform that helps B2C and B2B businesses connect customer and sales data from their CRM to their financial and operational data so they can offer personalized experiences to buyers across sales channels.</p><br />
+          <div className="occ-primary pr-5"><p>Oracle Commerce is an ecommerce platform that helps B2C and B2B businesses connect customer and sales data from their CRM to their financial and operational data so they can offer personalized experiences to buyers across sales channels.</p><br />
             <a href="https://www.oracle.com/in/cx/product-tours/#commerce" target="blank"><button className="rounded-full hover:scale-105 ease-in duration-300  bg-red-800 p-2 mt-4 pl-4 pr-4">Take a product tour</button></a>
           </div>
         </div>
         <div className="w-1/2">
           <h1 className="mt-10 mb-4 text-4xl text-justify bold  pr-5">About the REST APIs</h1>
-          <div className="apex-primary"><p>The Oracle Commerce Service REST APIs provide an extensive set of endpoints for configuring and managing your store. You can also use these APIs to extend the capabilities of your store by integrating with other Oracle Cloud offerings and external systems, including order management systems and payment providers.</p><br />
+          <div className="occ-primary"><p>The Oracle Commerce Service REST APIs provide an extensive set of endpoints for configuring and managing your store. You can also use these APIs to extend the capabilities of your store by integrating with other Oracle Cloud offerings and external systems, including order management systems and payment providers.</p><br />
             <span>You can view a list of all &nbsp; </span><a href="https://docs.oracle.com/en/cloud/saas/cx-commerce/cxocc/rest-endpoints.html" target="blank"><button className="rounded-full  bg-red-800 p-2 pl-4 pr-4 hover:scale-105 ease-in duration-300">REST Endpoints</button></a>
           </div>
         </div>

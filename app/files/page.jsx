@@ -177,8 +177,8 @@ export default function Files() {
           {data.type.toUpperCase()}
         </Table.Cell>
         <Table.Cell className="flex justify-around">
-          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDownload(data.path)} />
-          <TrashIcon className="h-6 w-6 cursor-pointer" onClick={() => fileDelete(data.path)} />
+          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" title="Download this file" onClick={() => fileDownload(data.path)} />
+          <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this file" onClick={() => fileDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
 

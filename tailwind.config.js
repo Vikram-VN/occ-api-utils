@@ -16,7 +16,7 @@ module.exports = {
       },
       colors: {
         navy: '#0B2447',
-        apex: '#231f20'
+        occ: '#231f20'
       },
     },
   },

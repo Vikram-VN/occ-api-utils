@@ -36,7 +36,7 @@ const Header = ({ children }) => {
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
             <Link href="/" className="flex items-center dark:text-white">
-              <AppLogo />
+              <AppLogo className="mr-4 text-black dark:text-white" />
             </Link>
             <h1 className="text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText">Commerce API Utils</h1>
           </div>
