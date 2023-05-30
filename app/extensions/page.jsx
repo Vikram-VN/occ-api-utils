@@ -126,7 +126,7 @@ export default function Extensions() {
     fetchExtensions();
   }, [extensions.items, fetchExtensions, onError, onSuccess]);
 
-  const ExtensionsDownload = () => {
+  const extensionsDownload = () => {
     selectedExtensions.map(file => fileDownload(`/${file}`));
   };
 
@@ -377,7 +377,7 @@ export default function Extensions() {
         </div>
         <div className="flex gap-4">
           <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Extensions</Button>
-          <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={ExtensionsDownload}>Download Extensions</Button>
+          <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={extensionsDownload}>Download Extensions</Button>
           <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={() => setModalView(true)}>Delete Extensions</Button>
         </div>
       </Card>
