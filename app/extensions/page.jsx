@@ -404,7 +404,7 @@ export default function Extensions() {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {(extensions.items && extensions.items.length) > 0 ? extensions.items.map(item => tableData(item)) :
+            {(extensions.items && extensions.items.length) > 0 ? extensions.items.slice(newOffset, (newOffset + pagination.limit)).map(item => tableData(item)) :
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={"no-results"}>
                 <Table.Cell colSpan={6} className="text-center">No Results Found.</Table.Cell>
               </Table.Row>
