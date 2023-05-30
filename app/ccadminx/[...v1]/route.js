@@ -16,7 +16,7 @@ export async function GET(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const hostId = request.headers.get("X-InstanceId");;
 
-    if(!hostId){
+    if (!hostId) {
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
@@ -34,11 +34,11 @@ export async function GET(request) {
       headers: modifiedHeaders
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const adminXApi = await axios.request(payload);
+    const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(adminApi.data, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json(adminXApi.data, { status: 200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -55,7 +55,7 @@ export async function POST(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");;
 
-    if(!hostId){
+    if (!hostId) {
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
@@ -74,11 +74,11 @@ export async function POST(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const adminXApi = await axios.request(payload);
+    const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...adminXApi.data }, { status: 200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -94,7 +94,7 @@ export async function PUT(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");;
 
-    if(!hostId){
+    if (!hostId) {
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
@@ -113,11 +113,11 @@ export async function PUT(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const adminXApi = await axios.request(payload);
+    const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...adminXApi.data }, { status: 200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -133,7 +133,7 @@ export async function DELETE(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");;
 
-    if(!hostId){
+    if (!hostId) {
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
@@ -152,11 +152,11 @@ export async function DELETE(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const adminXApi = await axios.request(payload);
+    const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...adminXApi.data }, { status: 200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -172,7 +172,7 @@ export async function PATCH(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");;
 
-    if(!hostId){
+    if (!hostId) {
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
     }
 
@@ -191,11 +191,11 @@ export async function PATCH(request) {
       headers: modifiedHeaders,
     }
 
-    const adminApi = await axios.request(payload);
-    const newHeaders = new Headers(adminApi.headers);
+    const adminXApi = await axios.request(payload);
+    const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...adminApi.data }, { status: adminApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...adminXApi.data }, { status: 200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })

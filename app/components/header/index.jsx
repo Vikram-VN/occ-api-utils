@@ -5,6 +5,7 @@ import Link from "next/link";
 import { StoreContext } from "../../store/context";
 import { useLoginStatus } from "../../store/hooks";
 import { useRouter, usePathname } from "next/navigation";
+import { ArrowRightOnRectangleIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import AppLogo from "../logo";
 import Modal from "../modal";
 import Login from "../../login/page";
@@ -27,7 +28,7 @@ const Header = ({ children }) => {
   }
 
   // Changing header text for user
-  const userText = isLoggedIn ? "Log out" : "Log in";
+  const userIcon = isLoggedIn ? <ArrowRightOnRectangleIcon title="Log out" width={30} height={30} /> : <ArrowLeftOnRectangleIcon title="Log in" width={30} height={30} />;
   const userAction = isLoggedIn ? "user-logout" : "user-login"
 
   return (
@@ -42,8 +43,8 @@ const Header = ({ children }) => {
           </div>
           <div className="flex items-center lg:order-2">
             {children}
-            <label htmlFor={userAction} className="text-slate-800 cursor-pointer dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">{userText}</label>
-            <Link href="#" target="_blank" className="hidden text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">GitHub</Link>
+            <label htmlFor={userAction} className="text-slate-500 cursor-pointer dark:text-slate-400 hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-2.5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">{userIcon}</label>
+            {/* <Link href="#" target="_blank" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">GitHub</Link> */}
           </div>
         </div>
       </nav>

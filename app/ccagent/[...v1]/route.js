@@ -38,7 +38,7 @@ export async function GET(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(agentApi.data, { status: agentApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json(agentApi.data, { status:  200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -78,7 +78,7 @@ export async function POST(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status:  200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -117,7 +117,7 @@ export async function PUT(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status:  200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -156,7 +156,7 @@ export async function DELETE(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status:  200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })
@@ -195,7 +195,7 @@ export async function PATCH(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json({ ...agentApi.data }, { status: agentApi.data.statusCode, headers: newHeaders });
+    return NextResponse.json({ ...agentApi.data }, { status:  200, headers: newHeaders });
 
   } catch (error) {
     return NextResponse.json(error.response?.data || { errorCode: "02", message: `${error.message}.` }, { status: 400 })

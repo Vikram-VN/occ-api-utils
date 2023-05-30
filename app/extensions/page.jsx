@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useToasts } from "../store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Card, Table, Checkbox, Pagination, Modal, Button } from "flowbite-react";
+import DatePicker from "../components/date";
+import { Card, Table, Checkbox, Pagination, Modal, Button, Dropdown, Select, TextInput } from "flowbite-react";
 import { debounce, formatDate } from "../utils";
 import FileUpload from "./file";
-import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon, PauseCircleIcon, PlayCircleIcon, StopCircleIcon } from "@heroicons/react/24/solid";
-import adminApi, { fileDownload } from "../utils/api";
+import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon, PauseCircleIcon, PlayCircleIcon, StopCircleIcon, ServerIcon, ArrowUpRightIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
+import adminApi, { adminXApi, fileDownload } from "../utils/api";
 import { useCallback } from "react";
 
 export default function Extensions() {
@@ -17,6 +18,7 @@ export default function Extensions() {
   const currentPageNo = Number(useSearchParams().get("page")) || 1;
   const [allExtensionsSelected, setAllExtensionsSelected] = useState(false);
   const [showFileUploadModal, setFileUploadModal] = useState(false);
+  const [showLogsModal, setLogsModalView] = useState(false);
   const [showModal, setModalView] = useState(false);
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
@@ -62,6 +64,13 @@ export default function Extensions() {
     });
   }, [toast]);
 
+  const onAction = useCallback((res) => {
+    toast.show({
+      status: "success",
+      message: "Action performed successfully.."
+    });
+  }, [toast]);
+
 
   const paginationHandler = (pageNo) => {
     router.push(`/extensions?page=${pageNo}`);
@@ -98,11 +107,11 @@ export default function Extensions() {
     fetchExtensions();
   }, [fetchExtensions, onError, onSuccess]);
 
-  const extensionsDelete = useCallback((idsList = []) => {
-    idsList.map(id => {
+  const extensionsDelete = useCallback(() => {
+    extensions.items.map(item => {
       adminApi({
         method: "post",
-        url: `extensions/${id}`,
+        url: `extensions/${item.id}`,
         showNotification: true,
         onSuccess,
         onError,
@@ -110,10 +119,10 @@ export default function Extensions() {
     });
     setModalView(false);
     fetchExtensions();
-  }, [fetchExtensions, onError, onSuccess]);
+  }, [extensions.items, fetchExtensions, onError, onSuccess]);
 
   const ExtensionsDownload = () => {
-    selectedExtensions.map(file => fileDownload(file))
+    selectedExtensions.map(file => fileDownload(`/${file}`));
   };
 
   const selectFile = (event, path) => {
@@ -130,7 +139,7 @@ export default function Extensions() {
 
   const selectExtensions = (e) => {
     const checked = e.target.checked;
-    checked && extensions.items ? setSelectedExtensions([...extensions.items.map(file => file.path)]) :
+    checked && extensions.items ? setSelectedExtensions([...extensions.items.map(file => file.zipPath)]) :
       setSelectedExtensions([]);
     setAllExtensionsSelected(!allExtensionsSelected);
   }
@@ -145,6 +154,7 @@ export default function Extensions() {
     adminApi({
       method: "post",
       url: `serverExtensions`,
+      data: formData,
       showNotification: true,
       onSuccess: onUploadSuccess,
       onError,
@@ -167,13 +177,26 @@ export default function Extensions() {
     fetchExtensions();
   }
 
+  const manageServer = action => {
+    adminXApi({
+      method: "post",
+      url: `servers/${action}`,
+      data: {
+        "environmentType": "live"
+      },
+      showNotification: true,
+      onSuccess: onAction,
+      onError,
+    });
+  }
+
   const tableData = data => {
     return (
       <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.id}>
         <Table.Cell className="!p-4">
           <Checkbox name={data.name}
-            checked={selectedExtensions.includes(data.id)}
-            onChange={(e) => selectFile(e, data.id)}
+            checked={selectedExtensions.includes(data.zipPath)}
+            onChange={(e) => selectFile(e, data.zipPath)}
           />
         </Table.Cell>
         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -228,6 +251,71 @@ export default function Extensions() {
       </Modal>
 
       <Modal
+        show={showLogsModal}
+        size="md"
+        popup={true}
+        onClose={() => setLogsModalView(false)}
+      >
+        <Modal.Header>
+          <h3 className="pl-4 mb-5 text-lg font-normal text-gray-500 dark:text-gray-200">
+            Download the server logs
+          </h3>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex justify-end gap-4 mb-10">
+            <div className="flex gap-4">
+              <DatePicker />
+              <Select
+                defaultValue="none"
+                onChange={(e) => filterResults("assetType", e.target.value)}
+                className="w-min:w-10"
+              >
+                <option value="none" disabled>Log Level</option>
+                <option value="debug">Debug</option>
+                <option value="info">Info</option>
+                <option value="warning">Warning</option>
+                <option value="error">Error</option>
+              </Select>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="flex justify-center gap-4">
+              <Button onClick={extensionsDelete}>
+                Download
+              </Button>
+              <Button className="bg-gray-400 border-gray-900 hover:bg-gray-600 dark:bg-gray-700 border dark:border-gray-500 dark:hover:bg-gray-500" onClick={() => setLogsModalView(false)} >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showModal}
+        size="md"
+        popup={true}
+        onClose={() => setModalView(false)}
+      >
+        <Modal.Body>
+          <div className="text-center">
+            <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete extensions?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={extensionsDelete}>
+                Yes, I am sure
+              </Button>
+              <Button color="gray" onClick={() => setModalView(false)} >
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
         show={showFileUploadModal}
         size="md"
         popup={true}
@@ -240,7 +328,21 @@ export default function Extensions() {
       </Modal>
 
       <Card className="mb-4">
-        <h1 className="text-4xl">Extensions</h1>
+        <div className="flex gap-4 justify-between">
+          <h1 className="text-4xl">Extensions</h1>
+          <Dropdown
+            label="Server Options">
+            <Dropdown.Item icon={ServerIcon} onClick={() => manageServer('restart')}>
+              Server Restart
+            </Dropdown.Item>
+            <Dropdown.Item icon={ArrowUpRightIcon} onClick={() => manageServer('push')}>
+              Server Push
+            </Dropdown.Item>
+            <Dropdown.Item icon={CloudArrowDownIcon} onClick={() => setLogsModalView(true)}>
+              Server Logs
+            </Dropdown.Item>
+          </Dropdown>
+        </div>
         <div className="flex gap-4">
           <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Extensions</Button>
           <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={ExtensionsDownload}>Download Extensions</Button>
