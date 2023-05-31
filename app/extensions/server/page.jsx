@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "../../store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
-import DatePicker from "../components/date";
+import DatePicker from "../../components/date";
 import { Card, Table, Checkbox, Pagination, Modal, Button, Dropdown, Select } from "flowbite-react";
-import { debounce, formatDate } from "../utils";
-import FileUpload from "./file";
+import { debounce, formatDate } from "../../utils";
+import FileUpload from "../file";
 import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon, PlayCircleIcon, StopCircleIcon, ServerIcon, ArrowUpRightIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
-import adminApi, { adminApiCall, adminXApi, fileDownload } from "../utils/api";
+import adminApi, { adminApiCall, adminXApi, fileDownload } from "../../utils/api";
 import { useCallback } from "react";
 import Link from "next/link";
 
@@ -361,25 +361,8 @@ export default function Extensions() {
       </Modal>
 
       <Card className="mb-4">
-        <div className="flex gap-4 justify-between">
-          <h1 className="text-4xl">Admin Extensions</h1>
-          <div className="flex gap-4">
-            <Dropdown
-              label="Server Options">
-              <Dropdown.Item icon={ServerIcon} onClick={() => manageServer('restart')}>
-                Server Restart
-              </Dropdown.Item>
-              <Dropdown.Item icon={ArrowUpRightIcon} onClick={() => manageServer('push')}>
-                Server Push
-              </Dropdown.Item>
-              <Dropdown.Item icon={CloudArrowDownIcon} onClick={() => setLogsModalView(true)}>
-                Server Logs
-              </Dropdown.Item>
-            </Dropdown>
-            <Link href="extensions/server">
-              <Button type="button">Manage SSEs </Button>
-            </Link>
-          </div>
+        <div className="flex gap-4 justify-start">
+          <h1 className="text-4xl">Server Side Extensions (SSEs)</h1>
         </div>
         <div className="flex gap-4">
           <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Extensions</Button>
