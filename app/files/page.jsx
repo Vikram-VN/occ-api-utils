@@ -49,7 +49,7 @@ export default function Files() {
   }, [toast]);
 
   const paginationHandler = (pageNo) => {
-    router.push(`/files?page=${pageNo}`);
+    router.push(`files?page=${pageNo}`);
   }
 
   // Refreshing table data based on filters
@@ -75,7 +75,7 @@ export default function Files() {
   const fileDelete = useCallback(async (filePath) => {
     adminApi({
       method: "post",
-      url: "/files/deleteFile",
+      url: "files/deleteFile",
       data: {
         filename: filePath
       },
@@ -89,7 +89,7 @@ export default function Files() {
   const filesDelete = useCallback(() => {
     adminApi({
       method: "post",
-      url: "/files/deleteFiles",
+      url: "files/deleteFiles",
       data: {
         deletePaths: selectedFiles
       },
@@ -145,7 +145,7 @@ export default function Files() {
 
     adminApi({
       method: "post",
-      url: "/files",
+      url: "files",
       data: formData,
       showNotification: true,
       onSuccess: onUploadSuccess,
@@ -176,7 +176,7 @@ export default function Files() {
         <Table.Cell>
           {data.type.toUpperCase()}
         </Table.Cell>
-        <Table.Cell className="flex justify-around">
+        <Table.Cell className="flex justify-around gap-4">
           <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" title="Download this file" onClick={() => fileDownload(data.path)} />
           <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this file" onClick={() => fileDelete(data.path)} />
         </Table.Cell>

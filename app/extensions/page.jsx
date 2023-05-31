@@ -7,7 +7,7 @@ import { Card, Table, Checkbox, Pagination, Modal, Button, Dropdown, Select, Tex
 import { debounce, formatDate } from "../utils";
 import FileUpload from "./file";
 import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon, PauseCircleIcon, PlayCircleIcon, StopCircleIcon, ServerIcon, ArrowUpRightIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
-import adminApi, { adminXApi, fileDownload } from "../utils/api";
+import adminApi, { adminApiCall, adminXApi, fileDownload } from "../utils/api";
 import { useCallback } from "react";
 
 export default function Extensions() {
@@ -19,7 +19,12 @@ export default function Extensions() {
   const [allExtensionsSelected, setAllExtensionsSelected] = useState(false);
   const [showFileUploadModal, setFileUploadModal] = useState(false);
   const [showLogsModal, setLogsModalView] = useState(false);
+  const [logType, setLogType] = useState('info');
   const [showModal, setModalView] = useState(false);
+  const [date, handleDateChange] = useState({
+    startDate: new Date(),
+    endDate: new Date()
+  });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
 
@@ -121,7 +126,7 @@ export default function Extensions() {
     fetchExtensions();
   }, [extensions.items, fetchExtensions, onError, onSuccess]);
 
-  const ExtensionsDownload = () => {
+  const extensionsDownload = () => {
     selectedExtensions.map(file => fileDownload(`/${file}`));
   };
 
@@ -163,7 +168,7 @@ export default function Extensions() {
     setFileUploadModal(false);
   }, [fetchExtensions, onError, onUploadSuccess]);
 
-  const manageExtensions = (id, type) => {
+  const manageExtensions = useCallback((id, type) => {
     adminApi({
       method: "post",
       url: `extensions/${id}`,
@@ -175,9 +180,9 @@ export default function Extensions() {
       onError,
     });
     fetchExtensions();
-  }
+  }, [fetchExtensions, onDisable, onEnable, onError]);
 
-  const manageServer = action => {
+  const manageServer = useCallback(action => {
     adminXApi({
       method: "post",
       url: `servers/${action}`,
@@ -188,7 +193,34 @@ export default function Extensions() {
       onSuccess: onAction,
       onError,
     });
-  }
+  }, [onAction, onError]);
+
+  const downloadServerLogs = useCallback(async () => {
+    try {
+      const modifiedDate = date.startDate.replace(/-/gi, "");
+      const logs = await adminApiCall({
+        method: "get",
+        url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,
+        data: {
+          "environmentType": "live"
+        },
+        onError,
+      });
+      const contentType = logs.headers["content-type"];
+      const buffer = logs.data;
+      const bytes = new Uint8Array(buffer.data);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+      link.download = `serverLogs_${date.startDate}.zip`;
+      link.click();
+      link.remove();
+
+    } catch (error) {
+      console.error('While downloading server logs, error occurred. The error message is: ' + error);
+    }
+
+  }, [date.startDate, logType, onError]);
+
 
   const tableData = data => {
     return (
@@ -261,14 +293,14 @@ export default function Extensions() {
             Download the server logs
           </h3>
         </Modal.Header>
-        <Modal.Body>
-          <div className="flex justify-end gap-4 mb-10">
-            <div className="flex gap-4">
-              <DatePicker />
+        <Modal.Body className="overflow-visible">
+          <div className="flex justify-center md:justify-end gap-4 mb-10">
+            <div className="flex flex-col gap-4 md:flex-row">
+              <DatePicker handleValueChange={handleDateChange} value={date} />
               <Select
                 defaultValue="none"
-                onChange={(e) => filterResults("assetType", e.target.value)}
-                className="w-min:w-10"
+                onChange={(e) => setLogType(e.target.value)}
+                className="w-min:w-10 w-full"
               >
                 <option value="none" disabled>Log Level</option>
                 <option value="debug">Debug</option>
@@ -280,7 +312,7 @@ export default function Extensions() {
           </div>
           <div className="text-center">
             <div className="flex justify-center gap-4">
-              <Button onClick={extensionsDelete}>
+              <Button onClick={downloadServerLogs}>
                 Download
               </Button>
               <Button className="bg-gray-400 border-gray-900 hover:bg-gray-600 dark:bg-gray-700 border dark:border-gray-500 dark:hover:bg-gray-500" onClick={() => setLogsModalView(false)} >
@@ -345,7 +377,7 @@ export default function Extensions() {
         </div>
         <div className="flex gap-4">
           <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Extensions</Button>
-          <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={ExtensionsDownload}>Download Extensions</Button>
+          <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={extensionsDownload}>Download Extensions</Button>
           <Button type="button" disabled={!(selectedExtensions.length > 1) && !allExtensionsSelected} onClick={() => setModalView(true)}>Delete Extensions</Button>
         </div>
       </Card>
@@ -372,7 +404,7 @@ export default function Extensions() {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {(extensions.items && extensions.items.length) > 0 ? extensions.items.map(item => tableData(item)) :
+            {(extensions.items && extensions.items.length) > 0 ? extensions.items.slice(newOffset, (newOffset + pagination.limit)).map(item => tableData(item)) :
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={"no-results"}>
                 <Table.Cell colSpan={6} className="text-center">No Results Found.</Table.Cell>
               </Table.Row>
