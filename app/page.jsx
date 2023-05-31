@@ -10,26 +10,26 @@ export default function Home() {
       <div className="h-[32rem] m-auto rounded-md">
         <Carousel >
           <Image
-            src="/media/Banner1.png"
-            alt="banner1"
+            src="/media/apiBanner.png"
+            alt="apiBanner"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/Banner2.png"
-            alt="banner2"
+            src="/media/apiInfoBanner.png"
+            alt="apiInfoBanner"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/Banner3.png"
-            alt="banner3"
+            src="/media/storeBanner.png"
+            alt="storeBanner"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/Banner4.png"
-            alt="banner"
+            src="/media/dataBaseBanner.png"
+            alt="dataBaseBanner"
             width={1000}
             height={500}
           />
