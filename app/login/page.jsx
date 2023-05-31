@@ -99,7 +99,7 @@ export default function Login(props) {
       <form onSubmit={submitForm} className="block">
         <section className="m-auto my-6 lg:flex bg-slate-200 dark:bg-slate-800 p-10 rounded-md gap-10 lg">
           <div className="w-full flex m-auto mb-4 lg:mb-0">
-            <Image src="/media/nature.jpg" className="rounded w-full" alt="occ banner" width={50} height={50} />
+            <Image src="/media/loginBanner3.png" className="rounded w-full" alt="occ banner" width={50} height={50} />
           </div>
           <div className="w-full m-auto">
             <div className="mb-2 block">

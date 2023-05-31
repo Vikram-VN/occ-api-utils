@@ -7,47 +7,29 @@ import { ArrowDownIcon } from "@heroicons/react/24/solid";
 export default function Home() {
   return (
     <React.Fragment>
-      <div className="h-96 m-auto rounded-md">
+      <div className="h-[32rem] m-auto rounded-md">
         <Carousel >
           <Image
-            src="/media/nature.jpg"
-            alt="occbanner"
+            src="/media/Banner1.png"
+            alt="banner1"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/nature.jpg"
-            alt="nature"
+            src="/media/Banner2.png"
+            alt="banner2"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/nature.jpg"
-            alt="camping"
+            src="/media/Banner3.png"
+            alt="banner3"
             width={1000}
             height={500}
           />
           <Image
-            src="/media/nature.jpg"
-            alt="cycling"
-            width={1000}
-            height={500}
-          />
-          <Image
-            src="/media/nature.jpg"
-            alt="helping"
-            width={1000}
-            height={500}
-          />
-          <Image
-            src="/media/nature.jpg"
-            alt="surfing"
-            width={1000}
-            height={500}
-          />
-          <Image
-            src="/media/nature.jpg"
-            alt="trcuking"
+            src="/media/Banner4.png"
+            alt="banner"
             width={1000}
             height={500}
           />
