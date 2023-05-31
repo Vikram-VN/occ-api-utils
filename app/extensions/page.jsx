@@ -168,7 +168,7 @@ export default function Extensions() {
     setFileUploadModal(false);
   }, [fetchExtensions, onError, onUploadSuccess]);
 
-  const manageExtensions = (id, type) => {
+  const manageExtensions = useCallback((id, type) => {
     adminApi({
       method: "post",
       url: `extensions/${id}`,
@@ -180,9 +180,9 @@ export default function Extensions() {
       onError,
     });
     fetchExtensions();
-  }
+  }, [fetchExtensions, onDisable, onEnable, onError]);
 
-  const manageServer = action => {
+  const manageServer = useCallback(action => {
     adminXApi({
       method: "post",
       url: `servers/${action}`,
@@ -193,9 +193,9 @@ export default function Extensions() {
       onSuccess: onAction,
       onError,
     });
-  }
+  }, [onAction, onError]);
 
-  const downloadServerLogs = async () => {
+  const downloadServerLogs = useCallback(async () => {
     try {
       const modifiedDate = date.startDate.replace(/-/gi, "");
       const logs = await adminApiCall({
@@ -219,7 +219,7 @@ export default function Extensions() {
       console.error('While downloading server logs, error occurred. The error message is: ' + error);
     }
 
-  }
+  }, [date.startDate, logType, onError]);
 
 
   const tableData = data => {
