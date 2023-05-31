@@ -52,7 +52,7 @@ const Deployment = (props) => {
                 message: "Deployment results fetched successfully.."
             });
             setDeploymentResults(apiResponse);
-            setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.floor(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
+            setDeploymentPaginationResults({ ...deploymentPaginationResults, totalPages: Math.ceil(apiResponse.items.length / deploymentPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + deploymentPaginationResults.limit) });
         } else {
             toast.show({
                 status: "failure",

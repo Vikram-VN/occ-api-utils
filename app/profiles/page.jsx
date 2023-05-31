@@ -6,6 +6,7 @@ import { useToasts } from "../store/hooks";
 import { Button, Card, Modal, Pagination, Select, Table, TextInput } from "flowbite-react";
 import { ExclamationCircleIcon, MagnifyingGlassIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { debounce } from "../utils";
+import PageLoader from "../components/page-loader";
 
 export default function Profiles() {
 
@@ -20,6 +21,7 @@ export default function Profiles() {
   const [id, setId] = useState("")
   const [showModal, setModalView] = useState(false);
   const newOffset = (currentPageNo - 1) * pagination.limit;
+  const [isLoading, setIsLoading] = useState(false);
 
   const profileDelete = useCallback(async () => {
 
@@ -64,7 +66,7 @@ export default function Profiles() {
       });
       if (response.items) {
         setResponse(response);
-        setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
+        setPagination({ ...pagination, totalPages: Math.ceil(response.totalResults / response.limit) });
         toast.show({
           status: "success",
           message: "Profile results fetched successfully"
@@ -76,8 +78,18 @@ export default function Profiles() {
         });
         setResponse({});
       }
+      setIsLoading(false);
     }
   }, 2000);
+
+  useEffect(() => {
+    if (query) {
+      setIsLoading(true);
+      filterProfiles();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, newOffset]);
+
 
 
   const profileTableData = (data, index) => {
@@ -116,6 +128,7 @@ export default function Profiles() {
 
   return (
     <React.Fragment>
+      <PageLoader isLoading={isLoading} message={"Fetching the profiles, Please wait"}/>
       <Modal
         show={showModal}
         size="md"
@@ -208,7 +221,7 @@ export default function Profiles() {
         </Table.Body>
       </Table>
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        {pagination.totalPages > 1 && <Pagination
+        <Pagination
           currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
@@ -216,7 +229,7 @@ export default function Profiles() {
           totalPages={pagination.totalPages}
           previousLabel="Back"
           nextLabel="Next"
-        />}
+        />
       </div>
     </React.Fragment>
   )

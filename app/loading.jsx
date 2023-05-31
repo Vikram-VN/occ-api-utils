@@ -2,9 +2,9 @@
 import { Spinner } from "flowbite-react";
 import React from "react";
 
-const Loading = () => {
+const PageLoader = () => {
   return (
-    <div className="text-center grid w-full h-full content-center">
+    <div className="text-center absolute z-10 grid w-full h-full content-center bg-slate-200 dark:bg-slate-900">
       <Spinner
         aria-label="Page Loader"
         size="xl"
@@ -15,4 +15,4 @@ const Loading = () => {
   )
 }
 
-export default Loading;
+export default PageLoader;
