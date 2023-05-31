@@ -59,7 +59,7 @@ export default function Files() {
     });
     if (apiResponse.items) {
       setFiles(apiResponse);
-      setPagination({ ...pagination, totalPages: Math.floor(apiResponse.totalResults / apiResponse.limit) })
+      setPagination({ ...pagination, totalPages: Math.ceil(apiResponse.totalResults / apiResponse.limit) })
     } else {
       toast.show({
         status: "failure",

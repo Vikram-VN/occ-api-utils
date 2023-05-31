@@ -36,7 +36,7 @@ const Publish = (props) => {
                     message: "Publish results fetched successfully.."
                 });
                 setPublishResults(apiResponse);
-                setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.floor(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
+                setPublishPaginationResults({ ...publishPaginationResults, totalPages: Math.ceil(apiResponse.items.length / publishPaginationResults.limit), results: apiResponse.items.slice(newOffset, newOffset + publishPaginationResults.limit) })
             } else {
                 toast.show({
                     status: "failure",

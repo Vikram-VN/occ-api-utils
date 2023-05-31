@@ -34,7 +34,7 @@ export default function Organizations() {
     });
     if (response.items) {
       setResponse(response);
-      setPagination({ ...pagination, totalPages: Math.floor(response.totalResults / response.limit) });
+      setPagination({ ...pagination, totalPages: Math.ceil(response.totalResults / response.limit) });
       toast.show({
         status: "success",
         message: "Profile results fetched successfully"

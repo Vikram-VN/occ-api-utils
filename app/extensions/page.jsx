@@ -89,7 +89,7 @@ export default function Extensions() {
     });
     if (apiResponse.items) {
       setExtensions(apiResponse);
-      setPagination({ ...pagination, totalPages: Math.floor(apiResponse.items.length / apiResponse.limit) })
+      setPagination({ ...pagination, totalPages: Math.ceil(apiResponse.items.length / apiResponse.limit) })
     } else {
       toast.show({
         status: "failure",
