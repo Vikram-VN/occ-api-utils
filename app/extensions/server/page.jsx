@@ -412,6 +412,6 @@ export default function Extensions() {
           nextLabel="Next"
         />}
       </div>
-    </React.Fragment >
+    </React.Fragment>
   )
 }
