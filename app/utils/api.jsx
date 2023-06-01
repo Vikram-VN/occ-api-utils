@@ -126,6 +126,24 @@ export const fileDownload = async (fileLink) => {
 };
 
 
+export const sseDownload = async (fileLink) => {
+    try {
+        const fileData = await adminApiCall({ url: "../ccadmin/v1".concat(fileLink) });
+        const fileName = fileLink.split("/").pop();
+        const contentType = fileData.headers["content-type"];
+        const buffer = fileData.data;
+        const bytes = new Uint8Array(buffer.data);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+        link.download = fileName;
+        link.click();
+        link.remove();
+    } catch (e) {
+        console.log("Error occurred while downloading SSE zip file: " + e.message);
+    }
+};
+
+
 export const adminFileDownload = async (fileLink) => {
     try {
         const modifiedLink = fileLink.split("admin.occa.ocs.oraclecloud.com")[1];

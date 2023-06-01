@@ -41,7 +41,7 @@ export default function Extensions() {
   const onUploadSuccess = useCallback((res) => {
     toast.show({
       status: "success",
-      message: "File uploaded successfully.."
+      message: "Extension uploaded successfully.."
     });
   }, [toast])
 
@@ -102,7 +102,7 @@ export default function Extensions() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => fetchExtensions(), []);
 
-  const fileDelete = useCallback(async (id) => {
+  const extensionDelete = useCallback(async (id) => {
     adminApi({
       method: "delete",
       url: `extensions/${id}`,
@@ -250,7 +250,7 @@ export default function Extensions() {
             <PlayCircleIcon className="h-6 w-6 cursor-pointer" title="Enable this extension" onClick={() => manageExtensions(data.id)} />
           }
           <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" title="Download this extension" onClick={() => fileDownload(`/${data.zipPath}`)} />
-          <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this extension" onClick={() => fileDelete(data.id)} />
+          <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this extension" onClick={() => extensionDelete(data.id)} />
         </Table.Cell>
       </Table.Row>
 
@@ -289,10 +289,8 @@ export default function Extensions() {
         popup={true}
         onClose={() => setLogsModalView(false)}
       >
-        <Modal.Header>
-          <h3 className="pl-4 mb-5 text-lg font-normal text-gray-500 dark:text-gray-200">
-            Download the server logs
-          </h3>
+        <Modal.Header className="pl-4 mb-5 text-lg font-normal text-gray-500 dark:text-gray-200">
+          Download the server logs
         </Modal.Header>
         <Modal.Body className="overflow-visible">
           <div className="flex justify-center md:justify-end gap-4 mb-10">

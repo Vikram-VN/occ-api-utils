@@ -2,14 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useToasts } from "../../store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
-import DatePicker from "../../components/date";
 import { Card, Table, Checkbox, Pagination, Modal, Button, Dropdown, Select } from "flowbite-react";
-import { debounce, formatDate } from "../../utils";
+import { debounce, formatBytes, formatDate } from "../../utils";
 import FileUpload from "../file";
-import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon, PlayCircleIcon, StopCircleIcon, ServerIcon, ArrowUpRightIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
-import adminApi, { adminApiCall, adminXApi, fileDownload } from "../../utils/api";
+import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import adminApi, { sseDownload } from "../../utils/api";
 import { useCallback } from "react";
-import Link from "next/link";
 
 export default function Extensions() {
 
@@ -19,8 +17,6 @@ export default function Extensions() {
   const currentPageNo = Number(useSearchParams().get("page")) || 1;
   const [allExtensionsSelected, setAllExtensionsSelected] = useState(false);
   const [showFileUploadModal, setFileUploadModal] = useState(false);
-  const [showLogsModal, setLogsModalView] = useState(false);
-  const [logType, setLogType] = useState('info');
   const [showModal, setModalView] = useState(false);
   const [date, handleDateChange] = useState({
     startDate: new Date(),
@@ -41,7 +37,7 @@ export default function Extensions() {
   const onUploadSuccess = useCallback((res) => {
     toast.show({
       status: "success",
-      message: "File uploaded successfully.."
+      message: "Extension uploaded successfully.."
     });
   }, [toast])
 
@@ -55,37 +51,14 @@ export default function Extensions() {
 
   }, [toast]);
 
-  const onDisable = useCallback((res) => {
-    toast.show({
-      status: "success",
-      message: "Extension disable successfully.."
-    });
-  }, [toast]);
-
-
-  const onEnable = useCallback((res) => {
-    toast.show({
-      status: "success",
-      message: "Extension enabled successfully.."
-    });
-  }, [toast]);
-
-  const onAction = useCallback((res) => {
-    toast.show({
-      status: "success",
-      message: "Action performed successfully.."
-    });
-  }, [toast]);
-
-
   const paginationHandler = (pageNo) => {
-    router.push(`/extensions?page=${pageNo}`);
+    router.push(`/extensions/server?page=${pageNo}`);
   }
 
   // Refreshing table data based on filters
   const fetchExtensions = debounce(async () => {
     const apiResponse = await adminApi({
-      url: `extensions`
+      url: `serverExtensions`
     });
     if (apiResponse.items) {
       setExtensions(apiResponse);
@@ -102,10 +75,10 @@ export default function Extensions() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => fetchExtensions(), []);
 
-  const fileDelete = useCallback(async (id) => {
+  const extensionDelete = useCallback(async (path) => {
     adminApi({
       method: "delete",
-      url: `extensions/${id}`,
+      url: `serverExtensions/${path}?restartExtensionServer=true&trackProgress=true`,
       showNotification: true,
       onSuccess,
       onError,
@@ -114,30 +87,28 @@ export default function Extensions() {
   }, [fetchExtensions, onError, onSuccess]);
 
   const extensionsDelete = useCallback(() => {
-    extensions.items.map(item => {
-      adminApi({
-        method: "post",
-        url: `extensions/${item.id}`,
-        showNotification: true,
-        onSuccess,
-        onError,
-      });
+    adminApi({
+      method: "post",
+      url: `serverExtensions/deleteFiles?restartExtensionServer=true&trackProgress=true`,
+      data: { paths: selectedExtensions.items.map(item => item.path) },
+      showNotification: true,
+      onSuccess,
+      onError,
     });
     setModalView(false);
     fetchExtensions();
-  }, [extensions.items, fetchExtensions, onError, onSuccess]);
+  }, [fetchExtensions, onError, onSuccess, selectedExtensions.items]);
 
   const extensionsDownload = () => {
-    selectedExtensions.map(file => fileDownload(`/${file}`));
+    selectedExtensions.map(file => sseDownload(file));
   };
 
-  const selectFile = (event, path) => {
+  const selectExtension = (event, path) => {
     const isAlreadyAdded = selectedExtensions.includes(path);
     !isAlreadyAdded && setSelectedExtensions([...selectedExtensions, path]);
 
     if (isAlreadyAdded) {
       selectedExtensions.splice(selectedExtensions.indexOf(path), 1);
-      // I spent almost 2 hours to know about my basic mistake with the array concept.
       setSelectedExtensions([...selectedExtensions]);
     }
 
@@ -145,7 +116,7 @@ export default function Extensions() {
 
   const selectExtensions = (e) => {
     const checked = e.target.checked;
-    checked && extensions.items ? setSelectedExtensions([...extensions.items.map(file => file.zipPath)]) :
+    checked && extensions.items ? setSelectedExtensions([...extensions.items.map(file => file.path)]) :
       setSelectedExtensions([]);
     setAllExtensionsSelected(!allExtensionsSelected);
   }
@@ -155,6 +126,9 @@ export default function Extensions() {
     const formData = new FormData();
     formData.append("filename", file.name);
     formData.append("uploadType", uploadType);
+    formData.append("force", true);
+    formData.append("restartExtensionServer", true);
+    formData.append("trackProgress", true);
     formData.append("fileUpload", file);
 
     adminApi({
@@ -169,88 +143,31 @@ export default function Extensions() {
     setFileUploadModal(false);
   }, [fetchExtensions, onError, onUploadSuccess]);
 
-  const manageExtensions = useCallback((id, type) => {
-    adminApi({
-      method: "post",
-      url: `extensions/${id}`,
-      data: {
-        "op": type ? "deactivate" : "activate"
-      },
-      showNotification: true,
-      onSuccess: type ? onDisable : onEnable,
-      onError,
-    });
-    fetchExtensions();
-  }, [fetchExtensions, onDisable, onEnable, onError]);
-
-  const manageServer = useCallback(action => {
-    adminXApi({
-      method: "post",
-      url: `servers/${action}`,
-      data: {
-        "environmentType": "live"
-      },
-      showNotification: true,
-      onSuccess: onAction,
-      onError,
-    });
-  }, [onAction, onError]);
-
-  const downloadServerLogs = useCallback(async () => {
-    try {
-      const modifiedDate = date.startDate.replace(/-/gi, "");
-      const logs = await adminApiCall({
-        method: "get",
-        url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,
-        data: {
-          "environmentType": "live"
-        },
-        onError,
-      });
-      const contentType = logs.headers["content-type"];
-      const buffer = logs.data;
-      const bytes = new Uint8Array(buffer.data);
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-      link.download = `serverLogs_${date.startDate}.zip`;
-      link.click();
-      link.remove();
-
-    } catch (error) {
-      console.error('While downloading server logs, error occurred. The error message is: ' + error);
-    }
-
-  }, [date.startDate, logType, onError]);
-
 
   const tableData = data => {
     return (
-      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.id}>
+      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.path}>
         <Table.Cell className="!p-4">
           <Checkbox name={data.name}
-            checked={selectedExtensions.includes(data.zipPath)}
-            onChange={(e) => selectFile(e, data.zipPath)}
+            checked={selectedExtensions.includes(data.path)}
+            onChange={(e) => selectExtension(e, data.path)}
           />
         </Table.Cell>
         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
           {data.name}
         </Table.Cell>
         <Table.Cell>
-          {data.creator}
+          {formatBytes(data.size)}
         </Table.Cell>
         <Table.Cell>
-          {formatDate(data.creationTime)}
+          {data.type}
         </Table.Cell>
         <Table.Cell>
-          {formatDate(data.modificationTime)}
+          {formatDate(data.lastModified)}
         </Table.Cell>
         <Table.Cell className="flex justify-around gap-4">
-          {data.enabled ?
-            <StopCircleIcon className="h-6 w-6 cursor-pointer" title="Disable this extension" onClick={() => manageExtensions(data.id, true)} /> :
-            <PlayCircleIcon className="h-6 w-6 cursor-pointer" title="Enable this extension" onClick={() => manageExtensions(data.id)} />
-          }
-          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" title="Download this extension" onClick={() => fileDownload(`/${data.zipPath}`)} />
-          <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this extension" onClick={() => fileDelete(data.id)} />
+          <ArrowDownTrayIcon className="h-6 w-6 cursor-pointer" title="Download this extension" onClick={() => sseDownload(data.path)} />
+          <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete this extension" onClick={() => extensionDelete(data.path)} />
         </Table.Cell>
       </Table.Row>
 
@@ -277,47 +194,6 @@ export default function Extensions() {
               </Button>
               <Button color="gray" onClick={() => setModalView(false)} >
                 No, cancel
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        show={showLogsModal}
-        size="md"
-        popup={true}
-        onClose={() => setLogsModalView(false)}
-      >
-        <Modal.Header>
-          <h3 className="pl-4 mb-5 text-lg font-normal text-gray-500 dark:text-gray-200">
-            Download the server logs
-          </h3>
-        </Modal.Header>
-        <Modal.Body className="overflow-visible">
-          <div className="flex justify-center md:justify-end gap-4 mb-10">
-            <div className="flex flex-col gap-4 md:flex-row">
-              <DatePicker handleValueChange={handleDateChange} value={date} />
-              <Select
-                defaultValue="none"
-                onChange={(e) => setLogType(e.target.value)}
-                className="w-min:w-10 w-full"
-              >
-                <option value="none" disabled>Log Level</option>
-                <option value="debug">Debug</option>
-                <option value="info">Info</option>
-                <option value="warning">Warning</option>
-                <option value="error">Error</option>
-              </Select>
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="flex justify-center gap-4">
-              <Button onClick={downloadServerLogs}>
-                Download
-              </Button>
-              <Button className="bg-gray-400 border-gray-900 hover:bg-gray-600 dark:bg-gray-700 border dark:border-gray-500 dark:hover:bg-gray-500" onClick={() => setLogsModalView(false)} >
-                Cancel
               </Button>
             </div>
           </div>
@@ -380,10 +256,10 @@ export default function Extensions() {
               Name
             </Table.HeadCell>
             <Table.HeadCell>
-              Creator
+              Size
             </Table.HeadCell>
             <Table.HeadCell>
-              Created Date
+              Type
             </Table.HeadCell>
             <Table.HeadCell>
               Last Modified

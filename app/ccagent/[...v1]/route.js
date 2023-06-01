@@ -14,7 +14,7 @@ export async function GET(request) {
   try {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const hostId = request.headers.get("X-InstanceId");;
+    const hostId = request.headers.get("X-InstanceId");
 
     if(!hostId){
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
@@ -32,6 +32,10 @@ export async function GET(request) {
       url: newUrl,
       method: "get",
       headers: modifiedHeaders
+    }
+
+    if (newUrl.includes(".zip")) {
+      payload.responseType = "arraybuffer"
     }
 
     const agentApi = await axios.request(payload);
@@ -53,7 +57,7 @@ export async function POST(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     // Parsing the binary large object as it is into occ server
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");;
+    const hostId = request.headers.get("X-InstanceId");
 
     if(!hostId){
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
@@ -92,7 +96,7 @@ export async function PUT(request) {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");;
+    const hostId = request.headers.get("X-InstanceId");
 
     if(!hostId){
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
@@ -131,7 +135,7 @@ export async function DELETE(request) {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");;
+    const hostId = request.headers.get("X-InstanceId");
 
     if(!hostId){
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
@@ -170,7 +174,7 @@ export async function PATCH(request) {
 
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");;
+    const hostId = request.headers.get("X-InstanceId");
 
     if(!hostId){
       return NextResponse.json({ errorCode: "01", message: `X-InstanceId header is missing in the request.` }, { status: 400 })
