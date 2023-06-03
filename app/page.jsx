@@ -52,12 +52,12 @@ export default function Home() {
       </div>
 
       <div className="inline-flex gap-x-20 ">
-        <div className="aprimary w-1/2 pr-1">
-          <h1 className="mt-10 mb-4 text-4xl text-justify bold ">About Commerce API Utils</h1>
-          <p>Commerce API Utils Tool is an invaluable asset for developers, providing a comprehensive suite of functionalities to enhance and streamline e-commerce API integrations effortlessly.</p><br />
-          <p>This powerful tool simplifies complex API interactions, offering a wide range of utility functions, including file management, Deployment info, request authentication, and response parsing. By leveraging Commerce API Utils Tool, developers can focus on building exceptional user experiences while minimizing the time and effort required for API integration.</p><br />
-          <p>By utilizing this versatile tool, developers can expedite the development process, accelerate time-to-market, and ensure the stability and reliability of their e-commerce solutions, empowering businesses to thrive in the competitive online marketplace.</p><br />
-          <p>Commerce API Utils Tool is a game-changer for developers, offering an intuitive interface and robust support, making it the go-to choice for simplifying and enhancing e-commerce API integrations.</p><br />
+        <div className="aprimary w-1/2 pr-1 text-justify">
+          <h1 className="mt-10 mb-4 text-4xl text-justify bold">About Commerce API Utils</h1>
+          <p><b>Commerce API Utils</b> is a powerful and versatile tool designed to facilitate the seamless handling of Oracle Commerce Cloud API actions. It serves as a comprehensive solution to streamline the communication and interaction between applications and the Oracle Commerce Cloud platform.</p><br />
+          <p>With Commerce API Utils, developers and system administrators can effectively manage and automate various tasks related to Oracle Commerce Cloud API operations. The tool provides a set of utility functions, libraries, and modules that simplify the integration and interaction with the API, reducing the complexity and effort required to perform common actions.</p><br />
+          <p>One of the key features of Commerce API Utils is its ability to handle authentication and authorization mechanisms, ensuring secure access to the Oracle Commerce Cloud API. It provides convenient methods to generate and manage authentication tokens, enabling seamless communication between applications and the platform.</p><br />
+          <p>Overall, Commerce API Utils serves as a valuable tool for developers and system administrators working with Oracle Commerce Cloud. By simplifying API interactions, handling authentication, and providing a range of useful utilities, the tool enhances productivity and efficiency when working with Oracle Commerce Cloud API actions.</p><br />
         </div>
         <div className="w-max shadow-2xl hover:scale-105 ease-in duration-300 bg-white mt-10 mb-4 text-justify  bold rounded pt-16 pl-5 pr-5 text-slate-950  dark:bg-gray-800 dark:text-white">
           <div className="flex justify-evenly text-white text-4xl font-bold mb-8 hover:scale-105 ease-in duration-300  ">Quick Guide</div>
