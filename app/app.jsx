@@ -4,7 +4,6 @@ import { StoreContext } from "./store/context";
 import { useLoginStatus } from "./store/hooks";
 import { usePathname } from "next/navigation";
 import ToastProvider from "./components/toast";
-import Login from "./login/page";
 
 const OccUtilsApp = (props) => {
 
@@ -42,14 +41,18 @@ const OccUtilsApp = (props) => {
       }, (1 * 60 * 1000));
       return () => clearInterval(refresh);
     }
-    
+
   }, [action, isLoggedIn]);
 
-  const component = (isLoggedIn || publicRoutes.includes(currentPath)) ? props.children : <Login />;
+
+  const component = (isLoggedIn || publicRoutes.includes(currentPath)) ? props.children : props.login;
+
+  // Removing children and login
+  delete props.children;
 
   return (
     <ToastProvider>
-      {component}
+      {React.cloneElement(component, props)}
     </ToastProvider>
   )
 }

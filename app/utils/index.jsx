@@ -518,6 +518,15 @@ export const dashCase = (text) => {
   return matches.map(word => word.toLowerCase()).join("-");
 }
 
+export const arrayBufferToJson = (arrayBuffer) => {
+  const uint8Array = new Uint8Array(arrayBuffer);
+  const decoder = new TextDecoder();
+  const encodedString = decoder.decode(uint8Array);
+  const jsonData = JSON.parse(encodedString);
+  return jsonData;
+}
+
+
 export const camelCase = (text) => {
   const capitalize = s => s[0].toUpperCase() + s.slice(1);
 
@@ -532,7 +541,7 @@ export const camelCase = (text) => {
 }
 
 export const setCookie = (cookieName, cookieValue) => {
-  document.cookie = cookieName +"="+ cookieValue +"; Path=/;";
+  document.cookie = cookieName + "=" + cookieValue + "; Path=/;";
 }
 export const deleteCookie = (cookieName) => {
   document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

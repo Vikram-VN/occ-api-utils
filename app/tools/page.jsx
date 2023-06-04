@@ -4,6 +4,7 @@ import Excel2Json from "./fileConvert";
 import { Accordion, Card } from "flowbite-react";
 
 export default function Tools(props) {
+
   return (
     <React.Fragment>
 
@@ -15,25 +16,25 @@ export default function Tools(props) {
 
         <Accordion.Panel>
           <Accordion.Title>
-            Convert json to xlsx and vice versa.
+            JSON to XLSX and XLSX to JSON.
           </Accordion.Title>
           <Accordion.Content>
-            <h1 className="text-2xl mb-4">Convert xlsx to json</h1>
-            <Excel2Json label="Download JSON" fileType="json" />
-            <h1 className="text-2xl mt-10 mb-4">Convert json to xlsx</h1>
-            <Excel2Json label="Download XLSX" fileType="xlsx" />
+            <h1 className="text-2xl mb-4">Convert XLSX to JSON</h1>
+            <Excel2Json label="Download JSON" fileType="xlsx2Json" />
+            <h1 className="text-2xl mt-10 mb-4">Convert JSON to XLSX</h1>
+            <Excel2Json label="Download XLSX" fileType="json2Xlsx" />
           </Accordion.Content>
         </Accordion.Panel>
 
         <Accordion.Panel>
           <Accordion.Title>
-            Xlsx to csv and csv to xlsx
+            XLSX to CSV and CSV to XLSX
           </Accordion.Title>
           <Accordion.Content>
-            <h1 className="text-2xl mt-10 mb-4">Convert xlsx to csv</h1>
-            <Excel2Json label="Download CSV" fileType="csv" />
-            <h1 className="text-2xl mt-10 mb-4">Convert csv to xlsx</h1>
-            <Excel2Json label="Download XLSX" fileType="xlsx" />
+            <h1 className="text-2xl mt-10 mb-4">Convert XLSX to CSV</h1>
+            <Excel2Json label="Download CSV" fileType="xlsx2Csv" />
+            <h1 className="text-2xl mt-10 mb-4">Convert CSV to XLSX</h1>
+            <Excel2Json label="Download XLSX" fileType="csv2Xlsx" />
           </Accordion.Content>
         </Accordion.Panel>
 

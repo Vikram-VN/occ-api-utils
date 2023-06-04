@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import { useDragging } from "../../store/hooks";
+import { arrayBufferToJson } from "../../utils";
 import { Button } from "flowbite-react";
 
 const FileConvert = props => {
@@ -19,17 +20,48 @@ const FileConvert = props => {
     const [currFiles, setFile] = useState(null);
     const [fileData, setFileData] = useState(null);
 
+    const contentTypes = {
+        xlsx2Json: { extension: "json", contentType: "application/json" },
+        json2Xlsx: { extension: "xlsx", contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+        xlsx2Csv: { extension: "csv", contentType: "text/csv;charset=utf-8" },
+        csv2Xlsx: { extension: "xlsx", contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+    }
+
     const handleChanges = (uploadType, file) => {
         if (file) {
             setFile(file);
             const reader = new FileReader();
 
             reader.onload = (ev) => {
-                const data = new Uint8Array(ev.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                setFileData(jsonData);
+                let content, workbook, worksheet, jsonData = null;
+                switch (fileType) {
+                    case "xlsx2Json":
+                        content = new Uint8Array(ev.target.result);
+                        workbook = XLSX.read(data, { type: 'array' });
+                        worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                        jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        setFileData(jsonData);
+                        break;
+                    case "json2Xlsx":
+                        content = ev.target.result;
+                        jsonData = arrayBufferToJson(content);
+                        // Extract and sort headers
+                        const headers = Object.keys(jsonData[0]);
+                        headers.sort((a, b) => a.localeCompare(b));
+                        worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
+                        workbook = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                        setFileData(excelBuffer)
+                        break;
+                    case "xlsx2Csv":
+                        break;
+                    case "csv2Xlsx":
+                        break;
+
+                    default:
+                        break;
+                }
             };
 
             reader.readAsArrayBuffer(file);
@@ -54,11 +86,36 @@ const FileConvert = props => {
         setFile(ev.target.files[0]);
 
         reader.onload = (ev) => {
-            const data = new Uint8Array(ev.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            setFileData(jsonData);
+            let content, workbook, worksheet, jsonData = null;
+            switch (fileType) {
+                case "xlsx2Json":
+                    content = new Uint8Array(ev.target.result);
+                    workbook = XLSX.read(data, { type: 'array' });
+                    worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    setFileData(jsonData);
+                    break;
+                case "json2Xlsx":
+                    content = ev.target.result;
+                    jsonData = arrayBufferToJson(content);
+                    // Extract and sort headers
+                    const headers = Object.keys(jsonData[0]);
+                    headers.sort((a, b) => a.localeCompare(b));
+                    worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
+                    workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                    setFileData(excelBuffer)
+                    break;
+                case "xlsx2Csv":
+                    break;
+                case "csv2Xlsx":
+                    break;
+
+                default:
+                    break;
+            }
+
         };
 
         reader.readAsArrayBuffer(file);
@@ -77,29 +134,47 @@ const FileConvert = props => {
     }, [dragging, onDraggingStateChange])
 
     const handleDownload = () => {
-        const fileName = `${currFiles.name.split(".")[0]}.json`;
-        const headers = fileData[0];
-        const allData = fileData.slice(1);
-        const modifiedData = [];
-        allData.map(values => {
-            const childData = {}
-            headers.map((key, index) => {
-                childData[key] = values[index] || ""
-            })
+        const fileName = `${currFiles.name.split(".")[0]}.${contentTypes[fileType].extension}`;
+        let finalData, headers, allData, modifiedData = null;
 
-            modifiedData.push(childData);
-        })
-        const jsonDataStr = JSON.stringify(modifiedData, null, 3);
-        const blob = new Blob([jsonDataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.click();
-        URL.revokeObjectURL(url);
+        switch (fileType) {
+            case "xlsx2Json":
+                headers = fileData[0];
+                allData = fileData.slice(1);
+                modifiedData = [];
+                allData.map(values => {
+                    const childData = {}
+                    headers.map((key, index) => {
+                        childData[key] = values[index] || ""
+                    })
+
+                    modifiedData.push(childData);
+                })
+                finalData = JSON.stringify(modifiedData, null, 3);
+                break;
+            case "json2Xlsx":
+                finalData = fileData;
+                break;
+            case "xlsx2Csv":
+                break;
+            case "csv2Xlsx":
+                break;
+
+            default:
+                break;
+        }
+
+        if (finalData) {
+            const blob = new Blob([finalData], { type: contentTypes[fileType].contentType });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
     };
-
-    console.log(currFiles);
 
     return (
         <div className="flex items-center phone:flex-row flex-col gap-4 phone:gap-0 justify-center w-full">
@@ -110,12 +185,12 @@ const FileConvert = props => {
                     <p className="text-xs text-gray-500 dark:text-gray-400"> OCC will support only limited file types</p>
                 </div>
                 <input
-                    id="occ-file"
+                    id="file-converter"
                     onClick={handleClick}
                     onChange={handleInputChange}
                     ref={inputRef}
                     type="file"
-                    name="fileUpload"
+                    name="fileConverter"
                     className="hidden"
                     disabled={disabled}
                     multiple={multiple}
