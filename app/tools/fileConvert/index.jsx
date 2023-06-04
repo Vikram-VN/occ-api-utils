@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import { useDragging } from "../../store/hooks";
-import { arrayBufferToJson } from "../../utils";
+import { arrayBufferToJson, arrayBufferToString, sortData } from "../../utils";
 import { Button } from "flowbite-react";
 
 const FileConvert = props => {
@@ -27,13 +27,32 @@ const FileConvert = props => {
         csv2Xlsx: { extension: "xlsx", contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
     }
 
+    const parseCSV = (content) => {
+        const lines = content.split('\n');
+        const headers = lines[0].split(',');
+        const jsonData = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].split(',');
+            const data = {};
+
+            for (let j = 0; j < headers.length; j++) {
+                data[headers[j]] = line[j];
+            }
+
+            jsonData.push(data);
+        }
+
+        return jsonData;
+    };
+
     const handleChanges = (uploadType, file) => {
         if (file) {
             setFile(file);
             const reader = new FileReader();
 
             reader.onload = (ev) => {
-                let content, workbook, worksheet, jsonData = null;
+                let content, workbook, worksheet, excelBuffer, headers, jsonData = null;
                 switch (fileType) {
                     case "xlsx2Json":
                         content = new Uint8Array(ev.target.result);
@@ -46,17 +65,30 @@ const FileConvert = props => {
                         content = ev.target.result;
                         jsonData = arrayBufferToJson(content);
                         // Extract and sort headers
-                        const headers = Object.keys(jsonData[0]);
+                        headers = Object.keys(jsonData[0]);
                         headers.sort((a, b) => a.localeCompare(b));
                         worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
                         workbook = XLSX.utils.book_new();
                         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-                        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                        excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
                         setFileData(excelBuffer)
                         break;
                     case "xlsx2Csv":
+                        content = ev.target.result;
+                        workbook = XLSX.read(content, { type: 'array' });
+                        const worksheetName = workbook.SheetNames[0];
+                        worksheet = workbook.Sheets[worksheetName];
+                        const csvData = XLSX.utils.sheet_to_csv(worksheet);
+                        setFileData(csvData);
                         break;
                     case "csv2Xlsx":
+                        content = ev.target.result;
+                        jsonData = parseCSV(arrayBufferToString(content));
+                        workbook = XLSX.utils.book_new();
+                        worksheet = XLSX.utils.json_to_sheet(jsonData);
+                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                        excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                        setFileData(excelBuffer);
                         break;
 
                     default:
@@ -86,7 +118,7 @@ const FileConvert = props => {
         setFile(ev.target.files[0]);
 
         reader.onload = (ev) => {
-            let content, workbook, worksheet, jsonData = null;
+            let content, workbook, worksheet, excelBuffer, headers, jsonData = null;
             switch (fileType) {
                 case "xlsx2Json":
                     content = new Uint8Array(ev.target.result);
@@ -99,17 +131,30 @@ const FileConvert = props => {
                     content = ev.target.result;
                     jsonData = arrayBufferToJson(content);
                     // Extract and sort headers
-                    const headers = Object.keys(jsonData[0]);
+                    headers = Object.keys(jsonData[0]);
                     headers.sort((a, b) => a.localeCompare(b));
                     worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
                     workbook = XLSX.utils.book_new();
                     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-                    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-                    setFileData(excelBuffer)
+                    excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                    setFileData(excelBuffer);
                     break;
                 case "xlsx2Csv":
+                    content = ev.target.result;
+                    workbook = XLSX.read(content, { type: 'array' });
+                    const worksheetName = workbook.SheetNames[0];
+                    worksheet = workbook.Sheets[worksheetName];
+                    const csvData = XLSX.utils.sheet_to_csv(worksheet);
+                    setFileData(csvData);
                     break;
                 case "csv2Xlsx":
+                    content = ev.target.result;
+                    jsonData = parseCSV(arrayBufferToString(content));
+                    workbook = XLSX.utils.book_new();
+                    worksheet = XLSX.utils.json_to_sheet(jsonData);
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                    excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                    setFileData(excelBuffer);
                     break;
 
                 default:
@@ -153,11 +198,14 @@ const FileConvert = props => {
                 finalData = JSON.stringify(modifiedData, null, 3);
                 break;
             case "json2Xlsx":
+                // No data filtration is required
                 finalData = fileData;
                 break;
             case "xlsx2Csv":
+                finalData = fileData;
                 break;
             case "csv2Xlsx":
+                finalData = fileData;
                 break;
 
             default:

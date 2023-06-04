@@ -526,6 +526,23 @@ export const arrayBufferToJson = (arrayBuffer) => {
   return jsonData;
 }
 
+export const arrayBufferToString = (arrayBuffer) => {
+  const decoder = new TextDecoder('utf-8');
+  const decodedString = decoder.decode(arrayBuffer);
+  return decodedString;
+}
+
+export const sortData = (data) => {
+  // Sort the data based on a specific property or column
+  const sortedData = [...data].sort((a, b) => {
+    // Replace 'Property' with the actual property or column name
+    return a.Property.localeCompare(b.Property);
+  });
+
+  return sortedData;
+};
+
+
 
 export const camelCase = (text) => {
   const capitalize = s => s[0].toUpperCase() + s.slice(1);
