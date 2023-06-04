@@ -58,7 +58,7 @@ export default function Import() {
         method: "get"
       });
       if (response.completed) {
-        response.links[1].rel === "file" &&
+        response.links[1].rel === "failedRecordsFile" &&
           setMultiImportList({ ...multiImportList, [id]: { ...multiImportList[id], downloadLink: response.links[1].href, processId: "" } });
       }
     }
@@ -86,7 +86,7 @@ export default function Import() {
         method: "get"
       });
       if (response.completed) {
-        response.links[1].rel === "file" &&
+        response.links[1].rel === "failedRecordsFile" &&
           setBundleImport({ ...bundleImport, downloadLink: response.links[1].href, processId: "" });
       }
     }
@@ -125,16 +125,16 @@ export default function Import() {
   }, [bundleImport, multiImportList, toast]);
 
   // Single import 
-  const importHandler = useCallback(async (fileName, id) => {
-    setMultiImportList({ ...multiImportList, [id]: { ...multiImportList[id], downloadLink: "" } });
+  const importHandler = useCallback(async (fileData) => {
+    setMultiImportList({ ...multiImportList, [currentItem]: { ...multiImportList[currentItem], downloadLink: "" } });
     const response = await adminApi({
       url: `importProcess`,
       method: "post",
       data: {
-        id,
+        id: currentItem,
         mode: "standalone",
-        fileName: fileName,
-        format: multiImportList[id]?.format,
+        fileName: fileData.source,
+        format: multiImportList[currentItem]?.format,
       }
     });
     if (response.processId) {
@@ -142,24 +142,24 @@ export default function Import() {
         status: "success",
         message: "Import process started"
       });
-      setMultiImportList({ ...multiImportList, [id]: { ...multiImportList[id], processId: response.processId } });
+      setMultiImportList({ ...multiImportList, [currentItem]: { ...multiImportList[currentItem], processId: response.processId } });
     } else {
       toast.show({
         status: "failure",
         message: response.message || "Something went wrong while fetching import process status"
       });
     }
-  }, [multiImportList, toast]);
+  }, [currentItem, multiImportList, toast]);
 
   // Function to handle multi import
-  const bulkImportHandler = useCallback(async (fileName) => {
+  const bulkImportHandler = useCallback(async (fileData) => {
     setBundleImport({ ...bundleImport, downloadLink: "" });
     const response = await adminApi({
       url: `importProcess`,
       method: "post",
       data: {
         mode: "bundle",
-        fileName: fileName,
+        fileName: fileData.source,
         items: importItems.map(item => {
           return {
             id: item,
@@ -185,7 +185,8 @@ export default function Import() {
 
   const onUploadSuccess = useCallback((res) => {
     // Calling callback function to handle the process
-    importItems.length > 1 ? bulkImportHandler(res) : importHandler(res);
+    const fileData = res.data.result.fileResults[0];
+    importItems.length > 1 ? bulkImportHandler(fileData) : importHandler(fileData);
 
     toast.show({
       status: "success",
@@ -229,7 +230,7 @@ export default function Import() {
         popup={true}
         onClose={() => setFileUploadModal(false)}
       >
-        <Modal.Header>Files Upload</Modal.Header>
+        <Modal.Header>File Upload</Modal.Header>
         <Modal.Body>
           <FileUpload handleChange={fileUploadHandler} />
         </Modal.Body>
@@ -244,12 +245,14 @@ export default function Import() {
             <div className="flex gap-4 items-center justify-end">
               {bundleImport?.processId && <StopCircleIcon title="Stop import" className="w-8 h-8 cursor-pointer" onClick={() => stopProcess(bundleImport?.processId)} />}
               {bundleImport?.processId && <Spinner title="Bulk import is started" />}
-              {bundleImport?.downloadLink && <CloudArrowDownIcon title="Download imported file" className="w-8 h-8 cursor-pointer" onClick={() => adminFileDownload(bundleImport?.downloadLink)} />}
+              {bundleImport?.downloadLink && <CloudArrowDownIcon title="Download import status file" className="w-8 h-8 cursor-pointer" onClick={() => adminFileDownload(bundleImport?.downloadLink)} />}
             </div>
             <Button type="button"
               className="w-full mt-4"
               disabled={!(importItems.length > 1)}
-              onClick={bulkImportHandler}
+              onClick={() => {
+                setFileUploadModal(true);
+              }}
             >
               Import Items
             </Button>
@@ -272,7 +275,7 @@ export default function Import() {
                   <div className="flex gap-4 items-center">
                     {multiImportList[item.id]?.processId && <StopCircleIcon title="Stop import" className="w-8 h-8 cursor-pointer" onClick={() => stopProcess(multiImportList[item.id]?.processId, item.id)} />}
                     {multiImportList[item.id]?.processId && <Spinner title="Import is started" />}
-                    {multiImportList[item.id]?.downloadLink && <CloudArrowDownIcon title="Download imported file" className="w-8 h-8 cursor-pointer" onClick={() => adminFileDownload(multiImportList[item.id]?.downloadLink)} />}
+                    {multiImportList[item.id]?.downloadLink && <CloudArrowDownIcon title="Download import status file" className="w-8 h-8 cursor-pointer" onClick={() => adminFileDownload(multiImportList[item.id]?.downloadLink)} />}
                   </div>
                 </div>
                 <div className="grid md:grid-flow-col gap-4">
@@ -291,7 +294,7 @@ export default function Import() {
                     setCurrentItem(item.id);
                   }}
                     disabled={(item.formats.length > 0 && !multiImportList[item.id]?.format) || multiImportList[item.id]?.processId}>
-                    <CloudArrowUpIcon className="w-6 h-6 mr-2 cursor-pointer" />{item.id}
+                    <CloudArrowUpIcon className="w-6 h-6 mr-2 cursor-pointer" />Import
                   </Button>
                 </div>
               </Card>
