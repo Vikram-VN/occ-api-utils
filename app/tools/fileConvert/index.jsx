@@ -3,10 +3,11 @@ import * as XLSX from 'xlsx';
 import { useDragging } from "../../store/hooks";
 import { Button } from "flowbite-react";
 
-const Excel2Json = props => {
+const FileConvert = props => {
     const {
-        fileOrFiles,
+        label,
         onDrop,
+        fileType,
         disabled,
         multiple,
         required,
@@ -16,7 +17,7 @@ const Excel2Json = props => {
     const labelRef = useRef(null);
     const inputRef = useRef(null);
     const [currFiles, setFile] = useState(null);
-    const [fileData, setFileData] = useState([]);
+    const [fileData, setFileData] = useState(null);
 
     const handleChanges = (uploadType, file) => {
         if (file) {
@@ -122,9 +123,9 @@ const Excel2Json = props => {
                 />
             </label>
             <div className="w-2/6 flex justify-center">
-                <Button onClick={handleDownload} disabled={!fileData}>Download JSON</Button>
+                <Button onClick={handleDownload} disabled={!fileData}>{label}</Button>
             </div>
         </div>
     )
 }
-export default Excel2Json;
+export default FileConvert;
