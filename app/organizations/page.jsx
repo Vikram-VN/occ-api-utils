@@ -6,6 +6,7 @@ import { useToasts } from "../store/hooks";
 import { Card, Pagination, Select, Table, TextInput } from "flowbite-react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { debounce } from "../utils";
+import PageLoader from "../components/page-loader";
 
 export default function Organizations() {
 
@@ -20,6 +21,7 @@ export default function Organizations() {
   const [id, setId] = useState("")
   const [showModal, setModalView] = useState(false);
   const newOffset = (currentPageNo - 1) * pagination.limit;
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const paginationHandler = (pageNo) => {
@@ -46,10 +48,20 @@ export default function Organizations() {
       });
       setResponse({});
     }
+    setIsLoading(false);
 
   }, 2000);
+  
+  useEffect(() => {
+    if (query) {
+      setIsLoading(true);
+      filterOrganizations();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, newOffset]);
 
   const organizationTableData = (data, index) => {
+    console.log("data--->",data);
     return (
       <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.id}>
         <Table.Cell>
@@ -62,13 +74,13 @@ export default function Organizations() {
           {data.name}
         </Table.Cell>
         <Table.Cell>
-          {data.description}
+          {data.active===true?"Active":"Inactive"}
         </Table.Cell>
         <Table.Cell>
-          {data.active}
-        </Table.Cell>
+          {data.description===null?"NA":data.description}
+        </Table.Cell>   
         <Table.Cell>
-          {data.punchoutUserId}
+          {data.punchoutUserId===null?"NA":data.punchoutUserId}
         </Table.Cell>
       </Table.Row>
 
@@ -78,6 +90,7 @@ export default function Organizations() {
 
   return (
     <React.Fragment>
+      <PageLoader isLoading={isLoading} message={"Fetching the organization data, Please wait"}/>
       <Card className="mb-4">
         <h1 className="mb-4 text-4xl text-justify bold ">Organizations</h1>
         <div className="flex gap-4">
