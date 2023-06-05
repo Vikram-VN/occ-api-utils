@@ -221,7 +221,7 @@ export default function Profiles() {
         </Table.Body>
       </Table>
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        <Pagination
+      {pagination.totalPages > 1 &&<Pagination
           currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
@@ -229,7 +229,7 @@ export default function Profiles() {
           totalPages={pagination.totalPages}
           previousLabel="Back"
           nextLabel="Next"
-        />
+        />}
       </div>
     </React.Fragment>
   )
