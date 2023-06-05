@@ -191,7 +191,7 @@ export default function Export() {
       <Card className="mb-4">
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 items-center">
           <div className="block">
-            <h1 className="mb-2 text-4xl text-justify bold ">Export</h1>
+            <h1 className="mb-2 text-4xl text-justify bold ">Export Process</h1>
             <p>Export items from the server.</p>
           </div>
           <div className="block w-full">
@@ -240,7 +240,7 @@ export default function Export() {
                       {item.formats.map(format => <option value={format} key={format}>{format.toUpperCase()}</option>)}
                     </Select>
                   }
-                  <Button type="button" onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId}>{`Export ${item.id}`}</Button>
+                  <Button type="button" onClick={() => exportHandler(item.id)} disabled={(item.formats.length > 0 && !multiExportList[item.id]?.format) || multiExportList[item.id]?.processId}>Export</Button>
                 </div>
                 <div className="w-full m-auto">
                   <div className="mb-2 block">

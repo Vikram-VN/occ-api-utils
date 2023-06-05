@@ -518,6 +518,32 @@ export const dashCase = (text) => {
   return matches.map(word => word.toLowerCase()).join("-");
 }
 
+export const arrayBufferToJson = (arrayBuffer) => {
+  const uint8Array = new Uint8Array(arrayBuffer);
+  const decoder = new TextDecoder();
+  const encodedString = decoder.decode(uint8Array);
+  const jsonData = JSON.parse(encodedString);
+  return jsonData;
+}
+
+export const arrayBufferToString = (arrayBuffer) => {
+  const decoder = new TextDecoder('utf-8');
+  const decodedString = decoder.decode(arrayBuffer);
+  return decodedString;
+}
+
+export const sortData = (data) => {
+  // Sort the data based on a specific property or column
+  const sortedData = [...data].sort((a, b) => {
+    // Replace 'Property' with the actual property or column name
+    return a.Property.localeCompare(b.Property);
+  });
+
+  return sortedData;
+};
+
+
+
 export const camelCase = (text) => {
   const capitalize = s => s[0].toUpperCase() + s.slice(1);
 
@@ -532,7 +558,7 @@ export const camelCase = (text) => {
 }
 
 export const setCookie = (cookieName, cookieValue) => {
-  document.cookie = cookieName +"="+ cookieValue +"; Path=/;";
+  document.cookie = cookieName + "=" + cookieValue + "; Path=/;";
 }
 export const deleteCookie = (cookieName) => {
   document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

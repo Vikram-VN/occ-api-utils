@@ -17,7 +17,7 @@ const Modal = (props) => {
         <React.Fragment>
             <input name="login-modal" type="text" id="user-login" className="hidden" onClick={onModalClose} />
             <FlowBiteModal show={showModal} size={"7xl"} onClose={onModalClose}>
-                <FlowBiteModal.Header>
+                <FlowBiteModal.Header className="[&>h3]:text-2xl">
                     {props.title}
                 </FlowBiteModal.Header>
                 <FlowBiteModal.Body>

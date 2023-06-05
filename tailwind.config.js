@@ -19,6 +19,22 @@ module.exports = {
         navy: '#0B2447',
         occ: '#231f20'
       },
+      screens: {
+        'phone': '640px',
+        // => @media (min-width: 640px) { ... }
+
+        'tablet': '768px',
+        // => @media (min-width: 768px) { ... }
+
+        'laptop': '1024px',
+        // => @media (min-width: 1024px) { ... }
+
+        'desktop': '1280px',
+        // => @media (min-width: 1280px) { ... }
+
+        'tv': '1536px',
+        // => @media (min-width: 1536px) { ... }
+      }
     },
   },
   plugins: [
