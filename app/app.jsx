@@ -52,7 +52,8 @@ const OccUtilsApp = (props) => {
 
   return (
     <ToastProvider>
-      {React.cloneElement(component, props)}
+      {/* {React.cloneElement(component, props)} */}
+      {component}
     </ToastProvider>
   )
 }
