@@ -191,7 +191,7 @@ export default function Export() {
       <Card className="mb-4">
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 items-center">
           <div className="block">
-            <h1 className="mb-2 text-4xl text-justify bold ">Export Process</h1>
+            <h1 className="mb-2 text-2xl text-justify bold ">Export Process</h1>
             <p>Export items from the server.</p>
           </div>
           <div className="block w-full">

@@ -238,7 +238,7 @@ export default function Extensions() {
 
       <Card className="mb-4">
         <div className="flex gap-4 justify-start">
-          <h1 className="text-4xl">Server Side Extensions (SSEs)</h1>
+          <h1 className="text-2xl">Server Side Extensions (SSEs)</h1>
         </div>
         <div className="flex gap-4">
           <Button type="button" onClick={() => setFileUploadModal(true)}>Upload Extensions</Button>
