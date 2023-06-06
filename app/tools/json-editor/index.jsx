@@ -8,12 +8,8 @@ const JsonEditor = () => {
     const [readOnly, setReadOnly] = useState(false);
     const [content, setContent] = useState({
         json: {
-            greeting: "Hello World",
-            color: "#ff3e00",
-            ok: true,
-            values: ""
-        },
-        text: undefined
+            
+        }
     });
 
     return (
@@ -26,7 +22,7 @@ const JsonEditor = () => {
                         checked={showEditor}
                         onChange={() => setShowEditor(!showEditor)}
                     />
-                    <p>Show JSON editor</p>
+                    Show JSON editor
                 </label>
             </div>
             <div>
@@ -36,7 +32,7 @@ const JsonEditor = () => {
                         checked={readOnly}
                         onChange={() => setReadOnly(!readOnly)}
                     />
-                    <p>Read only</p>
+                    Read only
                 </label>
             </div>
 
