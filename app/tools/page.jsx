@@ -11,7 +11,7 @@ export default function Tools(props) {
     <React.Fragment>
 
       <Card className="mb-4">
-        <h1 className="mb-4 text-4xl text-justify bold ">Common tools for daily life use.</h1>
+        <h1 className="mb-4 text-2xl text-justify bold ">Tools to Turbocharge Your Efficiency</h1>
       </Card>
 
       <Accordion collapseAll>

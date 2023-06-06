@@ -156,7 +156,7 @@ export default function Profiles() {
         </Modal.Body>
       </Modal>
       <Card className="mb-4">
-        <h1 className="mb-4 text-4xl text-justify bold ">Profiles</h1>
+        <h1 className="mb-4 text-2xl text-justify bold ">Profiles</h1>
         <div className="flex gap-4">
           <Select className="mb-4"
             defaultValue={queryFilter.field || "none"}

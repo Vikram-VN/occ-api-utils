@@ -238,7 +238,7 @@ export default function Import() {
       <Card className="mb-4">
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 items-center">
           <div className="block">
-            <h1 className="mb-2 text-4xl text-justify bold ">Import Process</h1>
+            <h1 className="mb-2 text-2xl text-justify bold ">Import Process</h1>
             <p>Import to server.</p>
           </div>
           <div className="block w-full">

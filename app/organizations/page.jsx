@@ -92,7 +92,7 @@ export default function Organizations() {
     <React.Fragment>
       <PageLoader isLoading={isLoading} message={"Fetching the organization data, Please wait"}/>
       <Card className="mb-4">
-        <h1 className="mb-4 text-4xl text-justify bold ">Organizations</h1>
+        <h1 className="mb-4 text-2xl text-justify bold ">Organizations</h1>
         <div className="flex gap-4">
           <Select className="mb-4"
             defaultValue={queryFilter.field || "none"}
