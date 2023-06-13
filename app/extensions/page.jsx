@@ -202,9 +202,6 @@ export default function Extensions() {
       const logs = await adminApiCall({
         method: "get",
         url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,
-        data: {
-          "environmentType": "live"
-        },
         onError,
       });
       const contentType = logs.headers["content-type"];
@@ -295,7 +292,7 @@ export default function Extensions() {
         <Modal.Body className="overflow-visible">
           <div className="flex justify-center md:justify-end gap-4 mb-10">
             <div className="flex flex-col gap-4 md:flex-row">
-              <DatePicker handleValueChange={handleDateChange} value={date} />
+              <DatePicker handleValueChange={handleDateChange} value={date.startDate} />
               <Select
                 defaultValue="none"
                 onChange={(e) => setLogType(e.target.value)}
