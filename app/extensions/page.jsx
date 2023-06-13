@@ -23,8 +23,8 @@ export default function Extensions() {
   const [logType, setLogType] = useState('info');
   const [showModal, setModalView] = useState(false);
   const [date, handleDateChange] = useState({
-    startDate: new Date(),
-    endDate: new Date()
+    startDate: new Date().toISOString().split("T")[0],
+    endDate: new Date().toISOString().split("T")[0]
   });
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
@@ -292,7 +292,7 @@ export default function Extensions() {
         <Modal.Body className="overflow-visible">
           <div className="flex justify-center md:justify-end gap-4 mb-10">
             <div className="flex flex-col gap-4 md:flex-row">
-              <DatePicker handleValueChange={handleDateChange} value={date.startDate} />
+              <DatePicker handleValueChange={handleDateChange} value={date} />
               <Select
                 defaultValue="none"
                 onChange={(e) => setLogType(e.target.value)}
