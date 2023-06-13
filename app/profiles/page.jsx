@@ -156,7 +156,7 @@ export default function Profiles() {
         </Modal.Body>
       </Modal>
       <Card className="mb-4">
-        <h1 className="mb-4 text-4xl text-justify bold ">Profiles</h1>
+        <h1 className="mb-4 text-2xl text-justify bold ">Profiles</h1>
         <div className="flex gap-4">
           <Select className="mb-4"
             defaultValue={queryFilter.field || "none"}
@@ -221,7 +221,7 @@ export default function Profiles() {
         </Table.Body>
       </Table>
       <div className="flex items-center justify-center text-center mt-4 h-20">
-        <Pagination
+      {pagination.totalPages > 1 &&<Pagination
           currentPage={currentPageNo}
           layout="pagination"
           onPageChange={paginationHandler}
@@ -229,7 +229,7 @@ export default function Profiles() {
           totalPages={pagination.totalPages}
           previousLabel="Back"
           nextLabel="Next"
-        />
+        />}
       </div>
     </React.Fragment>
   )

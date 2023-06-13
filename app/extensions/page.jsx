@@ -357,7 +357,7 @@ export default function Extensions() {
 
       <Card className="mb-4">
         <div className="flex gap-4 justify-between">
-          <h1 className="text-4xl">Admin Extensions</h1>
+          <h1 className="text-2xl">Admin Extensions</h1>
           <div className="flex gap-4">
             <Dropdown
               label="Server Options">

@@ -10,42 +10,42 @@
 
 
 @font-face {
-	font-family: "OpenSans-Bol";
-	src: local("OpenSans-Bold"),
-		url(../../public/fonts/OpenSans-Bold.ttf) format("truetype");
+  font-family: "OpenSans-Bol";
+  src: local("OpenSans-Bold"),
+    url(../../public/fonts/OpenSans-Bold.ttf) format("truetype");
 }
 
 @font-face {
-	font-family: "OpenSans-Bla";
-	src: local("OpenSans-ExtraBold"),
-		url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
+  font-family: "OpenSans-Bla";
+  src: local("OpenSans-ExtraBold"),
+    url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
 }
 
 @font-face {
-	font-family: "OpenSans-Ita";
-	src: local("OpenSans-Italic"),
-		url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
+  font-family: "OpenSans-Ita";
+  src: local("OpenSans-Italic"),
+    url(../../public/fonts/OpenSans-ExtraBold.ttf) format("truetype");
 }
 
 @font-face {
-	font-family: "OpenSans-Lig";
-	src: local("OpenSans-Light"),
-		url(../../public/fonts/OpenSans-Light.ttf) format("truetype");
+  font-family: "OpenSans-Lig";
+  src: local("OpenSans-Light"),
+    url(../../public/fonts/OpenSans-Light.ttf) format("truetype");
 }
 
 @font-face {
-	font-family: "OpenSans-Medium";
-	src: local("OpenSans-Medium"),
-		url(../../public/fonts/OpenSans-Medium.ttf) format("truetype");
+  font-family: "OpenSans-Medium";
+  src: local("OpenSans-Medium"),
+    url(../../public/fonts/OpenSans-Medium.ttf) format("truetype");
 }
 
 @font-face {
-	font-family: "OpenSans-Regular";
-	src: local("OpenSans-Regular"),
-		url(../../public/fonts/OpenSans-Regular.ttf) format("truetype");
+  font-family: "OpenSans-Regular";
+  src: local("OpenSans-Regular"),
+    url(../../public/fonts/OpenSans-Regular.ttf) format("truetype");
 }
 
-h1{
+h1 {
   font-family: "OpenSans-Medium" !important;
 }
 
@@ -55,6 +55,7 @@ h1{
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+
   .next-error-h1 {
     border-right: 1px solid rgba(255, 255, 255, 0.3);
   }
@@ -78,13 +79,10 @@ footer {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-    font-family: "OpenSans-Regular" !important;
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  font-family: "OpenSans-Regular" !important;
 }
 
 .next-error-h1 {
@@ -97,4 +95,10 @@ body {
 
 .custom-col-span {
   grid-column: span 500 / span 500;
+}
+
+.jse-tree-mode,
+.jse-table-mode,
+.jse-text-mode {
+  min-height: 35rem !important;
 }

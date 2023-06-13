@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import { useDragging } from "../../store/hooks";
-import { arrayBufferToJson, arrayBufferToString, sortData } from "../../utils";
+import { arrayBufferToJson, arrayBufferToString } from "../../utils";
 import { Button } from "flowbite-react";
 
 const FileConvert = props => {
@@ -56,7 +56,7 @@ const FileConvert = props => {
                 switch (fileType) {
                     case "xlsx2Json":
                         content = new Uint8Array(ev.target.result);
-                        workbook = XLSX.read(data, { type: 'array' });
+                        workbook = XLSX.read(content, { type: 'array' });
                         worksheet = workbook.Sheets[workbook.SheetNames[0]];
                         jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                         setFileData(jsonData);
@@ -122,7 +122,7 @@ const FileConvert = props => {
             switch (fileType) {
                 case "xlsx2Json":
                     content = new Uint8Array(ev.target.result);
-                    workbook = XLSX.read(data, { type: 'array' });
+                    workbook = XLSX.read(content, { type: 'array' });
                     worksheet = workbook.Sheets[workbook.SheetNames[0]];
                     jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                     setFileData(jsonData);
