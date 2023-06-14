@@ -2,8 +2,8 @@
 
 ## Supported Node Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
+| Version      | Supported          |
+| ------------ | ------------------ |
 | >= 18.15.x   | :white_check_mark: |
 | < 18.15.x    | :x:                |
 
