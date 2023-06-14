@@ -6,16 +6,22 @@ const BasicAuth = (props) => {
     const { adminApi, onSuccess, onError } = props;
     const [currentSettings, setAuthSettings] = useState({});
 
-    useEffect(() => async () => {
-        // Getting current basic auth settings
-        const response = await adminApi({
-            method: "get",
-            url: "merchant/basicAuth",
-            showNotification: true,
-            onError, onSuccess
-        });
-        setAuthSettings(response);
+    useEffect(() => {
+
+        const fetchAuth = async () => {
+            // Getting current basic auth settings
+            const response = await adminApi({
+                method: "get",
+                url: "merchant/basicAuth",
+                showNotification: true,
+                onError, onSuccess
+            });
+            setAuthSettings(response);
+        }
+
+        fetchAuth();
     }, []);
+
 
     return (
         <React.Fragment>

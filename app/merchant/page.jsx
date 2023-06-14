@@ -29,9 +29,6 @@ export default function Merchant() {
     return components[activeTab];
   }, [activeTab]);
 
-
-  console.log('comp->', Component)
-
   // Used to show notifications
   const onSuccess = () => {
     toast.show({
