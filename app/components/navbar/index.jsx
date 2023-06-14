@@ -61,6 +61,13 @@ const NavBar = () => {
                   <span className="sr-only">Import</span>
                </Link>
             </Tooltip>
+            
+            <Tooltip content="Merchant" placement="auto" className="z-20">
+               <Link href="/merchant" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <BuildingStorefrontIcon className="w-6 h-6 text-slate-600 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
+                  <span className="sr-only">Merchant</span>
+               </Link>
+            </Tooltip>
 
             <Tooltip content="Organizations" placement="auto" className="z-20">
                <Link href="/organizations" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
@@ -80,13 +87,6 @@ const NavBar = () => {
                <Link href="/search" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
                   <MagnifyingGlassIcon className="w-6 h-6 text-slate-600 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
                   <span className="sr-only">Search</span>
-               </Link>
-            </Tooltip>
-
-            <Tooltip content="Store" placement="auto" className="z-20">
-               <Link href="/store" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
-                  <BuildingStorefrontIcon className="w-6 h-6 text-slate-600 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
-                  <span className="sr-only">Store</span>
                </Link>
             </Tooltip>
 
