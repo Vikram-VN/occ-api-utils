@@ -52,7 +52,7 @@ const FileConvert = props => {
             const reader = new FileReader();
 
             reader.onload = (ev) => {
-                let content, workbook, worksheet, excelBuffer, headers, jsonData = null;
+                let content, workbook, worksheet, excelBuffer, jsonData = null;
                 switch (fileType) {
                     case "xlsx2Json":
                         content = new Uint8Array(ev.target.result);
@@ -64,10 +64,7 @@ const FileConvert = props => {
                     case "json2Xlsx":
                         content = ev.target.result;
                         jsonData = arrayBufferToJson(content);
-                        // Extract and sort headers
-                        headers = Object.keys(jsonData[0]);
-                        headers.sort((a, b) => a.localeCompare(b));
-                        worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
+                        worksheet = XLSX.utils.json_to_sheet(jsonData);
                         workbook = XLSX.utils.book_new();
                         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
                         excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -118,7 +115,7 @@ const FileConvert = props => {
         setFile(ev.target.files[0]);
 
         reader.onload = (ev) => {
-            let content, workbook, worksheet, excelBuffer, headers, jsonData = null;
+            let content, workbook, worksheet, excelBuffer, jsonData = null;
             switch (fileType) {
                 case "xlsx2Json":
                     content = new Uint8Array(ev.target.result);
@@ -130,10 +127,7 @@ const FileConvert = props => {
                 case "json2Xlsx":
                     content = ev.target.result;
                     jsonData = arrayBufferToJson(content);
-                    // Extract and sort headers
-                    headers = Object.keys(jsonData[0]);
-                    headers.sort((a, b) => a.localeCompare(b));
-                    worksheet = XLSX.utils.json_to_sheet(jsonData, { header: headers });
+                    worksheet = XLSX.utils.json_to_sheet(jsonData);
                     workbook = XLSX.utils.book_new();
                     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
                     excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
