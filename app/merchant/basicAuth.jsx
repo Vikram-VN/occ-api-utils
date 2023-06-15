@@ -1,4 +1,4 @@
-import { Accordion, Button, Label, TextInput } from "flowbite-react";
+import { Accordion, Button, Label, TextInput, ToggleSwitch } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { formToJson } from "../utils";
 
@@ -36,8 +36,7 @@ const BasicAuth = (props) => {
         fetchAuth();
     }, []);
 
-    const disableBasicAuth = (event) => {
-        const isChecked = event.target.checked;
+    const disableBasicAuth = (isChecked) => {
         if (isChecked) {
             setAuthConfig({
                 pathWhitelist: ["/"]
@@ -71,24 +70,17 @@ const BasicAuth = (props) => {
             <h1 className="mb-2 text-2xl text-justify bold">Site Basic Authorization Settings</h1>
             {currentSettings &&
                 <form onSubmit={saveAdvancedConfig}>
-                    <label class="relative inline-flex items-center cursor-pointer mb-4">
-                        <input type="checkbox"
-                            class="sr-only peer"
-                            checked={
-                                currentSettings.headersWhitelist?.length > 0 ||
-                                currentSettings.ipRangesWhitelist?.length > 0 ||
-                                currentSettings.pathWhitelist?.length > 0 ||
-                                currentSettings.neverAuthenticateTargetHostNames?.length > 0
-                            }
-                            onChange={disableBasicAuth}
-
-                        />
-                        <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full 
-                        peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white 
-                        after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-slate-300 
-                        after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600" />
-                        <span class="ml-3 text-xl font-medium text-slate-900 dark:text-slate-300">Basic Authorization</span>
-                    </label>
+                    <ToggleSwitch
+                        label="Basic Authorization"
+                        className="mb-4"
+                        checked={
+                            currentSettings.headersWhitelist?.length > 0 ||
+                            currentSettings.ipRangesWhitelist?.length > 0 ||
+                            currentSettings.pathWhitelist?.length > 0 ||
+                            currentSettings.neverAuthenticateTargetHostNames?.length > 0
+                        }
+                        onChange={disableBasicAuth}
+                    />
                     <Accordion collapseAll>
                         <Accordion.Panel>
                             <Accordion.Title>
@@ -149,4 +141,4 @@ const BasicAuth = (props) => {
     )
 }
 
-export default BasicAuth
+export default BasicAuth;

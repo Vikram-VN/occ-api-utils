@@ -3,7 +3,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { ListGroup, Card } from "flowbite-react";
 import basicAuth from "./basicAuth";
-import policies from "./policies";
 import adminConf from "./adminConf";
 import agentConf from "./agentConf";
 import allowedUrls from "./allowedUrls";
@@ -21,9 +20,9 @@ export default function Merchant() {
 
   const Component = useMemo(() => {
     const components = {
-      1: basicAuth, 2: policies, 3: adminConf,
-      4: agentConf, 5: allowedUrls, 6: cloudConf,
-      7: whitelistUrls, 8: restrictedWords
+      1: basicAuth, 2: adminConf,
+      3: agentConf, 4: allowedUrls, 5: cloudConf,
+      6: whitelistUrls, 7: restrictedWords
     };
 
     return components[activeTab];
@@ -65,41 +64,35 @@ export default function Merchant() {
             active={activeTab === 2}
             onClick={() => setActiveTab(2)}
           >
-            Policies
+            Admin Configuration
           </ListGroup.Item>
           <ListGroup.Item
             active={activeTab === 3}
             onClick={() => setActiveTab(3)}
           >
-            Admin Configuration
+            Agent Configuration
           </ListGroup.Item>
           <ListGroup.Item
             active={activeTab === 4}
             onClick={() => setActiveTab(4)}
           >
-            Agent Configuration
+            Allowed URLs
           </ListGroup.Item>
           <ListGroup.Item
             active={activeTab === 5}
             onClick={() => setActiveTab(5)}
           >
-            Allowed URLs
+            Cloud Configuration
           </ListGroup.Item>
           <ListGroup.Item
             active={activeTab === 6}
             onClick={() => setActiveTab(6)}
           >
-            Cloud Configuration
+            Whitelist URLs
           </ListGroup.Item>
           <ListGroup.Item
             active={activeTab === 7}
             onClick={() => setActiveTab(7)}
-          >
-            Whitelist URLs
-          </ListGroup.Item>
-          <ListGroup.Item
-            active={activeTab === 8}
-            onClick={() => setActiveTab(8)}
           >
             Restricted Words
           </ListGroup.Item>
