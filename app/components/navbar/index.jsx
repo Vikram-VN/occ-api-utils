@@ -14,11 +14,15 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { Tooltip } from "flowbite-react";
+import { useLoginStatus } from "../../store/hooks";
 
 const NavBar = () => {
 
+     // Rendering children"s conditionally
+  const isLoggedIn = useLoginStatus();
+
    return (
-      <div className="flex bg-slate-100 dark:bg-slate-800">
+      isLoggedIn && <div className="flex bg-slate-100 dark:bg-slate-800">
          <div className="h-full mt-6">
             <Tooltip content="General Tools" placement="auto" className="z-20">
                <Link href="/tools" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
