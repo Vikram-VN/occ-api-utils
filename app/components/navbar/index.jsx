@@ -18,8 +18,8 @@ import { useLoginStatus } from "../../store/hooks";
 
 const NavBar = () => {
 
-     // Rendering children"s conditionally
-  const isLoggedIn = useLoginStatus();
+   // Rendering children"s conditionally
+   const isLoggedIn = useLoginStatus();
 
    return (
       isLoggedIn && <div className="flex bg-slate-100 dark:bg-slate-800">
@@ -65,7 +65,7 @@ const NavBar = () => {
                   <span className="sr-only">Import</span>
                </Link>
             </Tooltip>
-            
+
             <Tooltip content="Merchant" placement="auto" className="z-20">
                <Link href="/merchant" className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
                   <BuildingStorefrontIcon className="w-6 h-6 text-slate-600 transition duration-75 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" fill="currentColor" stroke="currentColor" />
