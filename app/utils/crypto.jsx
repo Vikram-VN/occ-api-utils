@@ -48,6 +48,9 @@ export const generateUniqueKeys = () => {
     const browserData = {
         userAgent: navigator.userAgent,
         language: navigator.language,
+        screenWidth: window.screen.width,
+        screenHeight: window.screen.height,
+        availableResolution: `${window.screen.availWidth}x${window.screen.availHeight}`,
         colorDepth: window.screen.colorDepth,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         deviceMemory: navigator.deviceMemory,
