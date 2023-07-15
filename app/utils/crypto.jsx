@@ -64,8 +64,8 @@ export const generateUniqueKeys = () => {
     const keys = sign("SHA256", data, hex2bin(data));
 
     return {
-        key: keys.substring(16, 32),
-        iv: keys.substring(48, 16)
+        aesKey: keys.substring(16, 32),
+        aesIv: keys.substring(48, 16)
     }
 }
 
