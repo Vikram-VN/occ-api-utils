@@ -365,21 +365,21 @@ export const loginValidation = (data, setError, checkDetails) => {
   const { name, mobNo, email } = data;
   const { tnc } = checkDetails;
 
-  const regrExp = /^[0-9]+$/;
-  const nameRegrExp = /^[A-Za-z\s]+$/;
+  const regExp = /^[0-9]+$/;
+  const nameRegExp = /^[A-Za-z\s]+$/;
 
   if (mobNo.length !== 10) {
-    setError({ errormobNo: "Please enter 10 digit mobile number." });
+    setError({ errorMobNo: "Please enter 10 digit mobile number." });
     return false;
-  } else if (!regrExp.test(mobNo)) {
-    setError({ errormobNo: "Please input only numeric." });
+  } else if (!regExp.test(mobNo)) {
+    setError({ errorMobNo: "Please input only numeric." });
     return false;
   }
 
   if (name.length === 0) {
     setError({ errorName: "Please enter your name." });
     return false;
-  } else if (!nameRegrExp.test(name)) {
+  } else if (!nameRegExp.test(name)) {
     setError({ errorName: "Please enter only characters" });
     return false;
   }
