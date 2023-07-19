@@ -2,10 +2,7 @@
 const nextConfig = {
     images: {
         unoptimized: true
-    },
-    experimental: {
-      mdxRs: true,
-    },
+    }
   }
    
   const withMDX = require('@next/mdx')();
