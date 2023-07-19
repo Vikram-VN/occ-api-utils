@@ -16,7 +16,7 @@ export default function ItemTypes() {
     const [form, setForm] = useState();
     const [customAttributesCreateModalShow, setCustomAttributesCreateModalShow] = useState(false);
     const [showModal, setModalView] = useState(false);
-    const [customAttributes, setCustomAttributes] = useState({});
+    const [customAttributes, setCustomAttributes] = useState({ counter: 0 });
     const [itemType, updateItemType] = useState(useSearchParams().get("type") || 'none');
     const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
     const toast = useToasts();
@@ -114,10 +114,11 @@ export default function ItemTypes() {
 
         if (type === "add") {
 
+            const counter = customAttributes.counter + 1;
             const key = Math.floor((Math.random() * 10) * 10e4);
 
             const attribute = <div className="flex gap-4 items-center">
-                <Select type="text" id="customAttribute" className="mb-2" name={`[${key}][type]`}
+                <Select type="text" id="customAttribute" className="mb-2" name={`specifications[${counter}][type]`}
                     defaultValue="shortText"
                 >
                     <option value="none" disabled>Select Data Type</option>
@@ -129,14 +130,14 @@ export default function ItemTypes() {
                     <option value="date">Date</option>
                     <option value="enumerated">Selection List</option>
                 </Select>
-                <TextInput type="text" className="mb-2" name={`[${key}][id]`} required placeholder="Ex: x_newAttribute" />
-                <TextInput type="text" className="mb-2" name={`[${key}][label]`} required placeholder="Ex: New Attribute" />
-                <TextInput type="number" className="mb-2" name={`[${key}][length]`} required placeholder="Ex: 10000" />
+                <TextInput type="text" className="mb-2" name={`specifications[${counter}][id]`} required placeholder="Ex: x_newAttribute" />
+                <TextInput type="text" className="mb-2" name={`specifications[${counter}][label]`} required placeholder="Ex: New Attribute" />
+                <TextInput type="number" className="mb-2" name={`specifications[${counter}][length]`} required placeholder="Ex: 10000" />
                 <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete the attribute" onClick={() => addOrRemoveAttributes(key)} />
             </div>
 
             setCustomAttributes((prevState) => {
-                return {...prevState, [key]: attribute }
+                return { ...prevState, counter, [key]: attribute }
             })
         } else if (!isNaN(type)) {
 
@@ -220,7 +221,7 @@ export default function ItemTypes() {
                                 />
                             </div>
                             <div className="flex gap-4">
-                                <Select type="text" id="customAttribute" className="mb-2" name="attributes[0][type]"
+                                <Select type="text" id="customAttribute" className="mb-2" name="specifications[0][type]"
                                     defaultValue="shortText"
                                 >
                                     <option value="none" disabled>Select Data Type</option>
@@ -232,9 +233,9 @@ export default function ItemTypes() {
                                     <option value="date">Date</option>
                                     <option value="enumerated">Selection List</option>
                                 </Select>
-                                <TextInput type="text" className="mb-2" name="[0][id]" required placeholder="Ex: x_newAttribute" />
-                                <TextInput type="text" className="mb-2" name="[0][label]" required placeholder="Ex: New Attribute" />
-                                <TextInput type="number" className="mb-2" name="[0][length]" required placeholder="Ex: 10000" />
+                                <TextInput type="text" className="mb-2" name="specifications[0][id]" required placeholder="Ex: x_newAttribute" />
+                                <TextInput type="text" className="mb-2" name="specifications[0][label]" required placeholder="Ex: New Attribute" />
+                                <TextInput type="number" className="mb-2" name="specifications[0][length]" required placeholder="Ex: 10000" />
                             </div>
                             {Object.keys(customAttributes).map(key => {
                                 if (!isNaN(key)) {
