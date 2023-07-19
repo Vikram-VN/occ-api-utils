@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useToasts } from "../store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, Table, Pagination, Modal, TextInput, Button, Select, Label } from "flowbite-react";
-import { debounce } from "../utils";
-import { ArrowDownTrayIcon, TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { debounce, formToJson } from "../utils";
+import { TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import adminApi, { fileDownload } from "../utils/api";
 import { useCallback } from "react";
 
@@ -16,23 +16,24 @@ export default function ItemTypes() {
     const [form, setForm] = useState();
     const [customAttributesCreateModalShow, setCustomAttributesCreateModalShow] = useState(false);
     const [showModal, setModalView] = useState(false);
+    const [customAttributes, setCustomAttributes] = useState({ noOfAttributes: 0, attributes: [] });
     const [itemType, updateItemType] = useState(useSearchParams().get("type") || 'none');
     const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
     const toast = useToasts();
 
     const newOffset = (currentPageNo - 1) * pagination.limit;
 
-    const onSuccess = useCallback((res) => {
+    const onSuccess = useCallback(() => {
         toast.show({
             status: "success",
-            message: "Attribute as been deleted successfully.."
+            message: "Attributes as been fetched successfully.."
         });
     }, [toast]);
 
-    const onAttributeCreation = useCallback((res) => {
+    const onAttributeCreation = useCallback(() => {
         toast.show({
             status: "success",
-            message: "Attribute as been created successfully.."
+            message: "Attributes as been created successfully.."
         });
     }, [toast])
 
@@ -57,6 +58,7 @@ export default function ItemTypes() {
         });
         if (apiResponse.specifications) {
             setItems(apiResponse);
+            onSuccess();
             setPagination({ ...pagination, totalPages: Math.ceil(apiResponse.propertiesOrder.length / pagination.limit) })
         } else {
             toast.show({
@@ -88,23 +90,62 @@ export default function ItemTypes() {
     }, [fetchItemTypeAttributes, onError, onSuccess]);
 
     // Custom attribute creation function
-    const itemTypeAttributesCreationHandler = useCallback((uploadType, file) => {
-        const formData = new FormData();
-        formData.append("filename", file.name);
-        formData.append("uploadType", uploadType);
-        formData.append("fileUpload", file);
+    const itemTypeAttributesCreationHandler = useCallback(() => {
+        const formData = form.target;
+        const payload = formToJson(formData);
 
-        adminApi({
-            method: "put",
-            url: `itemTypes/${itemType}`,
-            data: formData,
-            showNotification: true,
-            onSuccess: onAttributeCreation,
-            onError,
-        });
-        fetchItemTypeAttributes();
+        console.log(payload);
+
+        // adminApi({
+        //     method: "put",
+        //     url: `itemTypes/${itemType}`,
+        //     data: payload,
+        //     showNotification: true,
+        //     onSuccess: onAttributeCreation,
+        //     onError,
+        // });
+        // fetchItemTypeAttributes();
+        onAttributeCreation();
+        setModalView(false);
         setCustomAttributesCreateModalShow(false);
-    }, [itemType, onAttributeCreation, onError, fetchItemTypeAttributes])
+    }, [form])
+
+    const addOrRemoveAttributes = (type) => {
+
+        if (type === "add") {
+
+            const counter = customAttributes.noOfAttributes + 1;
+
+            const attribute = <div className="flex gap-4 items-center">
+                <Select type="text" id="customAttribute" className="mb-2" name={`[${counter}][type]`}
+                    defaultValue="shortText"
+                >
+                    <option value="none" disabled>Select Data Type</option>
+                    <option value="shortText">Short Text</option>
+                    <option value="longText">Long Text</option>
+                    <option value="richText">Rich Text</option>
+                    <option value="number">Number</option>
+                    <option value="checkbox">Check Box</option>
+                    <option value="date">Date</option>
+                    <option value="enumerated">Selection List</option>
+                </Select>
+                <TextInput type="text" className="mb-2" name={`[${counter}][id]`} required placeholder="Ex: x_newAttribute" />
+                <TextInput type="text" className="mb-2" name={`[${counter}][label]`} required placeholder="Ex: New Attribute" />
+                <TextInput type="number" className="mb-2" name={`[${customAttributes.noOfAttributes}][length]`} required placeholder="Ex: 10000" />
+                <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete the attribute" onClick={() => addOrRemoveAttributes(counter)} />
+            </div>
+
+            setCustomAttributes((prevState) => {
+                return { noOfAttributes: counter, attributes: [...prevState.attributes, attribute] }
+            })
+        } else if (!isNaN(type)) {
+
+            setCustomAttributes((prevState) => {
+                return { ...prevState, attributes: prevState.attributes.slice(type) }
+            })
+        }
+
+    }
 
     const tableData = data => {
         return (
@@ -136,7 +177,7 @@ export default function ItemTypes() {
                 size="md"
                 popup={true}
                 onClose={() => setModalView(false)}
-                className="z-60"
+                className="modalZIndex"
             >
                 <Modal.Body>
                     <div className="text-center">
@@ -145,7 +186,7 @@ export default function ItemTypes() {
                             Are you sure you want to create item attributes?
                         </h3>
                         <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => { }}>
+                            <Button color="info" onClick={itemTypeAttributesCreationHandler}>
                                 Yes, I am sure
                             </Button>
                             <Button color="gray" onClick={() => setModalView(false)} >
@@ -169,7 +210,7 @@ export default function ItemTypes() {
                         setForm(event);
                         setModalView(true);
                     }}>
-                        <Button className="mt-10 w-2/6 mb-4" value="sign-in" type="submit">Add More Attributes</Button>
+                        <Button className="mt-10 w-2/6 mb-4" value="sign-in" type="button" onClick={() => addOrRemoveAttributes("add")}>Add More Attributes</Button>
                         <div className="w-full m-auto">
                             <div className="mb-2 block">
                                 <Label
@@ -190,10 +231,11 @@ export default function ItemTypes() {
                                     <option value="date">Date</option>
                                     <option value="enumerated">Selection List</option>
                                 </Select>
-                                <TextInput type="text" className="mb-2" name="attributes[0][id]" required placeholder="Ex: x_newAttribute" />
-                                <TextInput type="text" className="mb-2" name="attributes[0][label]" required placeholder="Ex: New Attribute" />
-                                <TextInput type="number" className="mb-2" name="attributes[0][length]" required placeholder="Ex: 10000" />
+                                <TextInput type="text" className="mb-2" name="[0][id]" required placeholder="Ex: x_newAttribute" />
+                                <TextInput type="text" className="mb-2" name="[0][label]" required placeholder="Ex: New Attribute" />
+                                <TextInput type="number" className="mb-2" name="[0][length]" required placeholder="Ex: 10000" />
                             </div>
+                            {customAttributes?.attributes}
                             <div className="flex gap-4">
                                 <Button className="m-auto mt-10 w-2/6" value="sign-in" type="submit">Create</Button>
                                 <Button color="gray" className="m-auto mt-10 w-2/6" onClick={() => setCustomAttributesCreateModalShow(false)} >
