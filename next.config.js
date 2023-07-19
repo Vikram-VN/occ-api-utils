@@ -4,5 +4,5 @@ const nextConfig = {
         unoptimized: true
     }
   }
-  
-  module.exports = withMDX(nextConfig)
+
+  module.exports = nextConfig;
