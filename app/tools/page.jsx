@@ -3,7 +3,6 @@ import React from "react";
 import Excel2Json from "./fileConvert";
 import { Accordion, Card } from "flowbite-react";
 import Image from "next/image";
-import JsonEditor from "./json-editor";
 
 export default function Tools(props) {
 
@@ -41,15 +40,6 @@ export default function Tools(props) {
             <h1 className="text-2xl mt-10 mb-4 inline-block">Convert CSV to XLSX</h1>
             <Image src="media/CSV-to-XLSX.png" height={100} width={100} alt="CSV to XLSX" className="inline ml-4" />
             <Excel2Json label="Download XLSX" fileType="csv2Xlsx" />
-          </Accordion.Content>
-        </Accordion.Panel>
-
-        <Accordion.Panel>
-          <Accordion.Title>
-            JSON Editor
-          </Accordion.Title>
-          <Accordion.Content>
-            <JsonEditor />
           </Accordion.Content>
         </Accordion.Panel>
 

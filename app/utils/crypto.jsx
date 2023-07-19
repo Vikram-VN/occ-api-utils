@@ -1,4 +1,7 @@
-import CryptoJS from "crypto-js"
+import CryptoJS from "crypto-js";
+
+export const aesKey = "6f63632d6170692d7574696c73";
+export const aesIv = "2323617065786974";
 
 export const sign = (algo, data, key) => {
     const algos = ["HmacMD5", "HmacSHA1", "HmacSHA256", "HmacSHA512",];
@@ -44,31 +47,6 @@ export const bin2hex = data => {
     return Buffer.from(stringify(data), "binary").toString("hex");
 }
 
-export const generateUniqueKeys = () => {
-    const browserData = {
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        screenWidth: window.screen.width,
-        screenHeight: window.screen.height,
-        availableResolution: `${window.screen.availWidth}x${window.screen.availHeight}`,
-        colorDepth: window.screen.colorDepth,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        deviceMemory: navigator.deviceMemory,
-        hardwareConcurrency: navigator.hardwareConcurrency
-    };
-
-    const jsonString = JSON.stringify(browserData);
-    const encoder = new TextEncoder();
-    const data = encoder.encode(jsonString);
-
-    const keys = sign("SHA256", data, hex2bin(data));
-
-    return {
-        aesKey: keys.substring(16, 32),
-        aesIv: keys.substring(48, 16)
-    }
-}
-
 export const base64Encode = data => {
     const buffer = Buffer.from(stringify(data), "utf-8");
     const encodedData = buffer.toString("base64");
@@ -80,8 +58,6 @@ export const base64Decode = data => {
     const decodedData = buffer.toString("utf-8");
     return decodedData;
 };
-
-export const { aesKey, aesIv } = generateUniqueKeys();
 
 //AES functions
 export const aesEncrypt = plainText => {
