@@ -16,7 +16,7 @@ export default function ItemTypes() {
     const [form, setForm] = useState();
     const [customAttributesCreateModalShow, setCustomAttributesCreateModalShow] = useState(false);
     const [showModal, setModalView] = useState(false);
-    const [customAttributes, setCustomAttributes] = useState({ noOfAttributes: 0, attributes: [] });
+    const [customAttributes, setCustomAttributes] = useState({});
     const [itemType, updateItemType] = useState(useSearchParams().get("type") || 'none');
     const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
     const toast = useToasts();
@@ -114,10 +114,10 @@ export default function ItemTypes() {
 
         if (type === "add") {
 
-            const counter = customAttributes.noOfAttributes + 1;
+            const key = Math.floor((Math.random() * 10) * 10e4);
 
             const attribute = <div className="flex gap-4 items-center">
-                <Select type="text" id="customAttribute" className="mb-2" name={`[${counter}][type]`}
+                <Select type="text" id="customAttribute" className="mb-2" name={`[${key}][type]`}
                     defaultValue="shortText"
                 >
                     <option value="none" disabled>Select Data Type</option>
@@ -129,19 +129,20 @@ export default function ItemTypes() {
                     <option value="date">Date</option>
                     <option value="enumerated">Selection List</option>
                 </Select>
-                <TextInput type="text" className="mb-2" name={`[${counter}][id]`} required placeholder="Ex: x_newAttribute" />
-                <TextInput type="text" className="mb-2" name={`[${counter}][label]`} required placeholder="Ex: New Attribute" />
-                <TextInput type="number" className="mb-2" name={`[${customAttributes.noOfAttributes}][length]`} required placeholder="Ex: 10000" />
-                <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete the attribute" onClick={() => addOrRemoveAttributes(counter)} />
+                <TextInput type="text" className="mb-2" name={`[${key}][id]`} required placeholder="Ex: x_newAttribute" />
+                <TextInput type="text" className="mb-2" name={`[${key}][label]`} required placeholder="Ex: New Attribute" />
+                <TextInput type="number" className="mb-2" name={`[${key}][length]`} required placeholder="Ex: 10000" />
+                <TrashIcon className="h-6 w-6 cursor-pointer" title="Delete the attribute" onClick={() => addOrRemoveAttributes(key)} />
             </div>
 
             setCustomAttributes((prevState) => {
-                return { noOfAttributes: counter, attributes: [...prevState.attributes, attribute] }
+                return {...prevState, [key]: attribute }
             })
         } else if (!isNaN(type)) {
 
             setCustomAttributes((prevState) => {
-                return { ...prevState, attributes: prevState.attributes.slice(type) }
+                delete prevState[type];
+                return { ...prevState }
             })
         }
 
@@ -235,7 +236,11 @@ export default function ItemTypes() {
                                 <TextInput type="text" className="mb-2" name="[0][label]" required placeholder="Ex: New Attribute" />
                                 <TextInput type="number" className="mb-2" name="[0][length]" required placeholder="Ex: 10000" />
                             </div>
-                            {customAttributes?.attributes}
+                            {Object.keys(customAttributes).map(key => {
+                                if (!isNaN(key)) {
+                                    return customAttributes[key];
+                                }
+                            })}
                             <div className="flex gap-4">
                                 <Button className="m-auto mt-10 w-2/6" value="sign-in" type="submit">Create</Button>
                                 <Button color="gray" className="m-auto mt-10 w-2/6" onClick={() => setCustomAttributesCreateModalShow(false)} >
