@@ -317,7 +317,7 @@ export default function ItemTypes() {
                             Type
                         </Table.HeadCell>
                         <Table.HeadCell>
-                            OOTB Type
+                            OOTB
                         </Table.HeadCell>
                         <Table.HeadCell>
                             Length
