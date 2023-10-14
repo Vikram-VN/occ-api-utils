@@ -50,5 +50,5 @@ yarn start  # If you need to serve the build, use this command.
 
 Note: We are not saving the app key and instance ID anywhere. Neither in session nor in local storage, so if you refresh the page manually, then everything will be lost, and again, you have to do a login.
   
-### More detailed usage of the app* 
+### More detailed usage of the app
 Those details will be added soon.
