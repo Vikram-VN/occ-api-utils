@@ -43,7 +43,7 @@ yarn start  # If you need to serve the build, use this command.
 
 ### How do I use the app?
 
-* When you open the app, it will ask you to provide an instance ID (ex: p12345678dev) and an app key (ex: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OD).
+* When you open the app, it will ask you to provide an instance ID (ex: p12345678dev) and an app key (ex: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OD...).
 * After providing these two details, you can click on the login. 
 * Once the login is successful, on the left side, you will get to see a certain set of icons, those are actually individual API services.
 * By clicking on any option, you will be landed on that API-related page, where you can perform actions related to that particular API.
