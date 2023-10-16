@@ -61,27 +61,10 @@ h1 {
   }
 }
 
-html,
-body,
-section {
-  height: 100%;
-  width: 100%;
-  min-height: 100%;
-  min-width: 100%;
-  position: relative;
-}
-
-header,
-footer {
-  width: 100%;
-  min-width: 100%;
-}
-
 body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   font-family: "OpenSans-Regular" !important;
 }
 
