@@ -8,14 +8,12 @@ import { useSelector } from "react-redux";
 export const useToasts = () => useContext(ToastContext);
 
 export const useLoginStatus = () => {
-    const { getState } = useContext(StoreContext);
-    const isLoggedIn = isAuthenticated(useSelector(getState));
+    const isLoggedIn = useSelector(isAuthenticated);
     return isLoggedIn;
 }
 
 export const useAccessToken = () => {
-    const { getState } = useContext(StoreContext);
-    const accessToken = getAccessToken(useSelector(getState));
+    const accessToken = useSelector(getAccessToken);
     return accessToken;
 }
 
