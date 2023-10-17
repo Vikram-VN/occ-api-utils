@@ -11,13 +11,12 @@ import adminApi from "../utils/api";
 const Deployment = (props) => {
 
     const {
-        getState,
         action,
         router,
         toast
     } = props;
 
-    const deployments = getDeployments(useSelector(getState));
+    const deployments = useSelector(getDeployments);
     const [deploymentResults, setDeploymentResults] = useState(deployments);
     const currentPageNo = Number(useSearchParams().get("page")) || 1;
     const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: deployments?.items?.slice((currentPageNo - 1) * 10, ((currentPageNo - 1) * 10) + 10) || [] });

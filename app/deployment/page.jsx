@@ -11,12 +11,12 @@ import Publish from "./publish";
 
 export default function Deployments() {
 
-  const { action, getState } = useContext(StoreContext);
+  const { action } = useContext(StoreContext);
 
   const router = useRouter();
   const toast = useToasts();
 
-  const actions = { router, toast, action, getState };
+  const actions = { router, toast, action };
 
   return (
     <Tabs.Group

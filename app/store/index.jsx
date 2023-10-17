@@ -9,7 +9,7 @@ import * as utils from "../utils";
 import * as crypto from "../utils/crypto";
 import * as api from "../utils/api";
 import { useToasts } from "../store/hooks";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -49,7 +49,7 @@ export function StoreProvider({ children }) {
         });
     };
 
-    const storeValue = { action, ...api, ...store, ...utils, ...crypto, ...toast };
+    const storeValue = { action, ...api, ...store, ...utils, ...crypto, ...toast, useSelector };
 
     return (
         <Provider store={store}>
