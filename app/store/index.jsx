@@ -36,14 +36,15 @@ export function StoreProvider({ children }) {
 
     const { dispatch } = store;
     const toast = useToasts();
+    store.useSelector = useSelector;
 
     const action = (type, payload) => {
-        new Promise((resolve, reject) => {
+      return  new Promise((resolve, reject) => {
             if (type) {
-                resolve(dispatch({ type, payload }));
+              return  resolve(dispatch({ type, payload }));
             }
             else {
-                reject(new Error(`Action type is missing from payload`))
+              return  reject(new Error(`Action type is missing from payload`))
             }
 
         });
