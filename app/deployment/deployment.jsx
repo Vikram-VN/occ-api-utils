@@ -4,6 +4,7 @@ import { Pagination, Table, TextInput } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
 import { getDeployments } from "../store/selector";
 import { formatDate, debounce } from "../utils";
+import { useSelector } from "react-redux";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import adminApi from "../utils/api";
 
@@ -16,7 +17,7 @@ const Deployment = (props) => {
         toast
     } = props;
 
-    const deployments = getDeployments(getState());
+    const deployments = getDeployments(useSelector(getState));
     const [deploymentResults, setDeploymentResults] = useState(deployments);
     const currentPageNo = Number(useSearchParams().get("page")) || 1;
     const [deploymentPaginationResults, setDeploymentPaginationResults] = useState({ limit: 10, totalPages: deployments?.items?.length || 1, results: deployments?.items?.slice((currentPageNo - 1) * 10, ((currentPageNo - 1) * 10) + 10) || [] });

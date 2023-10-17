@@ -32,20 +32,18 @@ export default function RootLayout(props) {
           <link rel="apple-touch-icon" href="/media/favicon.svg" />
           <meta name="occ-logo" content="/media/favicon.svg" />
         </head>
-        <body className={inter.className}
+        <body className={`${inter.className} bg-white text-black dark:bg-slate-900 dark:text-white`}
           suppressHydrationWarning={true} >
-          <main className="grid grid-flow-row min-h-full custom-grid-flow">
-            <Header>
-              <ThemeToggle />
-            </Header>
-            <section className="grid grid-flow-col bg-white text-black dark:bg-slate-900 dark:text-white">
+          <Header>
+            <ThemeToggle />
+          </Header>
+          <main className="flex">
               <SideBar />
-              <section className="px-6 pt-2 relative pb-6 custom-col-span">
+              <section className="w-full px-6 pt-2 relative pb-6">
                 <OccUtilsApp {...props} />
               </section>
-            </section>
-            <Footer />
           </main>
+          <Footer />
         </body>
       </html>
     </StoreProvider>

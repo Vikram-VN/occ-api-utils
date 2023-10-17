@@ -32,7 +32,7 @@ const Header = ({ children }) => {
   const userAction = isLoggedIn ? "user-logout" : "user-login"
 
   return (
-    <header className="sticky top-0 flex-none h-24 mx-auto  border-b dark:border-b-slate-600 bg-slate-100 dark:bg-slate-900 z-50">
+    <header className="w-full sticky top-0 flex-none h-24 mx-auto  border-b dark:border-b-slate-600 bg-slate-100 dark:bg-slate-900 z-50">
       <nav className="bg-slate-100 border-slate-200 px-4 lg:px-6 py-2.5 dark:bg-slate-900 relative ">
         <div className="flex flex-wrap justify-between items-center">
           <div className="CAU__FlexBox">
