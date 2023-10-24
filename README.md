@@ -2,8 +2,8 @@
 
 ## Oracle Commerce Cloud
 
-### Why Use This Tool?
-As a developer, it's easy to interact with REST APIs using tools like Postman, SoapUI, Swagger, and others. However, the same may not be the case for everyone. That's why we built a UI-based API tool that simplifies interactions with APIs. All you need to do is click a few buttons and provide some inputs.
+### Why This Tool?
+We've developed a user-friendly API tool for those who might not be familiar with tools like Postman, SoapUI, or Swagger. With our UI-based tool, interacting with REST APIs is as simple as a few clicks and providing input – no technical expertise required.
 
 ### What Does This Tool Do?
 This tool is designed to facilitate interactions with Oracle Commerce Cloud APIs.
