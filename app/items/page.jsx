@@ -12,20 +12,20 @@ import {
   Select,
   Label,
 } from "flowbite-react";
-import { debounce, formToJson } from "@/utils";
+import { debounce, formToJson, uuid } from "@/utils";
 import { TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import adminApi, { fileDownload } from "@/utils/api";
+import adminApi from "@/utils/api";
 import { useCallback } from "react";
 
 export default function ItemTypes() {
   const router = useRouter();
   const [items, setItems] = useState({});
   const currentPageNo = Number(useSearchParams().get("page")) || 1;
-  const [form, setForm] = useState();
+  const [form, setForm] = useState({ target: {} });
   const [customAttributesCreateModalShow, setCustomAttributesCreateModalShow] =
     useState(false);
   const [showModal, setModalView] = useState(false);
-  const [customAttributes, setCustomAttributes] = useState({ counter: 0 });
+  const [customAttributes, setCustomAttributes] = useState([]);
   const [itemType, updateItemType] = useState(
     useSearchParams().get("type") || "none",
   );
@@ -89,7 +89,7 @@ export default function ItemTypes() {
 
   useEffect(() => {
     itemType && fetchItemTypeAttributes();
-    return () => {};
+    return () => { };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemType]);
 
@@ -129,72 +129,73 @@ export default function ItemTypes() {
     onAttributeCreation();
     setModalView(false);
     setCustomAttributesCreateModalShow(false);
-  }, [form]);
+  }, [form.target, onAttributeCreation]);
 
-  const addOrRemoveAttributes = (type) => {
-    if (type === "add") {
-      const counter = customAttributes.counter + 1;
-      const key = Math.floor(Math.random() * 10 * 10e4);
-
-      const attribute = (
-        <div className="flex gap-4 items-center">
-          <Select
-            type="text"
-            id="customAttribute"
-            className="mb-2"
-            name={`specifications[${counter}][type]`}
-            defaultValue="shortText"
-          >
-            <option value="none" disabled>
-              Select Data Type
-            </option>
-            <option value="shortText">Short Text</option>
-            <option value="longText">Long Text</option>
-            <option value="richText">Rich Text</option>
-            <option value="number">Number</option>
-            <option value="checkbox">Check Box</option>
-            <option value="date">Date</option>
-            <option value="enumerated">Selection List</option>
-          </Select>
-          <TextInput
-            type="text"
-            className="mb-2"
-            name={`specifications[${counter}][id]`}
-            required
-            placeholder="Ex: x_newAttribute"
-          />
-          <TextInput
-            type="text"
-            className="mb-2"
-            name={`specifications[${counter}][label]`}
-            required
-            placeholder="Ex: New Attribute"
-          />
-          <TextInput
-            type="number"
-            className="mb-2"
-            name={`specifications[${counter}][length]`}
-            required
-            placeholder="Ex: 10000"
-          />
-          <TrashIcon
-            className="h-6 w-6 cursor-pointer"
-            title="Delete the attribute"
-            onClick={() => addOrRemoveAttributes(key)}
-          />
-        </div>
-      );
-
-      setCustomAttributes((prevState) => {
-        return { ...prevState, counter, [key]: attribute };
-      });
-    } else if (!isNaN(type)) {
-      setCustomAttributes((prevState) => {
-        delete prevState[type];
-        return { ...prevState };
-      });
-    }
+  const removeAttribute = key => {
+    setCustomAttributes((prevState) => {
+      const newList = [...prevState];
+      const keyIndex = newList.indexOf(key);
+      newList.splice(keyIndex, 1);
+      return newList;
+    });
   };
+
+  const attribute = (key, index) => {
+    return (
+      <div className="flex gap-4 items-center" key={key}>
+        <Select
+          type="text"
+          id={`customAttribute-${index}`}
+          className="mb-2"
+          name={`specifications[${index}][type]`}
+        >
+          <option value="none" disabled selected>
+            Select Data Type
+          </option>
+          <option value="shortText">Short Text</option>
+          <option value="longText">Long Text</option>
+          <option value="richText">Rich Text</option>
+          <option value="number">Number</option>
+          <option value="checkbox">Check Box</option>
+          <option value="date">Date</option>
+          <option value="enumerated">Selection List</option>
+        </Select>
+        <TextInput
+          type="text"
+          className="mb-2"
+          name={`specifications[${index}][id]`}
+          required
+          placeholder={`Ex: x_newAttribute${index}`}
+        />
+        <TextInput
+          type="text"
+          className="mb-2"
+          name={`specifications[${index}][label]`}
+          required
+          placeholder={`Ex: attribute label${index}`}
+        />
+        <TextInput
+          type="number"
+          className="mb-2"
+          name={`specifications[${index}][length]`}
+          required
+          placeholder={`Ex: defaultValue${index}`}
+        />
+        <TrashIcon
+          className="h-6 w-6 cursor-pointer"
+          title="Delete the attribute"
+          onClick={() => removeAttribute(key)}
+        />
+      </div>
+    );
+  }
+
+  const addAttributes = () => {
+    setCustomAttributes((prevState) => {
+      const uniqueKey = uuid();
+      return [...prevState, uniqueKey];
+    });
+  }
 
   const tableData = (data) => {
     return (
@@ -257,20 +258,20 @@ export default function ItemTypes() {
           >
             <Button
               className="mt-10 w-2/6 mb-4"
-              value="sign-in"
+              value="add attribute"
               type="button"
-              onClick={() => addOrRemoveAttributes("add")}
+              onClick={addAttributes}
             >
               Add More Attributes
             </Button>
             <div className="w-full m-auto">
-              <div className="mb-2 block">
+              <div className="mb-2 flex gap-4">
                 <Label htmlFor="customAttribute" value="Custom Attribute" />
               </div>
               <div className="flex gap-4">
                 <Select
                   type="text"
-                  id="customAttribute"
+                  id="customAttribute-0"
                   className="mb-2"
                   name="specifications[0][type]"
                   defaultValue="shortText"
@@ -298,21 +299,17 @@ export default function ItemTypes() {
                   className="mb-2"
                   name="specifications[0][label]"
                   required
-                  placeholder="Ex: New Attribute"
+                  placeholder="Ex: attribute label"
                 />
                 <TextInput
                   type="number"
                   className="mb-2"
                   name="specifications[0][length]"
                   required
-                  placeholder="Ex: 10000"
+                  placeholder="Ex: defaultValue"
                 />
               </div>
-              {Object.keys(customAttributes).map((key) => {
-                if (!isNaN(key)) {
-                  return customAttributes[key];
-                }
-              })}
+              {customAttributes.map((key, index) => attribute(key, index + 1))}
               <div className="flex gap-4">
                 <Button
                   className="m-auto mt-10 w-2/6"
@@ -422,7 +419,7 @@ export default function ItemTypes() {
             <Table.HeadCell>Name</Table.HeadCell>
             <Table.HeadCell>Id</Table.HeadCell>
             <Table.HeadCell>Type</Table.HeadCell>
-            <Table.HeadCell>OOTB</Table.HeadCell>
+            <Table.HeadCell>Custom Field</Table.HeadCell>
             <Table.HeadCell>Length</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
