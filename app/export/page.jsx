@@ -10,8 +10,9 @@ import {
 } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
 import adminApi, { adminFileDownload } from "@/utils/api";
-import { CloudArrowDownIcon, StopCircleIcon } from "@heroicons/react/24/solid";
+import { CloudArrowDownIcon, StopCircleIcon, FlagIcon } from "@heroicons/react/24/solid";
 import { useToasts } from "@/store/hooks";
+import AdvancedSettings from "./advancedSettings";
 
 export default function Export() {
   const toast = useToasts();
@@ -71,6 +72,7 @@ export default function Export() {
             ...multiExportList,
             [id]: {
               ...multiExportList[id],
+              reportLink: response.links[0].href,
               downloadLink: response.links[1].href,
               processId: "",
             },
@@ -103,6 +105,7 @@ export default function Export() {
         response.links[1].rel === "file" &&
           setBundleExport({
             ...bundleExport,
+            reportLink: response.links[0].href,
             downloadLink: response.links[1].href,
             processId: "",
           });
@@ -153,8 +156,13 @@ export default function Export() {
     async (id) => {
       setMultiExportList({
         ...multiExportList,
-        [id]: { ...multiExportList[id], downloadLink: "" },
+        [id]: { ...multiExportList[id], downloadLink: "", reportLink: "" },
       });
+      const additionalParams = {};
+      multiExportList[id]?.additionalParams?.map(item=> {
+        additionalParams[item["key"]?.trim()] = item["value"]?.trim()
+      });
+
       const response = await adminApi({
         url: `exportProcess`,
         method: "post",
@@ -166,6 +174,7 @@ export default function Export() {
           params: {
             q: multiExportList[id]?.query,
             headersList: multiExportList[id]?.headersList || "All",
+            ...additionalParams
           },
         },
       });
@@ -191,7 +200,7 @@ export default function Export() {
   );
 
   const bulkExportHandler = useCallback(async () => {
-    setBundleExport({ ...bundleExport, downloadLink: "" });
+    setBundleExport({ ...bundleExport, downloadLink: "", reportLink: "" });
     const currentUTCDateTime = new Date().toISOString();
     const response = await adminApi({
       url: `exportProcess`,
@@ -254,6 +263,13 @@ export default function Export() {
                   onClick={() => adminFileDownload(bundleExport?.downloadLink)}
                 />
               )}
+              {bundleExport?.reportLink && (
+                <FlagIcon
+                  title="Download exported file"
+                  className="w-8 h-8 cursor-pointer"
+                  onClick={() => adminFileDownload(bundleExport?.reportLink)}
+                />
+              )}
             </div>
             <Button
               type="button"
@@ -314,18 +330,28 @@ export default function Export() {
                           }
                         />
                       )}
+                      {multiExportList[item.id]?.reportLink && (
+                        <FlagIcon
+                          title="Download report file"
+                          className="w-8 h-8 cursor-pointer"
+                          onClick={() =>
+                            adminFileDownload(
+                              multiExportList[item.id]?.reportLink,
+                            )
+                          }
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="grid md:grid-flow-col gap-4">
                     {item.formats.length > 0 && (
                       <Select
-                        className="mb-4"
                         disabled={multiExportList[item.id]?.processId}
                         defaultValue={"none"}
                         onChange={(e) =>
                           setMultiExportList({
                             ...multiExportList,
-                            [item.id]: { id: item.id, format: e.target.value },
+                            [item.id]: { ...multiExportList[item.id], id: item.id, format: e.target.value },
                           })
                         }
                       >
@@ -389,6 +415,7 @@ export default function Export() {
                       }
                     />
                   </div>
+                  <AdvancedSettings setMultiExportList={setMultiExportList} item={item} />
                 </Card>
               )
             );
