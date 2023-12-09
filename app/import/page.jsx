@@ -1,14 +1,14 @@
 "use client";
 import { Button, Card, Checkbox, Modal, Select, Spinner } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
-import adminApi, { adminFileDownload } from "../utils/api";
+import adminApi, { adminFileDownload } from "@/utils/api";
 import {
   CloudArrowDownIcon,
   CloudArrowUpIcon,
   StopCircleIcon,
 } from "@heroicons/react/24/solid";
-import { useToasts } from "../store/hooks";
-import FileUpload from "./file";
+import { useToasts } from "@/store/hooks";
+import FileUpload from "@/import/file";
 
 export default function Import() {
   const toast = useToasts();

@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { noop } from "../../utils";
-import adminApi, { agentApi } from "../../utils/api";
+import { noop } from "@/utils";
+import adminApi, { agentApi } from "@/utils/api";
 
 function* adminApiHandler(action) {
   try {

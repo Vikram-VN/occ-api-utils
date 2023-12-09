@@ -7,7 +7,7 @@ import {
   ToggleSwitch,
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { formToJson } from "../utils";
+import { formToJson } from "@/utils";
 
 const AminConf = (props) => {
   const { adminApi, onSuccess, onError } = props;

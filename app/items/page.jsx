@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Card,
@@ -12,9 +12,9 @@ import {
   Select,
   Label,
 } from "flowbite-react";
-import { debounce, formToJson } from "../utils";
+import { debounce, formToJson } from "@/utils";
 import { TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import adminApi, { fileDownload } from "../utils/api";
+import adminApi, { fileDownload } from "@/utils/api";
 import { useCallback } from "react";
 
 export default function ItemTypes() {

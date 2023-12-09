@@ -1,7 +1,7 @@
 import axios from "axios";
-import { noop } from "./index";
-import { getInstanceId, getAccessToken, getAppKey } from "../store/selector";
-import { store } from "../store";
+import { noop } from "@/utils";
+import { getInstanceId, getAccessToken, getAppKey } from "@/store/selector";
+import { store } from "@/store";
 
 const adminApi = async (request) => {
   const {
@@ -198,7 +198,7 @@ export const fileDownload = async (fileLink) => {
 export const sseDownload = async (fileLink) => {
   try {
     const fileData = await adminApiCall({
-      url: "../ccadmin/v1".concat(fileLink),
+      url: "@/ccadmin/v1".concat(fileLink),
     });
     const fileName = fileLink.split("/").pop();
     const contentType = fileData.headers["content-type"];

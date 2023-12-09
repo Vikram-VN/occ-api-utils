@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
-import DatePicker from "../components/date";
+import DatePicker from "@/components/date";
 import {
   Card,
   Table,
@@ -13,8 +13,8 @@ import {
   Dropdown,
   Select,
 } from "flowbite-react";
-import { debounce, formatDate } from "../utils";
-import FileUpload from "./file";
+import { debounce, formatDate } from "@/utils";
+import FileUpload from "@/extensions/file";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
@@ -25,7 +25,7 @@ import {
   ArrowUpRightIcon,
   CloudArrowDownIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { adminApiCall, adminXApi, fileDownload } from "../utils/api";
+import adminApi, { adminApiCall, adminXApi, fileDownload } from "@/utils/api";
 import { useCallback } from "react";
 import Link from "next/link";
 

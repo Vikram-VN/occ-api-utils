@@ -2,17 +2,17 @@
 "use client";
 import React, { useRef, useContext } from "react";
 import Link from "next/link";
-import { StoreContext } from "../../store/context";
-import { useLoginStatus } from "../../store/hooks";
+import { StoreContext } from "@/store/context";
+import { useLoginStatus } from "@/store/hooks";
 import { useRouter, usePathname } from "next/navigation";
 import {
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
-import AppLogo from "../logo";
-import Modal from "../modal";
-import Login from "../../login/page";
-import "./styles.css";
+import AppLogo from "@/components/logo";
+import Modal from "@/components/modal";
+import Login from "@/login/page";
+import "@/components/header/styles.css";
 
 const Header = ({ children }) => {
   const loginModalRef = useRef();

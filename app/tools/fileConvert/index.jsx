@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from "xlsx";
-import { useDragging } from "../../store/hooks";
-import { arrayBufferToJson, arrayBufferToString } from "../../utils";
+import { useDragging } from "@/store/hooks";
+import { arrayBufferToJson, arrayBufferToString } from "@/utils";
 import { Button } from "flowbite-react";
 
 const FileConvert = (props) => {

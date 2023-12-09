@@ -1,11 +1,10 @@
 "use client";
 import React, { useCallback, useContext } from "react";
-import { useLoginStatus } from "../store/hooks";
+import { useLoginStatus } from "@/store/hooks";
 import { useRouter, usePathname } from "next/navigation";
-import { useToasts } from "../store/hooks";
-import { StoreContext } from "../store/context";
-import { generateUniqueKey } from "../utils/crypto";
-import { formToJson } from "../utils";
+import { useToasts } from "@/store/hooks";
+import { StoreContext } from "@/store/context";
+import { formToJson } from "@/utils";
 import { TextInput, Button, Label, Checkbox } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";

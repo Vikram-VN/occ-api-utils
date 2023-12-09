@@ -2,12 +2,12 @@
 import { Tabs } from "flowbite-react";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 import { InboxArrowDownIcon, ServerIcon } from "@heroicons/react/24/solid";
-import { StoreContext } from "../store/context";
+import { StoreContext } from "@/store/context";
 
-import Deployment from "./deployment";
-import Publish from "./publish";
+import Deployment from "@/deployment/deployment";
+import Publish from "@/deployment/publish";
 
 export default function Deployments() {
   const { action } = useContext(StoreContext);

@@ -1,8 +1,8 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { agentApi } from "../utils/api";
+import { agentApi } from "@/utils/api";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 import {
   Button,
   Card,
@@ -17,8 +17,8 @@ import {
   MagnifyingGlassIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import { debounce } from "../utils";
-import PageLoader from "../components/page-loader";
+import { debounce } from "@/utils";
+import PageLoader from "@/components/page-loader";
 
 export default function Profiles() {
   const toast = useToasts();

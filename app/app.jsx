@@ -1,10 +1,10 @@
 "use client";
 import React, { useContext, useEffect } from "react";
-import { StoreContext } from "./store/context";
-import { useLoginStatus } from "./store/hooks";
+import { StoreContext } from "@/store/context";
+import { useLoginStatus } from "@/store/hooks";
 import { usePathname } from "next/navigation";
-import ToastProvider from "./components/toast";
-import Login from "./login/page";
+import ToastProvider from "@/components/toast";
+import Login from "@/login/page";
 
 const OccUtilsApp = (props) => {
   const { action } = useContext(StoreContext);

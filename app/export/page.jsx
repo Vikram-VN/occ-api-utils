@@ -9,9 +9,9 @@ import {
   TextInput,
 } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
-import adminApi, { adminFileDownload } from "../utils/api";
+import adminApi, { adminFileDownload } from "@/utils/api";
 import { CloudArrowDownIcon, StopCircleIcon } from "@heroicons/react/24/solid";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 
 export default function Export() {
   const toast = useToasts();

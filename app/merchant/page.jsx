@@ -2,15 +2,15 @@
 
 import React, { useCallback, useMemo, useState } from "react";
 import { ListGroup, Card } from "flowbite-react";
-import basicAuth from "./basicAuth";
-import adminConf from "./adminConf";
-import agentConf from "./agentConf";
-import allowedUrls from "./allowedUrls";
-import cloudConf from "./cloudConf";
-import whitelistUrls from "./whitelistUrls";
-import restrictedWords from "./restrictedWords";
-import { useToasts } from "../store/hooks";
-import adminApi from "../utils/api";
+import basicAuth from "@/merchant/basicAuth";
+import adminConf from "@/merchant/adminConf";
+import agentConf from "@/merchant/agentConf";
+import allowedUrls from "@/merchant/allowedUrls";
+import cloudConf from "@/merchant/cloudConf";
+import whitelistUrls from "@/merchant/whitelistUrls";
+import restrictedWords from "@/merchant/restrictedWords";
+import { useToasts } from "@/store/hooks";
+import adminApi from "@/utils/api";
 
 export default function Merchant() {
   const toast = useToasts();

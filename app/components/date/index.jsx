@@ -1,6 +1,6 @@
 import React from "react";
 import { default as DateSelector } from "react-tailwindcss-datepicker";
-import { noop } from "../../utils";
+import { noop } from "@/utils";
 
 const DatePicker = ({ handleValueChange = noop, ...props }) => {
   return (

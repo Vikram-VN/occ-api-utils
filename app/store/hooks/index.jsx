@@ -6,9 +6,9 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { isAuthenticated, getAccessToken } from "../selector";
-import { StoreContext, ToastContext } from "../context";
-import { debounce } from "../../utils";
+import { isAuthenticated, getAccessToken } from "@/store/selector";
+import { ToastContext } from "@/store/context";
+import { debounce } from "@/utils";
 import { useSelector } from "react-redux";
 
 export const useToasts = () => useContext(ToastContext);

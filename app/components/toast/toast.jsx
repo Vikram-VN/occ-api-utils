@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import Alert from "../alert";
+import Alert from "@/components/alert";
 
 const Toast = ({
   id,

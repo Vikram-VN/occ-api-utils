@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Pagination, Select, Table, TextInput } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
-import adminApi from "../utils/api";
+import adminApi from "@/utils/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { formatDate, debounce } from "../utils";
+import { formatDate, debounce } from "@/utils";
 
 const Publish = (props) => {
   const { router, toast } = props;

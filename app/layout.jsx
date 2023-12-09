@@ -1,13 +1,13 @@
 import React from "react";
-import { StoreProvider } from "./store";
+import { StoreProvider } from "@/store";
 import { Inter } from "next/font/google";
-import Header from "./components/header";
-import SideBar from "./components/navbar";
-import Footer from "./components/footer";
-import ThemeToggle from "./theme/toggle";
-import OccUtilsApp from "./app";
+import Header from "@/components/header";
+import SideBar from "@/components/navbar";
+import Footer from "@/components/footer";
+import ThemeToggle from "@/theme/toggle";
+import OccUtilsApp from "@/app";
 import { cookies } from "next/headers";
-import "./theme/globals.css";
+import "@/theme/globals.css";
 
 export const metadata = {
   title: "OCC API Utils",

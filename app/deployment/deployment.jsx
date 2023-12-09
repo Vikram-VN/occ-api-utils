@@ -2,11 +2,11 @@
 import React, { useState, useCallback } from "react";
 import { Pagination, Table, TextInput } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
-import { getDeployments } from "../store/selector";
-import { formatDate, debounce } from "../utils";
+import { getDeployments } from "@/store/selector";
+import { formatDate, debounce } from "@/utils";
 import { useSelector } from "react-redux";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import adminApi from "../utils/api";
+import adminApi from "@/utils/api";
 
 const Deployment = (props) => {
   const { action, router, toast } = props;

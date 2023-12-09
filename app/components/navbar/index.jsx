@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { Tooltip } from "flowbite-react";
-import { useLoginStatus } from "../../store/hooks";
+import { useLoginStatus } from "@/store/hooks";
 
 const NavBar = () => {
   // Rendering children"s conditionally

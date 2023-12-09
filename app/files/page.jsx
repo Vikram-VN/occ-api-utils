@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useToasts } from "../store/hooks";
+import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Card,
@@ -12,8 +12,8 @@ import {
   Button,
   Select,
 } from "flowbite-react";
-import { debounce, formatBytes, formatDate } from "../utils";
-import FileUpload from "../components/file";
+import { debounce, formatBytes, formatDate } from "@/utils";
+import FileUpload from "@/components/file";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
@@ -21,7 +21,7 @@ import {
   ExclamationCircleIcon,
   FunnelIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { fileDownload } from "../utils/api";
+import adminApi, { fileDownload } from "@/utils/api";
 import { useCallback } from "react";
 
 export default function Files() {

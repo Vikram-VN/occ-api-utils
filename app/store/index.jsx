@@ -1,14 +1,14 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import appRepository from "./reducers";
+import appRepository from "@/store/reducers";
 import reduxLogger from "redux-logger";
-import actions from "./actions";
-import { StoreContext } from "./context";
-import * as utils from "../utils";
-import * as crypto from "../utils/crypto";
-import * as api from "../utils/api";
-import { useToasts } from "../store/hooks";
+import actions from "@/store/actions";
+import { StoreContext } from "@/store/context";
+import * as utils from "@/utils";
+import * as crypto from "@/utils/crypto";
+import * as api from "@/utils/api";
+import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
 
 // Creating saga actions
