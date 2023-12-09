@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <React.Fragment>
-      <div className="h-[32rem] m-auto rounded-md">
+      <div className="h-[32rem] m-auto rounded-md hidden tablet:block">
         <Carousel>
           <Image
             src="/media/apiBanner.png"

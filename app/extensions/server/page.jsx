@@ -13,7 +13,7 @@ import {
   Select,
 } from "flowbite-react";
 import { debounce, formatBytes, formatDate } from "@/utils";
-import FileUpload from "@/file";
+import FileUpload from "@/extensions/file";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
