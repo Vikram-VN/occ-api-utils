@@ -1,18 +1,18 @@
 .CAU__HeaderLogo {
-    width: auto;
+  width: auto;
 }
 
 .CAU__FlexBox {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .CAU__HeaderText {
-    font-family: serif;
-    padding-top: 1rem;
+  font-family: serif;
+  padding-top: 1rem;
 }
 
 .CAU__HeaderLogo {
-    width: 8.3rem;
-    height: auto !important;
+  width: 8.3rem;
+  height: auto !important;
 }

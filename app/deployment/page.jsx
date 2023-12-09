@@ -10,7 +10,6 @@ import Deployment from "./deployment";
 import Publish from "./publish";
 
 export default function Deployments() {
-
   const { action } = useContext(StoreContext);
 
   const router = useRouter();
@@ -32,12 +31,9 @@ export default function Deployments() {
         <Deployment {...actions} />
       </Tabs.Item>
 
-      <Tabs.Item
-        title="Publish History"
-        icon={ServerIcon}
-      >
+      <Tabs.Item title="Publish History" icon={ServerIcon}>
         <Publish {...actions} />
       </Tabs.Item>
     </Tabs.Group>
-  )
+  );
 }

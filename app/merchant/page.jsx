@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useCallback, useMemo, useState } from "react";
 import { ListGroup, Card } from "flowbite-react";
@@ -13,16 +13,19 @@ import { useToasts } from "../store/hooks";
 import adminApi from "../utils/api";
 
 export default function Merchant() {
-
   const toast = useToasts();
 
   const [activeTab, setActiveTab] = useState(1);
 
   const Component = useMemo(() => {
     const components = {
-      1: basicAuth, 2: adminConf,
-      3: agentConf, 4: allowedUrls, 5: cloudConf,
-      6: whitelistUrls, 7: restrictedWords
+      1: basicAuth,
+      2: adminConf,
+      3: agentConf,
+      4: allowedUrls,
+      5: cloudConf,
+      6: whitelistUrls,
+      7: restrictedWords,
     };
 
     return components[activeTab];
@@ -32,19 +35,17 @@ export default function Merchant() {
   const onSuccess = () => {
     toast.show({
       status: "success",
-      message: "Results fetched successfully"
+      message: "Results fetched successfully",
     });
-  }
-
+  };
 
   // Used to show notifications
   const onError = (error) => {
     toast.show({
       status: "failure",
-      message: error.message || "Something went wrong"
+      message: error.message || "Something went wrong",
     });
-
-  }
+  };
 
   return (
     <React.Fragment>
@@ -98,9 +99,14 @@ export default function Merchant() {
           </ListGroup.Item>
         </ListGroup>
         <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-md p-4">
-          <Component adminApi={adminApi} toast={toast} onSuccess={onSuccess} onError={onError} />
+          <Component
+            adminApi={adminApi}
+            toast={toast}
+            onSuccess={onSuccess}
+            onError={onError}
+          />
         </div>
       </div>
     </React.Fragment>
-  )
+  );
 }

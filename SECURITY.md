@@ -2,10 +2,10 @@
 
 ## Supported Node Versions
 
-| Version      | Supported          |
-| ------------ | ------------------ |
-| >= 18.15.x   | :white_check_mark: |
-| < 18.15.x    | :x:                |
+| Version    | Supported          |
+| ---------- | ------------------ |
+| >= 18.15.x | :white_check_mark: |
+| < 18.15.x  | :x:                |
 
 ## Reporting a Vulnerability
 

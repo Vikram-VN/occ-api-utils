@@ -11,7 +11,6 @@ import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 export default function Login(props) {
-
   const { action } = useContext(StoreContext);
 
   const toast = useToasts();
@@ -27,23 +26,22 @@ export default function Login(props) {
   const onSuccess = (res) => {
     toast.show({
       status: "success",
-      message: "You are successfully logged in.."
+      message: "You are successfully logged in..",
     });
     const redirect = setTimeout(() => {
       pagePath.includes("login") && router.push("/");
       props.loginModalRef?.current();
     }, 2000);
     return () => clearTimeout(redirect);
-  }
+  };
 
   // Used to show notifications
   const onError = (error) => {
     toast.show({
       status: "failure",
-      message: error.message || "Login Failed"
+      message: error.message || "Login Failed",
     });
-
-  }
+  };
 
   // Updating the state based on need.
   const stateHandler = useCallback((payload, apiResponse) => {
@@ -52,13 +50,11 @@ export default function Login(props) {
       return {
         key: "occRepository",
         value: {
-          accessToken: result.access_token
-        }
-      }
+          accessToken: result.access_token,
+        },
+      };
     }
-
   }, []);
-
 
   const updateStore = useCallback((payload) => {
     if (payload.instanceId) {
@@ -66,9 +62,9 @@ export default function Login(props) {
         key: "occRepository",
         value: {
           instanceId: payload.instanceId,
-          appKey: payload.accessToken
-        }
-      }
+          appKey: payload.accessToken,
+        },
+      };
     }
   }, []);
 
@@ -91,52 +87,71 @@ export default function Login(props) {
       url: "login",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "x-remember": payload.rememberMe
+        "x-remember": payload.rememberMe,
       },
       data: "grant_type=client_credentials",
       showNotification: true,
-      onError, onSuccess,
+      onError,
+      onSuccess,
       stateHandler,
-      stateAction: "updateKeyValue"
+      stateAction: "updateKeyValue",
     });
-  }
+  };
   return (
     <div id="login-form">
       <form onSubmit={submitForm} className="block">
         <section className="m-auto my-6 lg:flex bg-slate-100 dark:bg-slate-800 p-10 rounded-md gap-10 lg">
           <div className="w-full flex m-auto mb-4 lg:mb-0">
-            <Image src="/media/loginBanner.png" className="rounded w-full" alt="occ banner" width={50} height={50} />
+            <Image
+              src="/media/loginBanner.png"
+              className="rounded w-full"
+              alt="occ banner"
+              width={50}
+              height={50}
+            />
           </div>
           <div className="w-full m-auto">
             <div className="mb-2 block">
-              <Label
-                htmlFor="instanceId"
-                value="Instance Id"
-              />
+              <Label htmlFor="instanceId" value="Instance Id" />
             </div>
-            <TextInput type="text" id="instanceId" className="mb-2" name="instanceId" required placeholder="Ex: p1234567890dev" icon={WindowIcon} />
+            <TextInput
+              type="text"
+              id="instanceId"
+              className="mb-2"
+              name="instanceId"
+              required
+              placeholder="Ex: p1234567890dev"
+              icon={WindowIcon}
+            />
             <div className="mb-2 block mt-4">
-              <Label
-                htmlFor="token"
-                value="App Key"
-              />
+              <Label htmlFor="token" value="App Key" />
             </div>
-            <TextInput type="text" id="token" className="block" name="accessToken" required autoComplete="off" placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ==" icon={KeyIcon} />
+            <TextInput
+              type="text"
+              id="token"
+              className="block"
+              name="accessToken"
+              required
+              autoComplete="off"
+              placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ=="
+              icon={KeyIcon}
+            />
             <div className="mt-6 flex items-center gap-2 justify-end">
               <Checkbox id="rememberMe" name="rememberMe" />
-              <Label
-                className="flex"
-                htmlFor="rememberMe"
-              >
-                <p>
-                  Remember Me
-                </p>
+              <Label className="flex" htmlFor="rememberMe">
+                <p>Remember Me</p>
               </Label>
             </div>
-            <Button className="m-auto mt-10 w-2/6" value="sign-in" type="submit">Sign in </Button>
+            <Button
+              className="m-auto mt-10 w-2/6"
+              value="sign-in"
+              type="submit"
+            >
+              Sign in{" "}
+            </Button>
           </div>
         </section>
       </form>
     </div>
-  )
+  );
 }

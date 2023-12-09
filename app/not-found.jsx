@@ -13,10 +13,8 @@ export default function Error(error) {
     <div className="text-center grid items-center m-auto ">
       <section>
         <h1 className="mb-2 text-4xl">Something went wrong!</h1>
-        <Link href="/" >
-          <button className="bg-cyan-600 p-2 rounded-full">
-            Go to Home
-          </button>
+        <Link href="/">
+          <button className="bg-cyan-600 p-2 rounded-full">Go to Home</button>
         </Link>
       </section>
     </div>

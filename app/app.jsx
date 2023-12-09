@@ -7,7 +7,6 @@ import ToastProvider from "./components/toast";
 import Login from "./login/page";
 
 const OccUtilsApp = (props) => {
-
   const { action } = useContext(StoreContext);
   const currentPath = usePathname();
 
@@ -24,35 +23,36 @@ const OccUtilsApp = (props) => {
       return {
         key: "occRepository",
         value: {
-          accessToken: result?.access_token || ""
-        }
-      }
-
-    }
+          accessToken: result?.access_token || "",
+        },
+      };
+    };
 
     if (isLoggedIn) {
-      const refresh = setInterval(() => {
-        action("adminApiCall", {
-          method: "post",
-          url: "refresh",
-          data: {},
-          stateAction: "updateKeyValue",
-          stateHandler
-        })
-      }, (1 * 60 * 1000));
+      const refresh = setInterval(
+        () => {
+          action("adminApiCall", {
+            method: "post",
+            url: "refresh",
+            data: {},
+            stateAction: "updateKeyValue",
+            stateHandler,
+          });
+        },
+        1 * 60 * 1000,
+      );
       return () => clearInterval(refresh);
     }
-
   }, [action, isLoggedIn]);
 
+  const component =
+    isLoggedIn || publicRoutes.includes(currentPath) ? (
+      props.children
+    ) : (
+      <Login />
+    );
 
-  const component = (isLoggedIn || publicRoutes.includes(currentPath)) ? props.children : <Login />;
-
-  return (
-    <ToastProvider>
-      {component}
-    </ToastProvider>
-  )
-}
+  return <ToastProvider>{component}</ToastProvider>;
+};
 
 export default OccUtilsApp;

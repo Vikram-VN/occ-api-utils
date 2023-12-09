@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const AllowedUrls = (props) => {
-  return (
-    <div>AllowedUrls</div>
-  )
-}
+  return <div>AllowedUrls</div>;
+};
 
-export default AllowedUrls
+export default AllowedUrls;

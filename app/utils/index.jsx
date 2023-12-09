@@ -1,25 +1,25 @@
+export const identity = (value) => value;
 
-export const identity = value => value;
-
-export const noop = () => { };
+export const noop = () => {};
 
 export const formatBytes = (bytes, decimals = 2) => {
-  if (!+bytes) return "0 Bytes"
+  if (!+bytes) return "0 Bytes";
 
-  const k = 1024
-  const dm = decimals < 0 ? 0 : decimals
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-  const i = Math.ceil(Math.log(bytes) / Math.log(k))
+  const i = Math.ceil(Math.log(bytes) / Math.log(k));
 
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-}
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
 
 export const getEmptyString = () => "";
 
-export const isObject = value => value !== null && typeof value === "object" && !Array.isArray(value);
+export const isObject = (value) =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
 
-export const isEmptyObject = obj => {
+export const isEmptyObject = (obj) => {
   if (obj == null || typeof obj === "string") {
     return true;
   }
@@ -41,7 +41,7 @@ export const t = (value, substitutions) => {
   return value;
 };
 
-export const objToClassName = obj => {
+export const objToClassName = (obj) => {
   let className = "";
   if (typeof obj === "object") {
     for (const key in obj) {
@@ -63,7 +63,9 @@ export const arrayToMap = (array, key, transformObjectCallback) => {
     return result;
   }
   for (const item of array) {
-    result[item[key]] = transformObjectCallback ? transformObjectCallback(item) : item;
+    result[item[key]] = transformObjectCallback
+      ? transformObjectCallback(item)
+      : item;
   }
 
   return result;
@@ -72,11 +74,15 @@ export const arrayToMap = (array, key, transformObjectCallback) => {
 export const getBaseURL = ({ req, window, withoutProtocol }) => {
   // from node server
   if (req && req.get) {
-    return `${withoutProtocol ? "" : `${req.protocol}:`}//${req.get("host")}${req.baseUrl}`;
+    return `${withoutProtocol ? "" : `${req.protocol}:`}//${req.get("host")}${
+      req.baseUrl
+    }`;
   }
   // from browser
   if (window && window.location) {
-    let baseUrl = `${withoutProtocol ? "" : window.location.protocol}//${window.location.host}`;
+    let baseUrl = `${withoutProtocol ? "" : window.location.protocol}//${
+      window.location.host
+    }`;
     if (window.siteBaseURLPath && window.siteBaseURLPath !== "/") {
       baseUrl += window.siteBaseURLPath;
     }
@@ -87,9 +93,10 @@ export const getBaseURL = ({ req, window, withoutProtocol }) => {
   return "";
 };
 
-export const normalizePath = pathname => `/${pathname.replace(/^\//, "").replace(/\/$/, "")}/`.replace("//", "/");
+export const normalizePath = (pathname) =>
+  `/${pathname.replace(/^\//, "").replace(/\/$/, "")}/`.replace("//", "/");
 
-export const searchStringToQueryParams = searchString => {
+export const searchStringToQueryParams = (searchString) => {
   if (!searchString || searchString.length === 0) {
     return {};
   }
@@ -102,7 +109,7 @@ export const searchStringToQueryParams = searchString => {
   }
   const listOfQueryParams = modifiedSearchString.split("&");
   const queryParams = {};
-  listOfQueryParams.forEach(item => {
+  listOfQueryParams.forEach((item) => {
     const [key, value] = item.split("=");
     queryParams[key] = value;
   });
@@ -119,7 +126,7 @@ export const merge = (target, source, opts = {}) => {
     override: false,
     warn: false,
     source: "unknown",
-    ...opts
+    ...opts,
   };
 
   // 2 objects may require deep merging
@@ -149,7 +156,7 @@ export const merge = (target, source, opts = {}) => {
   return target;
 };
 
-export const argCheckForEmptyObjects = args => {
+export const argCheckForEmptyObjects = (args) => {
   return !isObject(args) || isEmptyObject(args) ? true : false;
 };
 
@@ -189,7 +196,7 @@ export const sortArrayByKeyAsc = (array, key) => {
   });
 };
 
-export const valueIsTrue = value => {
+export const valueIsTrue = (value) => {
   return value === true || value === "true";
 };
 
@@ -200,16 +207,24 @@ export const formatDate = (dateVal = "") => {
   if (date.toString() === "Invalid Date") {
     dateRes = "";
   }
-  dateRes = `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(-2)}-${`0${date.getDate()}`.slice(-2)}`;
+  dateRes = `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(
+    -2,
+  )}-${`0${date.getDate()}`.slice(-2)}`;
 
   return dateRes;
 };
 
-
 const ABSOLUTE_URL = /^(http[s]?:\/\/|\/)/i;
 
 const areEmptyObjects = (a, b) => {
-  return a && b && typeof a === "object" && typeof b === "object" && isEmptyObject(a) && isEmptyObject(b);
+  return (
+    a &&
+    b &&
+    typeof a === "object" &&
+    typeof b === "object" &&
+    isEmptyObject(a) &&
+    isEmptyObject(b)
+  );
 };
 
 export const arraysEqual = (a, b) => {
@@ -244,7 +259,12 @@ export const shallowEqual = (a, b) => {
     return true;
   }
 
-  if (typeof a !== "object" || a === null || typeof b !== "object" || b === null) {
+  if (
+    typeof a !== "object" ||
+    a === null ||
+    typeof b !== "object" ||
+    b === null
+  ) {
     return false;
   }
 
@@ -259,7 +279,10 @@ export const shallowEqual = (a, b) => {
     if (areEmptyObjects(a[keysA[i]], b[keysA[i]])) {
       continue;
     }
-    if (!hasOwnProperty.call(b, keysA[i]) || !arraysEqual(a[keysA[i]], b[keysA[i]])) {
+    if (
+      !hasOwnProperty.call(b, keysA[i]) ||
+      !arraysEqual(a[keysA[i]], b[keysA[i]])
+    ) {
       return false;
     }
   }
@@ -283,8 +306,10 @@ const processKey = (obj, props) => {
     }
   } else {
     const currentKeyNotDefined = obj[currentKey] === undefined;
-    const currentKeyNotDefinedOrNotArray = currentKeyNotDefined || !Array.isArray(obj[currentKey]);
-    const currentKeyNotDefinedOrNotObject = currentKeyNotDefined || !isObject(obj[currentKey]);
+    const currentKeyNotDefinedOrNotArray =
+      currentKeyNotDefined || !Array.isArray(obj[currentKey]);
+    const currentKeyNotDefinedOrNotObject =
+      currentKeyNotDefined || !isObject(obj[currentKey]);
     const nextKey = keys[1];
 
     if (nextKey === "") {
@@ -309,14 +334,13 @@ const processKey = (obj, props) => {
   }
 };
 
-
-export const formToJson = form => {
+export const formToJson = (form) => {
   const json = {};
 
   new FormData(form).forEach((value, key) => {
     // split the key out into an array of keys, a new key for each value wrapped
     // in squared brackets arrays should return an empty key then the value
-    const keys = key.split("[").map(key => key.replace(/\]/g, ""));
+    const keys = key.split("[").map((key) => key.replace(/\]/g, ""));
     // pass the keys and the form field value to the function
     processKey(json, { keys, value });
   });
@@ -324,7 +348,7 @@ export const formToJson = form => {
   return json;
 };
 
-export const formToUrl = form => {
+export const formToUrl = (form) => {
   const url = new URL(form.action);
 
   new FormData(form).forEach((value, key) => {
@@ -334,7 +358,7 @@ export const formToUrl = form => {
   return url;
 };
 
-export const formToHref = form => {
+export const formToHref = (form) => {
   const url = formToUrl(form);
   if (!ABSOLUTE_URL.test(form.getAttribute("action"))) {
     return url.href.replace(document.baseURI, "");
@@ -343,18 +367,17 @@ export const formToHref = form => {
   return url.href;
 };
 
-
 export const getTime = () => {
   const date = new Date();
   const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+  const minutes =
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
   return `${hours}:${minutes}`;
-}
-
+};
 
 export const sleep = (ms) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
 const validateEmail = (email) => {
   const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -390,12 +413,14 @@ export const loginValidation = (data, setError, checkDetails) => {
   }
 
   if (!tnc) {
-    setError({ errorResponse: "Please accept the Terms & Conditions and Privacy Policy" });
+    setError({
+      errorResponse: "Please accept the Terms & Conditions and Privacy Policy",
+    });
     return false;
   }
 
   return true;
-}
+};
 
 export const getCookie = (cookies, key) => {
   if (!cookies || !key) {
@@ -405,18 +430,20 @@ export const getCookie = (cookies, key) => {
   return cookies
     .trim()
     .split(/; */)
-    .find(cookie => new RegExp(`^${key}=`).test(cookie));
+    .find((cookie) => new RegExp(`^${key}=`).test(cookie));
 };
 
 export const getCookieValue = (cookies, key) => {
   const cookie = getCookie(cookies, key);
 
   if (cookie) {
-    return decodeURIComponent(cookie.replace(new RegExp(`^${key}=`), "").trim());
+    return decodeURIComponent(
+      cookie.replace(new RegExp(`^${key}=`), "").trim(),
+    );
   }
 };
 
-const splitSetCookieString = cookies => {
+const splitSetCookieString = (cookies) => {
   if (typeof cookies !== "string") return [];
 
   let start = 0,
@@ -435,7 +462,7 @@ const splitSetCookieString = cookies => {
     return curPos < cookiesLength;
   };
 
-  const isSpecialCharacter = char => {
+  const isSpecialCharacter = (char) => {
     return char === "=" || char === ",";
   };
 
@@ -446,7 +473,10 @@ const splitSetCookieString = cookies => {
       curPos += 1;
       skipWhiteSpaces();
       nextStart = curPos;
-      while (curPos < cookiesLength && !isSpecialCharacter(cookies.charAt(curPos))) {
+      while (
+        curPos < cookiesLength &&
+        !isSpecialCharacter(cookies.charAt(curPos))
+      ) {
         curPos += 1;
       }
       if (curPos < cookiesLength && cookies.charAt(curPos) === "=") {
@@ -472,7 +502,7 @@ export const getCookieFromSetCookieHeader = (cookieHeader, key) => {
 
   const listOfCookies = splitSetCookieString(cookieHeader);
 
-  return listOfCookies.find(cookie => new RegExp(`^${key}=`).test(cookie));
+  return listOfCookies.find((cookie) => new RegExp(`^${key}=`).test(cookie));
 };
 
 export const getValueFromSetCookieHeader = (cookieHeader, key) => {
@@ -498,15 +528,17 @@ export const squeeze = (text, keep = 10) => {
   } else if (text.length === 2 * keep) {
     output = text;
   } else if (text.length > 2 * keep) {
-    output = `${text.substring(0, keep)}...${text.substring(text.length - keep)}`;
+    output = `${text.substring(0, keep)}...${text.substring(
+      text.length - keep,
+    )}`;
   }
 
   return output;
-}
+};
 
 export const splitMultiWordIdentifier = (text) => {
   return text.trim().match(/^[a-z]+|[a-z]+|[A-Z][a-z]+|\d+|[A-Z]+(?![a-z])/g);
-}
+};
 
 export const dashCase = (text) => {
   if (!text || typeof text !== "string" || !text.trim()) {
@@ -515,8 +547,8 @@ export const dashCase = (text) => {
 
   const matches = splitMultiWordIdentifier(text);
 
-  return matches.map(word => word.toLowerCase()).join("-");
-}
+  return matches.map((word) => word.toLowerCase()).join("-");
+};
 
 export const arrayBufferToJson = (arrayBuffer) => {
   const uint8Array = new Uint8Array(arrayBuffer);
@@ -524,13 +556,13 @@ export const arrayBufferToJson = (arrayBuffer) => {
   const encodedString = decoder.decode(uint8Array);
   const jsonData = JSON.parse(encodedString);
   return jsonData;
-}
+};
 
 export const arrayBufferToString = (arrayBuffer) => {
-  const decoder = new TextDecoder('utf-8');
+  const decoder = new TextDecoder("utf-8");
   const decodedString = decoder.decode(arrayBuffer);
   return decodedString;
-}
+};
 
 export const sortData = (data) => {
   // Sort the data based on a specific property or column
@@ -542,24 +574,23 @@ export const sortData = (data) => {
   return sortedData;
 };
 
-
-
 export const camelCase = (text) => {
-  const capitalize = s => s[0].toUpperCase() + s.slice(1);
+  const capitalize = (s) => s[0].toUpperCase() + s.slice(1);
 
   if (!text || typeof text !== "string" || !text.trim()) {
     return;
   }
 
   const matches = splitMultiWordIdentifier(text);
-  const capitalizedString = matches.map(word => capitalize(word)).join("");
+  const capitalizedString = matches.map((word) => capitalize(word)).join("");
 
   return capitalizedString[0].toLowerCase() + capitalizedString.slice(1);
-}
+};
 
 export const setCookie = (cookieName, cookieValue) => {
   document.cookie = cookieName + "=" + cookieValue + "; Path=/;";
-}
+};
 export const deleteCookie = (cookieName) => {
-  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
+  document.cookie =
+    cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};

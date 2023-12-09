@@ -18,45 +18,51 @@ const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
 export function createStore(preloadedState = {}) {
-    const store = configureStore({
-        reducer: appRepository,
-        devTools: process.env.NODE_ENV !== "production",
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
-        preloadedState
-    });
+  const store = configureStore({
+    reducer: appRepository,
+    devTools: process.env.NODE_ENV !== "production",
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
+    preloadedState,
+  });
 
-    sagaMiddleware.run(actions);
+  sagaMiddleware.run(actions);
 
-    return store;
+  return store;
 }
 
 export const store = createStore({});
 
 export function StoreProvider({ children }) {
+  const { dispatch } = store;
+  const toast = useToasts();
+  store.useSelector = useSelector;
 
-    const { dispatch } = store;
-    const toast = useToasts();
-    store.useSelector = useSelector;
+  const action = (type, payload) => {
+    return new Promise((resolve, reject) => {
+      if (type) {
+        return resolve(dispatch({ type, payload }));
+      } else {
+        return reject(new Error(`Action type is missing from payload`));
+      }
+    });
+  };
 
-    const action = (type, payload) => {
-      return  new Promise((resolve, reject) => {
-            if (type) {
-              return  resolve(dispatch({ type, payload }));
-            }
-            else {
-              return  reject(new Error(`Action type is missing from payload`))
-            }
+  const storeValue = {
+    action,
+    ...api,
+    ...store,
+    ...utils,
+    ...crypto,
+    ...toast,
+    useSelector,
+  };
 
-        });
-    };
-
-    const storeValue = { action, ...api, ...store, ...utils, ...crypto, ...toast, useSelector };
-
-    return (
-        <Provider store={store}>
-            <StoreContext.Provider value={storeValue}>
-                {children}
-            </StoreContext.Provider>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <StoreContext.Provider value={storeValue}>
+        {children}
+      </StoreContext.Provider>
+    </Provider>
+  );
 }
