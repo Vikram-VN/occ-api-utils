@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import adminApi, { adminFileDownload } from "@/utils/api";
 import { CloudArrowDownIcon, StopCircleIcon, FlagIcon } from "@heroicons/react/24/solid";
 import { useToasts } from "@/store/hooks";
-import AdvancedSettings from "./advancedSettings";
+import AdvancedSettings from "@/export/advancedSettings";
 
 export default function Export() {
   const toast = useToasts();

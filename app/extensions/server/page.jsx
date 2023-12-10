@@ -8,9 +8,7 @@ import {
   Checkbox,
   Pagination,
   Modal,
-  Button,
-  Dropdown,
-  Select,
+  Button
 } from "flowbite-react";
 import { debounce, formatBytes, formatDate } from "@/utils";
 import FileUpload from "@/extensions/file";

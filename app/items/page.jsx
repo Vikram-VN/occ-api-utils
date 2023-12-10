@@ -16,6 +16,7 @@ import { debounce, formToJson, uuid } from "@/utils";
 import { TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import adminApi from "@/utils/api";
 import { useCallback } from "react";
+import ImportItemTypes from "@/items/importItemTypes";
 
 export default function ItemTypes() {
   const router = useRouter();
@@ -142,51 +143,61 @@ export default function ItemTypes() {
 
   const attribute = (key, index) => {
     return (
-      <div className="flex gap-4 items-center" key={key}>
-        <Select
-          type="text"
-          id={`customAttribute-${index}`}
-          className="mb-2"
-          name={`specifications[${index}][type]`}
-        >
-          <option value="none" disabled selected>
-            Select Data Type
-          </option>
-          <option value="shortText">Short Text</option>
-          <option value="longText">Long Text</option>
-          <option value="richText">Rich Text</option>
-          <option value="number">Number</option>
-          <option value="checkbox">Check Box</option>
-          <option value="date">Date</option>
-          <option value="enumerated">Selection List</option>
-        </Select>
-        <TextInput
-          type="text"
-          className="mb-2"
-          name={`specifications[${index}][id]`}
-          required
-          placeholder={`Ex: x_newAttribute${index}`}
-        />
-        <TextInput
-          type="text"
-          className="mb-2"
-          name={`specifications[${index}][label]`}
-          required
-          placeholder={`Ex: attribute label${index}`}
-        />
-        <TextInput
-          type="number"
-          className="mb-2"
-          name={`specifications[${index}][length]`}
-          required
-          placeholder={`Ex: defaultValue${index}`}
-        />
-        <TrashIcon
-          className="h-6 w-6 cursor-pointer"
-          title="Delete the attribute"
-          onClick={() => removeAttribute(key)}
-        />
-      </div>
+      <React.Fragment>
+        <div className="mt-8 mb-2 flex gap-4">
+          <Label htmlFor={`customAttribute-${index}`} value={`Custom Attribute ${index + 1}`} />
+        </div>
+        <div className="flex max-lg:flex-col gap-4" key={key}>
+          <Select
+            type="text"
+            id={`customAttribute-${index}`}
+            className="mb-2"
+            name={`specifications[${index}][type]`}
+          >
+            <option value="none" disabled selected>
+              Select Data Type
+            </option>
+            <option value="shortText">Short Text</option>
+            <option value="longText">Long Text</option>
+            <option value="richText">Rich Text</option>
+            <option value="number">Number</option>
+            <option value="checkbox">Check Box</option>
+            <option value="date">Date</option>
+            <option value="enumerated">Selection List</option>
+          </Select>
+          <TextInput
+            type="text"
+            className="mb-2"
+            name={`specifications[${index}][id]`}
+            required
+            placeholder={`Ex: x_newAttribute${index}`}
+          />
+          <TextInput
+            type="text"
+            className="mb-2"
+            name={`specifications[${index}][label]`}
+            required
+            placeholder={`Ex: attribute label${index}`}
+          />
+          <TextInput
+            type="number"
+            className="mb-2"
+            name={`specifications[${index}][default]`}
+            placeholder={`Ex: default value${index}`}
+          />
+          <TextInput
+            type="number"
+            className="mb-2"
+            name={`specifications[${index}][length]`}
+            placeholder={`Ex: field length${index}`}
+          />
+          <TrashIcon
+            className="h-6 w-6 cursor-pointer"
+            title="Delete the attribute"
+            onClick={() => removeAttribute(key)}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -257,7 +268,7 @@ export default function ItemTypes() {
             }}
           >
             <Button
-              className="mt-10 w-2/6 mb-4"
+              className="mt-10 w-2/6 max-lg:w-full mb-4"
               value="add attribute"
               type="button"
               onClick={addAttributes}
@@ -266,17 +277,16 @@ export default function ItemTypes() {
             </Button>
             <div className="w-full m-auto">
               <div className="mb-2 flex gap-4">
-                <Label htmlFor="customAttribute" value="Custom Attribute" />
+                <Label htmlFor="customAttribute" value="Custom Attribute 1" />
               </div>
-              <div className="flex gap-4">
+              <div className="flex max-lg:flex-col gap-4">
                 <Select
                   type="text"
                   id="customAttribute-0"
                   className="mb-2"
                   name="specifications[0][type]"
-                  defaultValue="shortText"
                 >
-                  <option value="none" disabled>
+                  <option value="none" disabled selected>
                     Select Data Type
                   </option>
                   <option value="shortText">Short Text</option>
@@ -292,27 +302,32 @@ export default function ItemTypes() {
                   className="mb-2"
                   name="specifications[0][id]"
                   required
-                  placeholder="Ex: x_newAttribute"
+                  placeholder="Name (API Name)"
                 />
                 <TextInput
                   type="text"
                   className="mb-2"
                   name="specifications[0][label]"
                   required
-                  placeholder="Ex: attribute label"
+                  placeholder="Label"
+                />
+                <TextInput
+                  type="number"
+                  className="mb-2"
+                  name="specifications[0][default]"
+                  placeholder="Default Value"
                 />
                 <TextInput
                   type="number"
                   className="mb-2"
                   name="specifications[0][length]"
-                  required
-                  placeholder="Ex: defaultValue"
+                  placeholder="Length"
                 />
               </div>
               {customAttributes.map((key, index) => attribute(key, index + 1))}
-              <div className="flex gap-4">
+              <div className="flex mt-4 max-lg:flex-col gap-4">
                 <Button
-                  className="m-auto mt-10 w-2/6"
+                  className="m-auto w-2/6 max-lg:w-full"
                   value="sign-in"
                   type="submit"
                 >
@@ -320,7 +335,7 @@ export default function ItemTypes() {
                 </Button>
                 <Button
                   color="gray"
-                  className="m-auto mt-10 w-2/6"
+                  className="m-auto w-2/6 max-lg:w-full"
                   onClick={() => setCustomAttributesCreateModalShow(false)}
                 >
                   No, cancel
@@ -332,7 +347,7 @@ export default function ItemTypes() {
       </Modal>
 
       <Card className="mb-4">
-        <div className="flex flex-col phone:flex-row justify-end gap-4">
+        <div className="flex max-lg:flex-col justify-end gap-4">
           <Select
             defaultValue={itemType}
             onClick={fetchItemTypeAttributes}
@@ -407,10 +422,12 @@ export default function ItemTypes() {
 
           <Button
             type="button"
+            className="w-2/6 max-lg:w-full"
             onClick={() => setCustomAttributesCreateModalShow(true)}
           >
             Create Custom Attributes
           </Button>
+          <ImportItemTypes />
         </div>
       </Card>
       {

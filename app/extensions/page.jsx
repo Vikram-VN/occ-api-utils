@@ -39,10 +39,7 @@ export default function Extensions() {
   const [showLogsModal, setLogsModalView] = useState(false);
   const [logType, setLogType] = useState("info");
   const [showModal, setModalView] = useState(false);
-  const [date, handleDateChange] = useState({
-    startDate: new Date().toISOString().split("T")[0],
-    endDate: new Date().toISOString().split("T")[0],
-  });
+  const [date, handleDateChange] = useState(new Date());
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
 
@@ -245,7 +242,7 @@ export default function Extensions() {
 
   const downloadServerLogs = useCallback(async () => {
     try {
-      const modifiedDate = date.startDate.replace(/-/gi, "");
+      const modifiedDate = date.toISOString().split('T')[0].replace(/-/gi, "");
       const logs = await adminApiCall({
         method: "get",
         url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,
@@ -256,7 +253,7 @@ export default function Extensions() {
       const bytes = new Uint8Array(buffer.data);
       const link = document.createElement("a");
       link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-      link.download = `serverLogs_${date.startDate}.zip`;
+      link.download = `serverLogs_${date}.zip`;
       link.click();
       link.remove();
     } catch (error) {
@@ -265,7 +262,7 @@ export default function Extensions() {
           error,
       );
     }
-  }, [date.startDate, logType, onError]);
+  }, [date, logType, onError]);
 
   const tableData = (data) => {
     return (
@@ -360,7 +357,7 @@ export default function Extensions() {
                 className="w-min:w-10 w-full"
               >
                 <option value="none" disabled>
-                  Log Level
+                  Select Log Level
                 </option>
                 <option value="debug">Debug</option>
                 <option value="info">Info</option>
