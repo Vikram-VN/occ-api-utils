@@ -18,7 +18,6 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/solid";
 import { debounce } from "@/utils";
-import PageLoader from "@/components/page-loader";
 
 export default function Profiles() {
   const toast = useToasts();
@@ -135,10 +134,6 @@ export default function Profiles() {
 
   return (
     <React.Fragment>
-      <PageLoader
-        isLoading={isLoading}
-        message={"Fetching the profiles, Please wait"}
-      />
       <Modal
         show={showModal}
         size="md"

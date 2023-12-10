@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useCallback } from "react";
 import { Pagination, Table, TextInput } from "flowbite-react";
 import { useSearchParams } from "next/navigation";

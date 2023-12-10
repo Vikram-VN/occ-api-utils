@@ -431,7 +431,7 @@ export default function ItemTypes() {
         </div>
       </Card>
       {
-        <Table hoverable={true}>
+        <Table hoverable striped>
           <Table.Head>
             <Table.HeadCell>Name</Table.HeadCell>
             <Table.HeadCell>Id</Table.HeadCell>

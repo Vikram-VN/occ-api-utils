@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import Toast from "@/components/toast/toast";
 import { ToastContext } from "@/store/context";

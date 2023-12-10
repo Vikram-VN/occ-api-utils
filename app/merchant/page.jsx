@@ -1,5 +1,5 @@
-"use client";
 
+"use client";
 import React, { useCallback, useMemo, useState } from "react";
 import { ListGroup, Card } from "flowbite-react";
 import basicAuth from "@/merchant/basicAuth";

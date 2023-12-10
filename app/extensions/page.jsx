@@ -470,7 +470,7 @@ export default function Extensions() {
         </div>
       </Card>
       {
-        <Table hoverable={true}>
+        <Table hoverable striped>
           <Table.Head>
             <Table.HeadCell className="!p-4">
               <Checkbox name="selectAll" onChange={selectExtensions} />
