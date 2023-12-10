@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-
 import { useDragging } from "@/store/hooks";
 
 const FileUploader = (props) => {

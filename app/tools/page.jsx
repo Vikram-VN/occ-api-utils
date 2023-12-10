@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Excel2Json from "@/tools/fileConvert";
 import { Accordion, Card } from "flowbite-react";
