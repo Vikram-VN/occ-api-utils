@@ -10,7 +10,7 @@ const ImportItemTypes = (props) => {
       type="button"
     >
       Import Attributes Attributes
-      <Tooltip content="Supported file types are JSON and CSV">
+      <Tooltip content="Supported file types are JSON and CSV" className="z-50">
         <InformationCircleIcon className="w-6 h-6 pl-2" />
       </Tooltip>
     </Button>

@@ -6,7 +6,6 @@ import { useToasts } from "@/store/hooks";
 import { Card, Pagination, Select, Table, TextInput } from "flowbite-react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { debounce } from "@/utils";
-import PageLoader from "@/components/page-loader";
 
 export default function Organizations() {
   const toast = useToasts();
@@ -90,10 +89,6 @@ export default function Organizations() {
 
   return (
     <React.Fragment>
-      <PageLoader
-        isLoading={isLoading}
-        message={"Fetching the organization data, Please wait"}
-      />
       <Card className="mb-4">
         <h1 className="mb-4 text-2xl text-justify bold ">Organizations</h1>
         <div className="flex gap-4">
