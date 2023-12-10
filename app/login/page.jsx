@@ -86,7 +86,7 @@ export default function Login(props) {
       url: "login",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "x-remember": payload.rememberMe,
+        "x-remember": payload.rememberMe  || 'off',
       },
       data: "grant_type=client_credentials",
       showNotification: true,
@@ -146,7 +146,7 @@ export default function Login(props) {
               value="sign-in"
               type="submit"
             >
-              Sign in{" "}
+              Sign in
             </Button>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { noop } from "@/utils";
 import adminApi, { agentApi } from "@/utils/api";
 
@@ -84,9 +84,9 @@ function* sagasHandler(action) {
 }
 
 function* appSaga() {
-  yield takeEvery("adminApiCall", adminApiHandler);
-  yield takeEvery("agentApiCall", agentApiHandler);
-  yield takeEvery("stateUpdate", sagasHandler);
+  yield takeLatest("adminApiCall", adminApiHandler);
+  yield takeLatest("agentApiCall", agentApiHandler);
+  yield takeLatest("stateUpdate", sagasHandler);
 }
 
 export default appSaga;

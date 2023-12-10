@@ -3,15 +3,17 @@ import ToastProvider from "@/components/toast";
 import { Modal as FlowBiteModal } from "flowbite-react";
 
 const Modal = (props) => {
-  const [showModal, setShowModal] = useState(props.show || false);
+  const {show, loginModalRef, title, description, children} = props;
+
+  const [showModal, setShowModal] = useState(show || false);
 
   const onModalClose = useCallback(() => {
     setShowModal(!showModal);
   }, [showModal]);
 
   useEffect(
-    () => (props.loginModalRef.current = onModalClose),
-    [onModalClose, props.loginModalRef],
+    () => (loginModalRef.current = onModalClose),
+    [onModalClose, loginModalRef],
   );
 
   return (
@@ -25,13 +27,13 @@ const Modal = (props) => {
       />
       <FlowBiteModal show={showModal} size={"7xl"} onClose={onModalClose}>
         <FlowBiteModal.Header className="[&>h3]:text-2xl">
-          {props.title}
+          {title}
         </FlowBiteModal.Header>
         <FlowBiteModal.Body>
-          <ToastProvider>{props.children}</ToastProvider>
+          <ToastProvider>{children}</ToastProvider>
         </FlowBiteModal.Body>
-        {props.description && (
-          <FlowBiteModal.Footer>{props.description}</FlowBiteModal.Footer>
+        {description && (
+          <FlowBiteModal.Footer>{description}</FlowBiteModal.Footer>
         )}
       </FlowBiteModal>
     </React.Fragment>
