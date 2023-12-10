@@ -87,7 +87,7 @@ const Publish = (props) => {
   };
   return (
     <React.Fragment>
-      <div className="flex gap-4">
+      <div className="flex gap-4 px-4 max-sm:flex-col max-sm:gap-0">
         <Select
           className="mb-4"
           defaultValue={"none"}

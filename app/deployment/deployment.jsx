@@ -107,7 +107,7 @@ const Deployment = (props) => {
     <React.Fragment>
       <TextInput
         id="large"
-        className="mb-4"
+        className="mb-4 w-1/4 max-lg:w-full px-4"
         type="text"
         sizing="md"
         placeholder="Application name..."
