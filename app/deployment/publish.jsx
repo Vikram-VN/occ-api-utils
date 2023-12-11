@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Pagination, Select, Table, TextInput } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
 import adminApi from "@/utils/api";
