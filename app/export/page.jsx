@@ -136,9 +136,9 @@ export default function Export() {
 
         id
           ? setMultiExportList({
-              ...multiExportList,
-              [id]: { ...multiExportList[id], processId: "" },
-            })
+            ...multiExportList,
+            [id]: { ...multiExportList[id], processId: "" },
+          })
           : setBundleExport({ ...bundleExport, processId: "" });
       } else {
         toast.show({
@@ -159,7 +159,7 @@ export default function Export() {
         [id]: { ...multiExportList[id], downloadLink: "", reportLink: "" },
       });
       const additionalParams = {};
-      multiExportList[id]?.additionalParams?.map(item=> {
+      multiExportList[id]?.additionalParams?.map(item => {
         additionalParams[item["key"]?.trim()] = item["value"]?.trim()
       });
 
@@ -209,12 +209,17 @@ export default function Export() {
         mode: "bundle",
         fileName: `exportItems_${currentUTCDateTime}.zip`,
         items: exportItems.map((item) => {
+          const additionalParams = {};
+          item["additionalParams"]?.map(item => {
+            additionalParams[item["key"]?.trim()] = item["value"]?.trim()
+          });
           return {
             id: item,
             format: multiExportList[item].format,
             params: {
               q: multiExportList[item]?.query,
               headersList: multiExportList[item]?.headersList || "All",
+              ...additionalParams
             },
           };
         }),
