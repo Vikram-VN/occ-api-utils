@@ -16,7 +16,7 @@ export function middleware(request) {
   if (!isAuthenticated(request)) {
     // Respond with JSON indicating an error message
     return Response.json(
-      { success: false, message: "authentication failed" },
+      { success: false, message: "authorization token is missing" },
       { status: 401 }
     );
   }
