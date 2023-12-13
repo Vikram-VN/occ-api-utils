@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function ProgressBar() {
-  return (
-    <div>ProgressBar</div>
-  )
+  return <div>ProgressBar</div>;
 }
