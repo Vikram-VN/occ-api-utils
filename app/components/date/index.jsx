@@ -1,5 +1,5 @@
 import React from "react";
-import { Datepicker as FlowBiteDatePicker } from 'flowbite-react';
+import { Datepicker as FlowBiteDatePicker } from "flowbite-react";
 import { noop } from "@/utils";
 
 const DatePicker = ({ handleValueChange = noop, ...props }) => {

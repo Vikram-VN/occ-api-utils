@@ -50,7 +50,9 @@ export default function AdvancedSettings(props) {
               id={`paramKey${index}`}
               placeholder="Ex: prettyPrintJSON"
               value={paramKey}
-              onInput={(e) => handleParamInput(index, e.target.value, paramValue)}
+              onInput={(e) =>
+                handleParamInput(index, e.target.value, paramValue)
+              }
             />
           </div>
           <div className="w-full m-auto mb-4">

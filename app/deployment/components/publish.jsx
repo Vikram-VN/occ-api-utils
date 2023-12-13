@@ -1,12 +1,15 @@
+"use client";
 import React, { useState } from "react";
 import { Pagination, Select, Table, TextInput } from "flowbite-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import adminApi from "@/utils/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { formatDate, debounce } from "@/utils";
+import { useToasts } from "@/store/hooks";
 
-const Publish = (props) => {
-  const { router, toast } = props;
+const Publish = () => {
+  const router = useRouter();
+  const toast = useToasts();
 
   const [publishResults, setPublishResults] = useState({});
   const [query, setQuery] = useState("");

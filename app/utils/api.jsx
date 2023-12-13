@@ -220,7 +220,7 @@ export const adminFileDownload = async (fileLink) => {
     const fileData = await adminApiCall({ url: modifiedLink });
     const file = fileLink.split("/").pop();
     const date = new Date().toISOString();
-    const fileName = file.split('.').join(`-${date}.`);
+    const fileName = file.split(".").join(`-${date}.`);
     const contentType = fileData.headers["content-type"];
     const buffer = fileData.data.content;
     const bytes = new Uint8Array(buffer.data);
