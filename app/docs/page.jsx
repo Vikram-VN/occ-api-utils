@@ -1,7 +1,7 @@
 import React from "react";
 
-const HelloDoc = () => {
+const Page = () => {
   return <p>Docs</p>;
 };
 
-export default HelloDoc;
+export default Page;

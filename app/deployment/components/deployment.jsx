@@ -1,14 +1,24 @@
-import React, { useState, useCallback } from "react";
-import { Pagination, Table, TextInput } from "flowbite-react";
-import { useSearchParams } from "next/navigation";
+"use client";
+import React, { useState, useCallback, useContext } from "react";
+import { Pagination, Table, Tabs, TextInput } from "flowbite-react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { getDeployments } from "@/store/selector";
 import { formatDate, debounce } from "@/utils";
 import { useSelector } from "react-redux";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import {
+  MagnifyingGlassIcon,
+  InboxArrowDownIcon,
+  ServerIcon,
+} from "@heroicons/react/24/solid";
 import adminApi from "@/utils/api";
+import { StoreContext } from "@/store/context";
+import { useToasts } from "@/store/hooks";
+import Publish from "@/deployment/components/publish";
 
-const Deployment = (props) => {
-  const { action, router, toast } = props;
+export const DeploymentTab = () => {
+  const { action } = useContext(StoreContext);
+  const router = useRouter();
+  const toast = useToasts();
 
   const deployments = useSelector(getDeployments);
   const [deploymentResults, setDeploymentResults] = useState(deployments);
@@ -158,4 +168,24 @@ const Deployment = (props) => {
   );
 };
 
-export default Deployment;
+export default function Deployment() {
+  return (
+    <Tabs
+      aria-label="Tabs with icons"
+      style="underline"
+      className="bg-white dark:bg-gray-800 rounded-md gap-4"
+    >
+      <Tabs.Item
+        title="Deployments History"
+        active={true}
+        icon={InboxArrowDownIcon}
+      >
+        <DeploymentTab />
+      </Tabs.Item>
+
+      <Tabs.Item title="Publish History" icon={ServerIcon}>
+        <Publish />
+      </Tabs.Item>
+    </Tabs>
+  );
+}

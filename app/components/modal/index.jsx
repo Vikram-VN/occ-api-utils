@@ -3,7 +3,7 @@ import ToastProvider from "@/components/toast";
 import { Modal as FlowBiteModal } from "flowbite-react";
 
 const Modal = (props) => {
-  const {show, loginModalRef, title, description, children} = props;
+  const { show, loginModalRef, title, description, children } = props;
 
   const [showModal, setShowModal] = useState(show || false);
 

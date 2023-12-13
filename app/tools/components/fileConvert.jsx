@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useDragging } from "@/store/hooks";

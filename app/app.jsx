@@ -4,7 +4,7 @@ import { StoreContext } from "@/store/context";
 import { useLoginStatus } from "@/store/hooks";
 import { usePathname } from "next/navigation";
 import ToastProvider from "@/components/toast";
-import Login from "@/login/page";
+import Login from "@/login/components/login";
 
 const OccUtilsApp = (props) => {
   const { action } = useContext(StoreContext);

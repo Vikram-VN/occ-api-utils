@@ -14,7 +14,7 @@ import {
   Select,
 } from "flowbite-react";
 import { debounce, formatDate } from "@/utils";
-import FileUpload from "@/extensions/file";
+import FileUpload from "@/extensions/components/file";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
@@ -242,7 +242,7 @@ export default function Extensions() {
 
   const downloadServerLogs = useCallback(async () => {
     try {
-      const modifiedDate = date.toISOString().split('T')[0].replace(/-/gi, "");
+      const modifiedDate = date.toISOString().split("T")[0].replace(/-/gi, "");
       const logs = await adminApiCall({
         method: "get",
         url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,

@@ -8,10 +8,10 @@ import {
   Checkbox,
   Pagination,
   Modal,
-  Button
+  Button,
 } from "flowbite-react";
 import { debounce, formatBytes, formatDate } from "@/utils";
-import FileUpload from "@/extensions/file";
+import FileUpload from "@/extensions/components/file";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
