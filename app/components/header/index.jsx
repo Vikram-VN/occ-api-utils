@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import AppLogo from "@/components/logo";
 import Modal from "@/components/modal";
-import Login from "@/login/page";
+import Login from "@/login/components/login";
 import "@/components/header/styles.css";
 
 const Header = ({ children }) => {
