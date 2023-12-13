@@ -180,7 +180,7 @@ export default function Deployment() {
         active={true}
         icon={InboxArrowDownIcon}
       >
-        <Deployment />
+        <DeploymentTab />
       </Tabs.Item>
 
       <Tabs.Item title="Publish History" icon={ServerIcon}>
