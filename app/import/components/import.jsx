@@ -378,7 +378,6 @@ export default function Import() {
                   <div className="grid md:grid-flow-col gap-4">
                     {item.formats.length > 0 && (
                       <Select
-                        className="mb-4"
                         disabled={multiImportList[item.id]?.processId}
                         defaultValue={"none"}
                         onChange={(e) =>
