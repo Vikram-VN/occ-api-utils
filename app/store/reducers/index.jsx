@@ -1,3 +1,5 @@
+"use client";
+
 const initialState = {};
 
 const appRepository = (state = initialState, { type, key, value }) => {

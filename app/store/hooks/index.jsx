@@ -1,3 +1,4 @@
+"use client";
 import {
   useContext,
   useState,
@@ -5,7 +6,7 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { isAuthenticated, getAccessToken } from "@/store/selector";
+import { isAuthenticated, getAccessToken, getAppKey } from "@/store/selector";
 import { ToastContext } from "@/store/context";
 import { debounce } from "@/utils";
 import { useSelector } from "react-redux";

@@ -10,6 +10,7 @@ import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
+import { getCookie } from "cookies-next";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -31,7 +32,13 @@ export function createStore(preloadedState = {}) {
   return store;
 }
 
-export const store = createStore({});
+export const store = createStore({
+  occRepository: {
+    instanceId: getCookie("X-instanceId"),
+    accessToken: getCookie("Authorization"),
+    appKey: "",
+  },
+});
 
 export function StoreProvider({ children }) {
   const { dispatch } = store;

@@ -1,54 +1,17 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-
-const blocklistHeaders = [
-  "accept",
-  "cookie",
-  "host",
-  "postman-token",
-  "cache-control",
-  "connection",
-  "accept-language",
-  "x-forwarded-for",
-  "x-forwarded-host",
-  "origin",
-  "x-forwarded-port",
-  "x-forwarded-proto",
-  "referrer",
-  "X-InstanceId",
-  "x-invoke-path",
-  "transfer-encoding",
-  "x-invoke-query",
-  "x-middleware-invoke",
-];
+import { clearSession } from "@/lib/session";
 
 export async function GET(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const hostId = request.headers.get("X-InstanceId");
 
-    if (!hostId) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
-
-    const modifiedHeaders = {};
-    request.headers.forEach((value, key) => {
-      if (!blocklistHeaders.includes(key)) {
-        modifiedHeaders[key] = value;
-      }
-    });
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: modifiedHeaders,
+      headers: request.headers,
       responseType: "arraybuffer",
     };
 
@@ -59,6 +22,8 @@ export async function GET(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
+
+    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(adminXApi.data, {
       status: 200,
@@ -79,34 +44,19 @@ export async function POST(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");
 
-    if (!hostId) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
-
-    const modifiedHeaders = {};
-    request.headers.forEach((value, key) => {
-      if (!blocklistHeaders.includes(key)) {
-        modifiedHeaders[key] = value;
-      }
-    });
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       data: requestBody,
       method: "post",
-      headers: modifiedHeaders,
+      headers: request.headers,
     };
 
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
+
+    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -126,34 +76,19 @@ export async function PUT(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");
 
-    if (!hostId) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
-
-    const modifiedHeaders = {};
-    request.headers.forEach((value, key) => {
-      if (!blocklistHeaders.includes(key)) {
-        modifiedHeaders[key] = value;
-      }
-    });
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       data: requestBody,
       method: "put",
-      headers: modifiedHeaders,
+      headers: request.headers,
     };
 
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
+
+    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -173,34 +108,19 @@ export async function DELETE(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");
 
-    if (!hostId) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
-
-    const modifiedHeaders = {};
-    request.headers.forEach((value, key) => {
-      if (!blocklistHeaders.includes(key)) {
-        modifiedHeaders[key] = value;
-      }
-    });
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       data: requestBody,
       method: "delete",
-      headers: modifiedHeaders,
+      headers: request.headers,
     };
 
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
+
+    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -220,34 +140,19 @@ export async function PATCH(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("X-InstanceId");
 
-    if (!hostId) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
-
-    const modifiedHeaders = {};
-    request.headers.forEach((value, key) => {
-      if (!blocklistHeaders.includes(key)) {
-        modifiedHeaders[key] = value;
-      }
-    });
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       data: requestBody,
       method: "patch",
-      headers: modifiedHeaders,
+      headers: request.headers,
     };
 
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
+
+    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },

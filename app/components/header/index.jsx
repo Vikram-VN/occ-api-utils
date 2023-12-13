@@ -3,7 +3,7 @@
 import React, { useRef, useContext } from "react";
 import Link from "next/link";
 import { StoreContext } from "@/store/context";
-import { useLoginStatus } from "@/store/hooks";
+import { useLoginStatus, useToasts } from "@/store/hooks";
 import { useRouter, usePathname } from "next/navigation";
 import {
   ArrowRightOnRectangleIcon,
@@ -16,6 +16,7 @@ import "@/components/header/styles.css";
 
 const Header = ({ children }) => {
   const loginModalRef = useRef();
+  const toast = useToasts();
 
   const { action } = useContext(StoreContext);
   const router = useRouter();
@@ -23,8 +24,37 @@ const Header = ({ children }) => {
   const loginPath = usePathname().includes("login");
   const isLoggedIn = useLoginStatus();
 
-  const clearReduxState = () => {
-    router.push("/");
+  // Used to show notifications
+  const onSuccess = () => {
+    toast.show({
+      status: "success",
+      message: "You are successfully logged out..",
+    });
+
+    const redirect = setTimeout(() => {
+      router.push("/");
+    }, 2000);
+
+    return () => clearTimeout(redirect);
+  };
+
+  // Used to show notifications
+  const onError = (error) => {
+    toast.show({
+      status: "failure",
+      message: error.message || "Logout Failed",
+    });
+  };
+
+  const logout = () => {
+    // Doing login
+    action("adminApiCall", {
+      method: "post",
+      url: "logout",
+      showNotification: true,
+      onError,
+      onSuccess,
+    });
     action("stateUpdate", { stateAction: "clearState" });
   };
 
@@ -65,7 +95,7 @@ const Header = ({ children }) => {
         type="text"
         id="user-logout"
         className="hidden"
-        onClick={clearReduxState}
+        onClick={logout}
       />
       {!loginPath && (
         <Modal title={"OCC API Login"} loginModalRef={loginModalRef}>
