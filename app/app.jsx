@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import ToastProvider from "@/components/toast";
 import Login from "@/login/components/login";
 
-const OccUtilsApp = (props) => {
+const OCCUtilsApp = (props) => {
   const { action } = useContext(StoreContext);
   const currentPath = usePathname();
 
@@ -55,4 +55,4 @@ const OccUtilsApp = (props) => {
   return <ToastProvider>{component}</ToastProvider>;
 };
 
-export default OccUtilsApp;
+export default OCCUtilsApp;

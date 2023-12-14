@@ -4,8 +4,7 @@ import Header from "@/components/header";
 import SideBar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ThemeToggle from "@/theme/toggle";
-import OccUtilsApp from "@/app";
-import {dynamic} from "next/dynamic"
+import OCCUtilsApp from "@/app";
 import { cookies } from "next/headers";
 import "@/theme/globals.css";
 
@@ -42,7 +41,7 @@ export default function RootLayout(props) {
           <main className="flex">
             <SideBar />
             <section className="w-full px-6 pt-2 relative pb-6">
-              <OccUtilsApp {...props} />
+              <OCCUtilsApp {...props} />
             </section>
           </main>
           <Footer />
