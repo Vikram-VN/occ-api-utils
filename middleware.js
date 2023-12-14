@@ -14,39 +14,12 @@ export const config = {
   ],
 };
 
-// List of headers to be removed from the request
-const blocklistHeaders = [
-  // Common headers to be removed
-  "accept",
-  "cookie",
-  "host",
-  "postman-token",
-  "cache-control",
-  "connection",
-  "accept-language",
-  "x-forwarded-for",
-  "x-forwarded-host",
-  "origin",
-  "x-forwarded-port",
-  "x-forwarded-proto",
-  "referrer",
-  "x-invoke-path",
-  "transfer-encoding",
-  "x-invoke-query",
-  "x-middleware-invoke",
-];
 
 // Middleware function to be executed for each request
 export function middleware(request) {
   // Extract X-InstanceId header from the request
   const hostId = request.headers.get("x-instanceid");
 
-  const newHeaders = new Headers(request.headers);
-
-  // Remove specified headers from the request
-  blocklistHeaders.forEach((key) => {
-    newHeaders.delete(key);
-  });
 
   // Check if X-InstanceId header is missing
   if (!hostId) {
@@ -70,9 +43,5 @@ export function middleware(request) {
   }
 
   // Continue processing if authentication is successful
-  return NextResponse.next({
-    request: {
-      headers: newHeaders,
-    },
-  });
+  return NextResponse.next();
 }

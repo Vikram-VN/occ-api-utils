@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import filterHeaders from "@/utils/removeHeaders";
 
 export async function GET(request) {
   try {
@@ -10,7 +11,7 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: request.headers,
+      headers: filterHeaders(request),
       responseType: "arraybuffer",
     };
 

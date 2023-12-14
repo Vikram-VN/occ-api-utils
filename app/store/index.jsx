@@ -11,7 +11,7 @@ import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import webStorage from 'redux-persist/lib/storage';
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -36,7 +36,7 @@ const persistConfig = {
   version: 1,
   key: "occStore",
   debug: false,
-  storage,
+  storage: webStorage,
 };
 
 const persistedReducer = persistReducer(persistConfig, appRepository);

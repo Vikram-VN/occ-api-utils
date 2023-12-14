@@ -10,7 +10,7 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     if (newUrl.includes(".zip")) {
@@ -45,7 +45,7 @@ export async function POST(request) {
       url: newUrl,
       data: requestBody,
       method: "post",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const agentApi = await axios.request(payload);
@@ -75,7 +75,7 @@ export async function PUT(request) {
       url: newUrl,
       data: requestBody,
       method: "put",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const agentApi = await axios.request(payload);
@@ -105,7 +105,7 @@ export async function DELETE(request) {
       url: newUrl,
       data: requestBody,
       method: "delete",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const agentApi = await axios.request(payload);
@@ -135,7 +135,7 @@ export async function PATCH(request) {
       url: newUrl,
       data: requestBody,
       method: "patch",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const agentApi = await axios.request(payload);

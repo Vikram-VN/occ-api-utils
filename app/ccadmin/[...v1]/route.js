@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import filterHeaders from "@/utils/removeHeaders";
 
 export async function GET(request) {
   try {
@@ -10,7 +11,7 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     if (newUrl.includes(".zip")) {
@@ -41,14 +42,12 @@ export async function POST(request) {
     const requestBody = await request.arrayBuffer();
     const hostId = request.headers.get("x-instanceid");
 
-    console.log(request.headers);
-
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       data: requestBody,
       method: "post",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const adminApi = await axios.request(payload);
@@ -78,7 +77,7 @@ export async function PUT(request) {
       url: newUrl,
       data: requestBody,
       method: "put",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const adminApi = await axios.request(payload);
@@ -108,7 +107,7 @@ export async function DELETE(request) {
       url: newUrl,
       data: requestBody,
       method: "delete",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const adminApi = await axios.request(payload);
@@ -138,7 +137,7 @@ export async function PATCH(request) {
       url: newUrl,
       data: requestBody,
       method: "patch",
-      headers: request.headers,
+      headers: filterHeaders(request),
     };
 
     const adminApi = await axios.request(payload);

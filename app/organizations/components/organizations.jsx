@@ -67,7 +67,6 @@ export default function Organizations() {
   }, [query, newOffset]);
 
   const organizationTableData = (data, index) => {
-    console.log("data--->", data);
     return (
       <Table.Row
         className="bg-white dark:border-gray-700 dark:bg-gray-800"
