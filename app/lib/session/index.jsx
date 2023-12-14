@@ -13,13 +13,9 @@ export const sessionValidation = async (request, response) => {
   const {
     data: { access_token: accessToken },
   } = response;
-  const rememberMe = headers.get("x-remember");
+
   const instanceId = headers.get("x-instanceid");
   let expiryDate = 24 * 60 * 60 * 1000;
-
-  if (rememberMe === "on") {
-    expiryDate = 28 * 24 * 60 * 60 * 1000;
-  }
 
   const calculateExpiryTime = () => {
     const currentDate = new Date();

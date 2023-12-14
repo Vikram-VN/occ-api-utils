@@ -10,7 +10,9 @@ import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
-import { getCookie } from "cookies-next";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -18,13 +20,12 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
-export function createStore(preloadedState = {}) {
+export function createStore(persistedReducer) {
   const store = configureStore({
-    reducer: appRepository,
+    reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
-    preloadedState,
   });
 
   sagaMiddleware.run(actions);
@@ -32,13 +33,17 @@ export function createStore(preloadedState = {}) {
   return store;
 }
 
-export const store = createStore({
-  occRepository: {
-    instanceId: getCookie("X-instanceId"),
-    accessToken: getCookie("Authorization"),
-    appKey: "",
-  },
-});
+const persistConfig = {
+  version: 1,
+  key: "occStore",
+  debug: false,
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, appRepository);
+
+export const store = createStore(persistedReducer);
+export const persistor = persistStore(store);
 
 export function StoreProvider({ children }) {
   const { dispatch } = store;
@@ -67,9 +72,11 @@ export function StoreProvider({ children }) {
 
   return (
     <Provider store={store}>
-      <StoreContext.Provider value={storeValue}>
-        {children}
-      </StoreContext.Provider>
+      <PersistGate loading={null} persistor={persistor}>
+        <StoreContext.Provider value={storeValue}>
+          {children}
+        </StoreContext.Provider>
+      </PersistGate>
     </Provider>
   );
 }

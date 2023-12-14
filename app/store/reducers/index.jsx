@@ -1,6 +1,12 @@
 "use client";
 
-const initialState = {};
+const initialState = {
+  occRepository: {
+    instanceId: "",
+    accessToken: "",
+    appKey: "",
+  },
+};
 
 const appRepository = (state = initialState, { type, key, value }) => {
   if (type === "updateKeyValue") {

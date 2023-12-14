@@ -34,7 +34,7 @@ const blocklistHeaders = [
   "x-invoke-path",
   "transfer-encoding",
   "x-invoke-query",
-  "x-middleware-invoke"
+  "x-middleware-invoke",
 ];
 
 // Middleware function to be executed for each request
@@ -75,5 +75,5 @@ export function middleware(request) {
     request: {
       headers: newHeaders,
     },
-  })
+  });
 }

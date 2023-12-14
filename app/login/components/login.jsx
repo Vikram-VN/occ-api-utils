@@ -86,7 +86,6 @@ export default function Login(props) {
       url: "login",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "x-remember": payload.rememberMe || "off",
       },
       data: "grant_type=client_credentials",
       showNotification: true,
@@ -135,12 +134,6 @@ export default function Login(props) {
               placeholder="Ex: eyJ2ZXJzaW9uIjowLCJ1cmkiOiJjbGllbnRBcHBsaWNhdGlvbnMvbXRtLXN0b3JlZnJvbnQvcGFnZS9sb2dpbi8iLCJoYXNoIjoiOEdnY2tBPT0ifQ=="
               icon={KeyIcon}
             />
-            <div className="mt-6 flex items-center gap-2 justify-end">
-              <Checkbox id="rememberMe" name="rememberMe" />
-              <Label className="flex" htmlFor="rememberMe">
-                <p>Remember Me</p>
-              </Label>
-            </div>
             <Button
               className="m-auto mt-10 w-2/6"
               value="sign-in"
