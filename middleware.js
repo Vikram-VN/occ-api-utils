@@ -30,7 +30,6 @@ const blocklistHeaders = [
   "x-forwarded-port",
   "x-forwarded-proto",
   "referrer",
-  "X-InstanceId",
   "x-invoke-path",
   "transfer-encoding",
   "x-invoke-query",
@@ -40,7 +39,7 @@ const blocklistHeaders = [
 // Middleware function to be executed for each request
 export function middleware(request) {
   // Extract X-InstanceId header from the request
-  const hostId = request.headers.get("X-InstanceId");
+  const hostId = request.headers.get("x-instanceid");
 
   const newHeaders = new Headers(request.headers);
 

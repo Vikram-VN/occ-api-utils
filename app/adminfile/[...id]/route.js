@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { clearSession } from "@/lib/session";
 
 export async function GET(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -18,8 +17,6 @@ export async function GET(request) {
     const adminApi = await axios.request(payload);
     const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { content: adminApi.data },

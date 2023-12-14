@@ -12,7 +12,6 @@ import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { PersistGate } from "redux-persist/integration/react";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -72,11 +71,9 @@ export function StoreProvider({ children }) {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
         <StoreContext.Provider value={storeValue}>
           {children}
         </StoreContext.Provider>
-      </PersistGate>
     </Provider>
   );
 }

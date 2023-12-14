@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { clearSession } from "@/lib/session";
 
 export async function GET(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -22,8 +21,6 @@ export async function GET(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(adminXApi.data, {
       status: 200,
@@ -42,7 +39,7 @@ export async function POST(request) {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     // Parsing the binary large object as it is into occ server
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -55,8 +52,6 @@ export async function POST(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -74,7 +69,7 @@ export async function PUT(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -87,8 +82,6 @@ export async function PUT(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -106,7 +99,7 @@ export async function DELETE(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -119,8 +112,6 @@ export async function DELETE(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
@@ -138,7 +129,7 @@ export async function PATCH(request) {
   try {
     const newUrl = request.nextUrl.pathname.concat(request.nextUrl.search);
     const requestBody = await request.arrayBuffer();
-    const hostId = request.headers.get("X-InstanceId");
+    const hostId = request.headers.get("x-instanceid");
 
     let payload = {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
@@ -151,8 +142,6 @@ export async function PATCH(request) {
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
-
-    if (adminXApi?.data?.status === "401") clearSession();
 
     return NextResponse.json(
       { ...adminXApi.data },
