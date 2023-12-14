@@ -1,9 +1,11 @@
 import React from "react";
 import { StoreProvider } from "@/store";
+import Header from "@/components/header";
+import SideBar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ThemeToggle from "@/theme/toggle";
 import OccUtilsApp from "@/app";
-import dynamic from "next/dynamic";
+import {dynamic} from "next/dynamic"
 import { cookies } from "next/headers";
 import "@/theme/globals.css";
 
@@ -11,15 +13,6 @@ export const metadata = {
   title: "OCC API Utils",
   description: "Some useful tools for OCC",
 };
-
-const Header = dynamic(() => import("@/components/header"), {
-  ssr: false,
-});
-
-const SideBar = dynamic(() => import("@/components/navbar"), {
-  ssr: false,
-});
-
 
 export default function RootLayout(props) {
   const theme = cookies().get("occTheme")?.value;
