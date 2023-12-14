@@ -14,12 +14,10 @@ export const config = {
   ],
 };
 
-
 // Middleware function to be executed for each request
 export function middleware(request) {
   // Extract X-InstanceId header from the request
   const hostId = request.headers.get("x-instanceid");
-
 
   // Check if X-InstanceId header is missing
   if (!hostId) {

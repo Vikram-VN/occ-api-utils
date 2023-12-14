@@ -11,7 +11,7 @@ import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
-import webStorage from 'redux-persist/lib/storage';
+import webStorage from "redux-persist/lib/storage";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -71,9 +71,9 @@ export function StoreProvider({ children }) {
 
   return (
     <Provider store={store}>
-        <StoreContext.Provider value={storeValue}>
-          {children}
-        </StoreContext.Provider>
+      <StoreContext.Provider value={storeValue}>
+        {children}
+      </StoreContext.Provider>
     </Provider>
   );
 }
