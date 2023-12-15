@@ -1,5 +1,4 @@
 "use client";
-import { useRef } from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import appRepository from "@/store/reducers";
@@ -10,7 +9,10 @@ import * as utils from "@/utils";
 import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -18,18 +20,14 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
-export function createStore(rootReducer) {
+export function createStore(persistedReducer) {
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
-    preloadedState: {
-      occRepository: {
-        instanceId: null,
-        accessToken: null,
-        appKey: null,
-      },
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
     },
   });
 
@@ -38,18 +36,21 @@ export function createStore(rootReducer) {
   return store;
 }
 
-export const store = createStore(appRepository);
+const persistConfig = {
+  version: 1,
+  key: "occStore",
+  debug: false,
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, appRepository);
+
+export const store = createStore(persistedReducer);
+export const persistor = persistStore(store);
 
 export function StoreProvider({ children }) {
-  const storeRef = useRef(null);
-  if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = store;
-  }
-
-  const { dispatch } = storeRef.current;
+  const { dispatch } = store;
   const toast = useToasts();
-  store.useSelector = useSelector;
 
   const action = (type, payload) => {
     return new Promise((resolve, reject) => {
@@ -64,17 +65,18 @@ export function StoreProvider({ children }) {
   const storeValue = {
     action,
     ...api,
-    ...storeRef.current,
+    ...store,
     ...utils,
     ...crypto,
-    ...toast,
-    useSelector,
+    ...toast
   };
 
   return (
-    <Provider store={storeRef.current}>
+    <Provider store={store}>
       <StoreContext.Provider value={storeValue}>
-        {children}
+        <PersistGate persistor={persistor}>
+          {children}
+        </PersistGate>
       </StoreContext.Provider>
     </Provider>
   );
