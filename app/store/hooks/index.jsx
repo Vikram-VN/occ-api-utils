@@ -6,10 +6,16 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { isAuthenticated, getAccessToken, getAppKey } from "@/store/selector";
+import { isAuthenticated, getAccessToken } from "@/store/selector";
 import { ToastContext } from "@/store/context";
 import { debounce } from "@/utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
+
+export const useAppDispatch = useDispatch;
+
+export const useAppSelector = useSelector;
+
+export const useAppStore = useStore;
 
 export const useToasts = () => useContext(ToastContext);
 

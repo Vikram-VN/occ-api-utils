@@ -1,4 +1,5 @@
 "use client";
+import { useRef } from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import appRepository from "@/store/reducers";
@@ -23,6 +24,13 @@ export function createStore(rootReducer) {
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
+    preloadedState: {
+      occRepository: {
+        instanceId: null,
+        accessToken: null,
+        appKey: null,
+      },
+    },
   });
 
   sagaMiddleware.run(actions);
@@ -33,7 +41,13 @@ export function createStore(rootReducer) {
 export const store = createStore(appRepository);
 
 export function StoreProvider({ children }) {
-  const { dispatch } = store;
+  const storeRef = useRef(null);
+  if (!storeRef.current) {
+    // Create the store instance the first time this renders
+    storeRef.current = store;
+  }
+
+  const { dispatch } = storeRef.current;
   const toast = useToasts();
   store.useSelector = useSelector;
 
@@ -50,7 +64,7 @@ export function StoreProvider({ children }) {
   const storeValue = {
     action,
     ...api,
-    ...store,
+    ...storeRef.current,
     ...utils,
     ...crypto,
     ...toast,
@@ -58,7 +72,7 @@ export function StoreProvider({ children }) {
   };
 
   return (
-    <Provider store={store}>
+    <Provider store={storeRef.current}>
       <StoreContext.Provider value={storeValue}>
         {children}
       </StoreContext.Provider>
