@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-// Import the isAuthenticated function from the "@/lib/auth" module
 import isAuthenticated from "@/lib/auth";
 
 // Define the configuration for the middleware

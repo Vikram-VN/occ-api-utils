@@ -10,8 +10,6 @@ import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider, useSelector } from "react-redux";
-import { persistStore, persistReducer } from "redux-persist";
-import webStorage from "redux-persist/lib/storage";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -19,9 +17,9 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
-export function createStore(persistedReducer) {
+export function createStore(rootReducer) {
   const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
@@ -32,17 +30,7 @@ export function createStore(persistedReducer) {
   return store;
 }
 
-const persistConfig = {
-  version: 1,
-  key: "occStore",
-  debug: false,
-  storage: webStorage,
-};
-
-const persistedReducer = persistReducer(persistConfig, appRepository);
-
-export const store = createStore(persistedReducer);
-export const persistor = persistStore(store);
+export const store = createStore(appRepository);
 
 export function StoreProvider({ children }) {
   const { dispatch } = store;
