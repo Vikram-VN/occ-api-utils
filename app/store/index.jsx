@@ -10,9 +10,18 @@ import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
 import { Provider } from "react-redux";
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from "redux-persist/integration/react";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -27,7 +36,7 @@ export function createStore(persistedReducer) {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
     serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   });
 
@@ -46,7 +55,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, appRepository);
 
 export const store = createStore(persistedReducer);
-export const persistor = persistStore(store);
+export const persistedStore = persistStore(store);
 
 export function StoreProvider({ children }) {
   const { dispatch } = store;
@@ -68,16 +77,16 @@ export function StoreProvider({ children }) {
     ...store,
     ...utils,
     ...crypto,
-    ...toast
+    ...toast,
   };
 
   return (
     <Provider store={store}>
-      <StoreContext.Provider value={storeValue}>
-        <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistedStore}>
+        <StoreContext.Provider value={storeValue}>
           {children}
-        </PersistGate>
-      </StoreContext.Provider>
+        </StoreContext.Provider>
+      </PersistGate>
     </Provider>
   );
 }

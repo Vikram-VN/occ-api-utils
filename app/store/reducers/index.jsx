@@ -27,7 +27,7 @@ const appRepository = (state = {}, action) => {
       newState = state;
       break;
   }
-  
+
   return newState;
 };
 

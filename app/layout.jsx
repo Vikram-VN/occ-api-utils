@@ -17,24 +17,21 @@ export default function RootLayout(props) {
   const theme = cookies().get("occTheme")?.value;
 
   return (
-    <StoreProvider>
-      <html lang="en" className={theme}>
-        <head>
-          <meta charSet="UTF-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <link rel="icon" href="/media/favicon.svg" sizes="32x32" />
-          <link rel="icon" href="/media/favicon.svg" sizes="192x192" />
-          <link rel="apple-touch-icon" href="/media/favicon.svg" />
-          <meta name="occ-logo" content="/media/favicon.svg" />
-        </head>
-        <body
-          className={`bg-white text-black dark:bg-slate-900 dark:text-white`}
-          suppressHydrationWarning={true}
-        >
+    <html lang="en" className={theme}>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/media/favicon.svg" sizes="32x32" />
+        <link rel="icon" href="/media/favicon.svg" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/media/favicon.svg" />
+        <meta name="occ-logo" content="/media/favicon.svg" />
+      </head>
+      <body
+        className={`bg-white text-black dark:bg-slate-900 dark:text-white`}
+        suppressHydrationWarning={true}
+      >
+        <StoreProvider>
           <Header>
             <ThemeToggle />
           </Header>
@@ -45,8 +42,8 @@ export default function RootLayout(props) {
             </section>
           </main>
           <Footer />
-        </body>
-      </html>
-    </StoreProvider>
+        </StoreProvider>
+      </body>
+    </html>
   );
 }

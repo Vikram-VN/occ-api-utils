@@ -96,7 +96,7 @@ const Header = ({ children }) => {
         className="hidden"
         onClick={logout}
       />
-      {!loginPath && (
+      {!loginPath && !isLoggedIn && (
         <Modal title={"OCC API Login"} loginModalRef={loginModalRef}>
           <Login loginModalRef={loginModalRef} />
         </Modal>
