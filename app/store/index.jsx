@@ -26,9 +26,11 @@ import { PersistGate } from "redux-persist/integration/react";
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
 
+// Middleware configuration
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
+// Function to create the Redux store
 export function createStore(persistedReducer) {
   const store = configureStore({
     reducer: persistedReducer,
@@ -41,11 +43,13 @@ export function createStore(persistedReducer) {
       }).concat(middleware),
   });
 
+  // Running sagas
   sagaMiddleware.run(actions);
 
   return store;
 }
 
+// Redux persist configuration
 const persistConfig = {
   version: 1,
   key: "occStore",
@@ -53,15 +57,19 @@ const persistConfig = {
   storage,
 };
 
+// Creating persisted reducer
 const persistedReducer = persistReducer(persistConfig, appRepository);
 
+// Creating the Redux store and persisted store
 export const store = createStore(persistedReducer);
 export const persistedStore = persistStore(store);
 
+// Function to provide the store context to the React app
 export function StoreProvider({ children }) {
   const { dispatch } = store;
   const toast = useToasts();
 
+  // Custom action function for promises
   const action = (type, payload) => {
     return new Promise((resolve, reject) => {
       if (type) {
@@ -72,6 +80,7 @@ export function StoreProvider({ children }) {
     });
   };
 
+  // Store context values
   const storeValue = {
     action,
     ...api,
@@ -81,6 +90,7 @@ export function StoreProvider({ children }) {
     ...toast,
   };
 
+  // Providing the store context with Redux Persist
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistedStore}>
