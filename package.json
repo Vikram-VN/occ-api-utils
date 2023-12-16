@@ -9,6 +9,7 @@
     "start": "next start",
     "serve": "next build && next start",
     "production": "next build && next export",
+    "prettier:fix": "npx prettier --write .",
     "export": "next export",
     "lint": "next lint"
   },

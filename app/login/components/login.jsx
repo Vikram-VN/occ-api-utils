@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useToasts } from "@/store/hooks";
 import { StoreContext } from "@/store/context";
 import { formToJson } from "@/utils";
-import { TextInput, Button, Label, Checkbox } from "flowbite-react";
+import { TextInput, Button, Label } from "flowbite-react";
 import { KeyIcon, WindowIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
@@ -61,7 +61,7 @@ export default function Login(props) {
         key: "occRepository",
         value: {
           instanceId: payload.instanceId,
-          appKey: payload.accessToken,
+          accessToken: payload.accessToken,
         },
       };
     }
