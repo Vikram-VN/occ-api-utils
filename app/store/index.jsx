@@ -32,12 +32,13 @@ process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 export function createStore(persistedReducer) {
   const store = configureStore({
     reducer: persistedReducer,
-    devTools: process.env.NODE_ENV !== "production",
+    devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(middleware),
   });
 
   sagaMiddleware.run(actions);
