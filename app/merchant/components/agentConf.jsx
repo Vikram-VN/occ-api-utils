@@ -52,8 +52,6 @@ const AgentConf = (props) => {
     const formData = event.target;
     const payload = formToJson(formData);
     payload.allowedOriginMethods = JSON.parse(payload.allowedOriginMethods);
-
-    console.log(payload);
     setAdminConfig(payload);
   };
 

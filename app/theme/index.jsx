@@ -11,7 +11,7 @@ export const ThemeSwitcher = ({ theme }) => {
   const [_theme, setTheme] = useState(theme);
 
   const toggleTheme = () => {
-    const root = document.getElementsByTagName("html")[0];
+    const root = document.querySelector("html");
     root.classList.toggle(Theme.dark);
     if (root.classList.contains(Theme.dark)) {
       setTheme(Theme.dark);

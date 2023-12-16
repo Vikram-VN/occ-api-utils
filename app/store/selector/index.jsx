@@ -5,8 +5,6 @@ export const getOCCRepository = (state) => state.occRepository || {};
 export const getInstanceId = (state) =>
   getOCCRepository(state).instanceId || "";
 
-export const getAppKey = (state) => getOCCRepository(state).appKey || "";
-
 export const getDeployments = (state) =>
   getOCCRepository(state).deployments || {};
 

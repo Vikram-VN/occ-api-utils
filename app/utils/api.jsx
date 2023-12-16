@@ -15,9 +15,7 @@ const adminApi = async (request) => {
   } = request;
 
   const instanceId = getInstanceId(store.getState());
-  const accessToken = url.includes("login")
-    ? getAppKey(store.getState())
-    : getAccessToken(store.getState());
+  const accessToken = getAccessToken(store.getState());
 
   const customHeaders = {
     ...headers,
@@ -58,9 +56,7 @@ export const adminXApi = async (request) => {
   } = request;
 
   const instanceId = getInstanceId(store.getState());
-  const accessToken = url.includes("login")
-    ? getAppKey(store.getState())
-    : getAccessToken(store.getState());
+  const accessToken = getAccessToken(store.getState());
 
   const customHeaders = {
     ...headers,
@@ -99,9 +95,7 @@ export const agentApi = async (request) => {
   } = request;
 
   const instanceId = getInstanceId(store.getState());
-  const accessToken = url.includes("login")
-    ? getAppKey(store.getState())
-    : getAccessToken(store.getState());
+  const accessToken = getAccessToken(store.getState());
 
   const customHeaders = {
     ...headers,
@@ -154,9 +148,7 @@ export const adminApiCall = async (request) => {
   } = request;
 
   const instanceId = getInstanceId(store.getState());
-  const accessToken = url.includes("login")
-    ? getAppKey(store.getState())
-    : getAccessToken(store.getState());
+  const accessToken = getAccessToken(store.getState());
 
   const customHeaders = {
     ...headers,

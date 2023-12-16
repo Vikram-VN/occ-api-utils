@@ -3,7 +3,7 @@
 import React, { useRef, useContext } from "react";
 import Link from "next/link";
 import { StoreContext } from "@/store/context";
-import { useLoginStatus } from "@/store/hooks";
+import { useLoginStatus, useToasts } from "@/store/hooks";
 import { useRouter, usePathname } from "next/navigation";
 import {
   ArrowRightOnRectangleIcon,
@@ -16,6 +16,7 @@ import "@/components/header/styles.css";
 
 const Header = ({ children }) => {
   const loginModalRef = useRef();
+  const toast = useToasts();
 
   const { action } = useContext(StoreContext);
   const router = useRouter();
@@ -23,8 +24,37 @@ const Header = ({ children }) => {
   const loginPath = usePathname().includes("login");
   const isLoggedIn = useLoginStatus();
 
-  const clearReduxState = () => {
-    router.push("/");
+  // Used to show notifications
+  const onSuccess = () => {
+    toast.show({
+      status: "success",
+      message: "You are successfully logged out..",
+    });
+
+    const redirect = setTimeout(() => {
+      router.push("/");
+    }, 2000);
+
+    return () => clearTimeout(redirect);
+  };
+
+  // Used to show notifications
+  const onError = (error) => {
+    toast.show({
+      status: "failure",
+      message: error.message || "Logout Failed",
+    });
+  };
+
+  const logout = () => {
+    // Doing login
+    action("adminApiCall", {
+      method: "post",
+      url: "logout",
+      showNotification: true,
+      onError,
+      onSuccess,
+    });
     action("stateUpdate", { stateAction: "clearState" });
   };
 
@@ -56,7 +86,6 @@ const Header = ({ children }) => {
             >
               {userIcon}
             </label>
-            {/* <Link href="#" target="_blank" className="text-slate-800 dark:text-white hover:bg-slate-50 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">GitHub</Link> */}
           </div>
         </div>
       </nav>
@@ -65,9 +94,9 @@ const Header = ({ children }) => {
         type="text"
         id="user-logout"
         className="hidden"
-        onClick={clearReduxState}
+        onClick={logout}
       />
-      {!loginPath && (
+      {!loginPath && !isLoggedIn && (
         <Modal title={"OCC API Login"} loginModalRef={loginModalRef}>
           <Login loginModalRef={loginModalRef} />
         </Modal>

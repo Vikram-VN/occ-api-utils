@@ -9,35 +9,67 @@ import * as utils from "@/utils";
 import * as crypto from "@/utils/crypto";
 import * as api from "@/utils/api";
 import { useToasts } from "@/store/hooks";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
 
+// Middleware configuration
 const middleware = [sagaMiddleware];
 process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
-export function createStore(preloadedState = {}) {
+// Function to create the Redux store
+export function createStore(persistedReducer) {
   const store = configureStore({
-    reducer: appRepository,
-    devTools: process.env.NODE_ENV !== "production",
+    reducer: persistedReducer,
+    devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
-    preloadedState,
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(middleware),
   });
 
+  // Running sagas
   sagaMiddleware.run(actions);
 
   return store;
 }
 
-export const store = createStore({});
+// Redux persist configuration
+const persistConfig = {
+  version: 1,
+  key: "occStore",
+  debug: false,
+  storage,
+};
 
+// Creating persisted reducer
+const persistedReducer = persistReducer(persistConfig, appRepository);
+
+// Creating the Redux store and persisted store
+export const store = createStore(persistedReducer);
+export const persistedStore = persistStore(store);
+
+// Function to provide the store context to the React app
 export function StoreProvider({ children }) {
   const { dispatch } = store;
   const toast = useToasts();
-  store.useSelector = useSelector;
 
+  // Custom action function for promises
   const action = (type, payload) => {
     return new Promise((resolve, reject) => {
       if (type) {
@@ -48,6 +80,7 @@ export function StoreProvider({ children }) {
     });
   };
 
+  // Store context values
   const storeValue = {
     action,
     ...api,
@@ -55,14 +88,16 @@ export function StoreProvider({ children }) {
     ...utils,
     ...crypto,
     ...toast,
-    useSelector,
   };
 
+  // Providing the store context with Redux Persist
   return (
     <Provider store={store}>
-      <StoreContext.Provider value={storeValue}>
-        {children}
-      </StoreContext.Provider>
+      <PersistGate loading={null} persistor={persistedStore}>
+        <StoreContext.Provider value={storeValue}>
+          {children}
+        </StoreContext.Provider>
+      </PersistGate>
     </Provider>
   );
 }

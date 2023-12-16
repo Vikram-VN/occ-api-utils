@@ -22,7 +22,10 @@ const NavBar = () => {
   const isLoggedIn = useLoginStatus();
 
   return (
-    <div className="flex bg-slate-100 dark:bg-slate-800">
+    <div
+      className="flex bg-slate-100 dark:bg-slate-800"
+      suppressHydrationWarning
+    >
       <div className="h-full mt-6">
         <Tooltip content="General Tools" placement="auto" className="z-20">
           <Link
