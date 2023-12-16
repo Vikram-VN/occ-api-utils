@@ -22,6 +22,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
+import WebPage from "@/skeletons/web";
 
 // Creating saga actions
 const sagaMiddleware = createSagaMiddleware();
@@ -34,11 +35,16 @@ process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 export function createStore(persistedReducer) {
   const store = configureStore({
     reducer: persistedReducer,
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+          ignoredActionPaths: [
+            "payload.onError",
+            "payload.stateHandler",
+            "payload.onSuccess",
+          ],
         },
       }).concat(middleware),
   });
@@ -93,7 +99,7 @@ export function StoreProvider({ children }) {
   // Providing the store context with Redux Persist
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistedStore}>
+      <PersistGate loading={<WebPage />} persistor={persistedStore}>
         <StoreContext.Provider value={storeValue}>
           {children}
         </StoreContext.Provider>

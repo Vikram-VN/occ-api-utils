@@ -1,5 +1,5 @@
 import React from "react";
-import PageLoader from "@/components/page-loader";
+import PageLoader from "@/skeletons/page-loader";
 
 const DefaultPageLoader = () => {
   return <PageLoader />;
