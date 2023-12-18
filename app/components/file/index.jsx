@@ -32,19 +32,22 @@ const FileUploader = (props) => {
   const [currFiles, setFile] = useState(null);
   const [error, setError] = useState(false);
 
-  const handleChanges = useCallback((uploadType, files) => {
-    let checkError = false;
-    if (files) {
-      if (checkError) return false;
-      if (handleChange) handleChange(uploadType, files);
-      setFile(files);
+  const handleChanges = useCallback(
+    (uploadType, files) => {
+      let checkError = false;
+      if (files) {
+        if (checkError) return false;
+        if (handleChange) handleChange(uploadType, files);
+        setFile(files);
 
-      setUploaded(true);
-      setError(false);
-      return true;
-    }
-    return false;
-  }, [handleChange]);
+        setUploaded(true);
+        setError(false);
+        return true;
+      }
+      return false;
+    },
+    [handleChange],
+  );
 
   const handleClick = useCallback((ev) => {
     ev.stopPropagation();
@@ -55,12 +58,15 @@ const FileUploader = (props) => {
     }
   }, []);
 
-  const handleInputChange = useCallback((ev) => {
-    const allFiles = ev.target.files;
-    const files = multiple ? allFiles : allFiles[0];
-    const success = handleChanges(uploadType, files);
-    if (onSelect && success) onSelect(uploadType, files);
-  }, [handleChanges, multiple, onSelect, uploadType]);
+  const handleInputChange = useCallback(
+    (ev) => {
+      const allFiles = ev.target.files;
+      const files = multiple ? allFiles : allFiles[0];
+      const success = handleChanges(uploadType, files);
+      if (onSelect && success) onSelect(uploadType, files);
+    },
+    [handleChanges, multiple, onSelect, uploadType],
+  );
 
   const dragging = useDragging({
     labelRef,

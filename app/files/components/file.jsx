@@ -28,10 +28,12 @@ export default function Files() {
   const router = useRouter();
   const [files, setFiles] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const currentPageNo = Number(useSearchParams().get("page")) || 1;
   const [allFilesSelected, setAllFilesSelected] = useState(false);
   const [showFileUploadModal, setFileUploadModal] = useState(false);
   const [showModal, setModalView] = useState(false);
+  const [showFileModal, setFileModalView] = useState(false);
   const [fileFilters, updateFilters] = useState({
     assetType: "file",
     filter: "",
@@ -190,6 +192,16 @@ export default function Files() {
     [fetchFiles, onError, onUploadSuccess],
   );
 
+  const showDeleteFileModal = (filePath) => {
+    setSelectedFile(filePath);
+    setFileModalView(true);
+  };
+
+  const handleFileDelete = () => {
+    fileDelete(selectFile);
+    setFileModalView(false);
+  };
+
   const tableData = (data) => {
     return (
       <Table.Row
@@ -218,7 +230,7 @@ export default function Files() {
           <TrashIcon
             className="h-6 w-6 cursor-pointer"
             title="Delete this file"
-            onClick={() => fileDelete(data.path)}
+            onClick={() => showDeleteFileModal(data.path)}
           />
         </Table.Cell>
       </Table.Row>
@@ -244,6 +256,35 @@ export default function Files() {
                 Yes, I am sure
               </Button>
               <Button color="gray" onClick={() => setModalView(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showFileModal}
+        size="md"
+        popup={true}
+        onClose={() => setFileModalView(false)}
+      >
+        <Modal.Body>
+          <div className="text-center">
+            <ExclamationCircleIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want delete a file?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleFileDelete}>
+                Yes, I am sure
+              </Button>
+              <Button
+                color="gray"
+                onClick={() => {
+                  setFileModalView(false);
+                }}
+              >
                 No, cancel
               </Button>
             </div>
