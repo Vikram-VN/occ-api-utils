@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Label, Select } from "flowbite-react";
 import { useDragging } from "@/store/hooks";
 
@@ -32,7 +32,7 @@ const FileUploader = (props) => {
   const [currFiles, setFile] = useState(null);
   const [error, setError] = useState(false);
 
-  const handleChanges = (uploadType, files) => {
+  const handleChanges = useCallback((uploadType, files) => {
     let checkError = false;
     if (files) {
       if (checkError) return false;
@@ -44,23 +44,23 @@ const FileUploader = (props) => {
       return true;
     }
     return false;
-  };
+  }, [handleChange]);
 
-  const handleClick = (ev) => {
+  const handleClick = useCallback((ev) => {
     ev.stopPropagation();
     // eslint-disable-next-line no-param-reassign
     if (inputRef && inputRef.current) {
       inputRef.current.value = "";
       inputRef.current.click();
     }
-  };
+  }, []);
 
-  const handleInputChange = (ev) => {
+  const handleInputChange = useCallback((ev) => {
     const allFiles = ev.target.files;
     const files = multiple ? allFiles : allFiles[0];
     const success = handleChanges(uploadType, files);
     if (onSelect && success) onSelect(uploadType, files);
-  };
+  }, [handleChanges, multiple, onSelect, uploadType]);
 
   const dragging = useDragging({
     labelRef,

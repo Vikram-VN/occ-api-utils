@@ -41,24 +41,15 @@ export const useDragging = ({
 }) => {
   const [dragging, setDragging] = useState(false);
 
-  const handleClick = useCallback(() => {
-    inputRef.current.click();
-  }, [inputRef]);
-
   const handleDragIn = useCallback((ev) => {
     ev.preventDefault();
     ev.stopPropagation();
-    draggingCount++;
-    if (ev.dataTransfer.items && ev.dataTransfer.items.length !== 0) {
-      setDragging(true);
-    }
+    setDragging(true);
   }, []);
 
   const handleDragOut = useCallback((ev) => {
     ev.preventDefault();
     ev.stopPropagation();
-    draggingCount--;
-    if (draggingCount > 0) return;
     setDragging(false);
   }, []);
 
@@ -72,7 +63,6 @@ export const useDragging = ({
       ev.preventDefault();
       ev.stopPropagation();
       setDragging(false);
-      draggingCount = 0;
 
       const eventFiles = ev.dataTransfer.files;
       if (eventFiles && eventFiles.length > 0) {
@@ -86,28 +76,26 @@ export const useDragging = ({
 
   useEffect(() => {
     const ele = labelRef.current;
-    ele.addEventListener("click", handleClick);
+
     ele.addEventListener("dragenter", handleDragIn);
     ele.addEventListener("dragleave", handleDragOut);
     ele.addEventListener("dragover", handleDrag);
     ele.addEventListener("drop", handleDrop);
+
     return () => {
-      ele.removeEventListener("click", handleClick);
       ele.removeEventListener("dragenter", handleDragIn);
       ele.removeEventListener("dragleave", handleDragOut);
       ele.removeEventListener("dragover", handleDrag);
       ele.removeEventListener("drop", handleDrop);
     };
-  }, [
-    handleClick,
-    handleDragIn,
-    handleDragOut,
-    handleDrag,
-    handleDrop,
-    labelRef,
-  ]);
+  }, [handleDragIn, handleDragOut, handleDrag, handleDrop, labelRef]);
 
-  return dragging;
+  // Handle click separately
+  const handleClick = () => {
+    inputRef.current.click();
+  };
+
+  return { dragging, handleClick };
 };
 
 export const useIsMobile = () => {
