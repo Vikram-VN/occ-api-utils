@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { agentApi } from "@/utils/api";
+import adminApi, { agentApi } from "@/utils/api";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useToasts } from "@/store/hooks";
 import {
@@ -18,6 +18,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/solid";
 import { debounce } from "@/utils";
+import AdvancedProfileQuerySettings from "@/profiles/components/advancedSettings";
 
 export default function Profiles() {
   const toast = useToasts();
@@ -63,6 +64,7 @@ export default function Profiles() {
     setModalView(false);
   }, [id, queryFilter, toast]);
 
+
   const paginationHandler = (pageNo) => {
     router.push(
       `/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`,
@@ -70,11 +72,17 @@ export default function Profiles() {
   };
 
   const filterProfiles = debounce(async () => {
-    if (query) {
-      const response = await agentApi({
+
+    let additionalParams = "";
+    queryFilter?.additionalParams?.map((item) => {
+      additionalParams += `${[item["key"]?.trim()]}=${item["value"]?.trim()}&`;
+    });
+  
+    if (query || queryFilter?.additionalParams) {
+      const response = await adminApi({
         url: query
           ? `profiles/?q=${queryFilter.field} ${queryFilter.operator} "${query}"&queryFormat=SCIM&limit=${pagination.limit}&offset=${newOffset}`
-          : `profiles/?limit=${pagination.limit}&offset=${newOffset}`,
+          : `profiles/?limit=${pagination.limit}&offset=${newOffset}&queryFormat=SCIM&${additionalParams}`,
       });
       if (response.items) {
         setResponse(response);
@@ -100,7 +108,7 @@ export default function Profiles() {
   }, 2000);
 
   useEffect(() => {
-    if (query) {
+    if (query || queryFilter?.additionalParams) {
       setIsLoading(true);
       filterProfiles();
     }
@@ -115,9 +123,9 @@ export default function Profiles() {
       >
         <Table.Cell>{index}</Table.Cell>
         <Table.Cell>{data.id}</Table.Cell>
-        <Table.Cell className="whitespace-nowrap ">{data.lastName}</Table.Cell>
+        <Table.Cell className="whitespace-nowrap">{data.lastName}</Table.Cell>
         <Table.Cell>{data.firstName}</Table.Cell>
-        <Table.Cell>{data.parentOrganization.name}</Table.Cell>
+        <Table.Cell>{data.parentOrganization?.name || "Doesn't belong to any organization"}</Table.Cell>
         <Table.Cell>{data.email}</Table.Cell>
         <Table.Cell>
           <TrashIcon
@@ -210,6 +218,7 @@ export default function Profiles() {
             onKeyUp={filterProfiles}
           />
         </div>
+        <AdvancedProfileQuerySettings setQueryFilter={setQueryFilter} filterProfiles={filterProfiles} />
       </Card>
       <Table>
         <Table.Head>
