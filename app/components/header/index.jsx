@@ -74,7 +74,7 @@ const Header = ({ children }) => {
             <Link href="/" className="flex items-center dark:text-white">
               <AppLogo className="mr-4 text-black dark:text-white" />
             </Link>
-            <h1 className="text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText">
+            <h1 className="hidden phone:block text-3xl font-semibold whitespace-nowrap text-slate-900 dark:text-white CAU__HeaderText">
               Commerce API Utils
             </h1>
           </div>
