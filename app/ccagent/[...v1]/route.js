@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import filterHeaders from "@/utils/removeHeaders";
 
 export async function GET(request) {
   try {

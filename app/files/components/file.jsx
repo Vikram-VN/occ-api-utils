@@ -276,7 +276,7 @@ export default function Files() {
               onKeyUp={fetchFiles}
             />
             <Select
-              defaultValue="none"
+              defaultValue={fileFilters.assetType}
               onClick={fetchFiles}
               onChange={(e) => filterResults("assetType", e.target.value)}
               className="w-min:w-10"
@@ -289,7 +289,7 @@ export default function Files() {
               <option value="folder">Folder</option>
             </Select>
             <Select
-              defaultValue="none"
+              defaultValue={fileFilters.folder}
               onClick={fetchFiles}
               onChange={(e) => filterResults("folder", e.target.value)}
             >

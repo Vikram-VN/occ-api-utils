@@ -28,7 +28,7 @@ export default function ItemTypes() {
   const [showModal, setModalView] = useState(false);
   const [customAttributes, setCustomAttributes] = useState([]);
   const [itemType, updateItemType] = useState(
-    useSearchParams().get("type") || "none",
+    useSearchParams().get("type") || "commerceItem",
   );
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
