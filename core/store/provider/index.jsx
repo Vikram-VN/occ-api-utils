@@ -7,7 +7,7 @@ import { useToasts } from "@/store/hooks";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import WebPage from "@/skeletons/web";
-import {store, persistedStore} from "@/store";
+import { store, persistedStore } from "@/store";
 
 // Function to provide the store context to the React app
 export default function StoreProvider({ children }) {

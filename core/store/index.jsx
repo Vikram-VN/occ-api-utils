@@ -24,7 +24,6 @@ process.env.NODE_ENV !== "production" && middleware.push(reduxLogger);
 
 // Function to create the Redux store
 export function createStore(persistedReducer) {
-
   const store = configureStore({
     reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== "production",
