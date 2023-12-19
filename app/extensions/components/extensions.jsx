@@ -26,7 +26,7 @@ import {
   ArrowUpRightIcon,
   CloudArrowDownIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { adminApiCall, adminXApi } from "@/utils/api";
+import adminApi, { adminXApi } from "@/utils/api";
 import { useCallback } from "react";
 
 export default function Extensions() {
@@ -163,7 +163,17 @@ export default function Extensions() {
   }, [extensions.items, fetchExtensions, onError, onSuccess]);
 
   const extensionsDownload = () => {
-    // TODO: Function needs to be updated ASAP
+
+    const temporaryDownloadLink = document.createElement("a");
+    temporaryDownloadLink.style.display = 'none';
+    document.body.appendChild(temporaryDownloadLink);
+    selectedExtensions.map(extPath => {
+      temporaryDownloadLink.setAttribute('href', `file/${extPath}`);
+      temporaryDownloadLink.setAttribute('download', extPath.split("/").pop());
+      temporaryDownloadLink.click();
+    })
+
+    document.body.removeChild(temporaryDownloadLink);
   };
 
   const selectFile = (event, path) => {
@@ -345,8 +355,18 @@ export default function Extensions() {
           </div>
           <div className="text-center">
             <div className="flex justify-center gap-4">
-              <Link href={`ccadminx/custom/v1/logs/?date=${date.toISOString().split("T")[0].replace(/-/gi, "")}&environmentType=live&format=zip&loggingLevel=${logType}`} download target="_blank">
-              <Button>Download</Button>
+              <Link
+                href={`ccadminx/custom/v1/logs/?date=${date
+                  .toISOString()
+                  .split("T")[0]
+                  .replace(
+                    /-/gi,
+                    "",
+                  )}&environmentType=live&format=zip&loggingLevel=${logType}`}
+                download
+                target="_blank"
+              >
+                <Button>Download</Button>
               </Link>
               <Button
                 className="bg-gray-400 border-gray-900 hover:bg-gray-600 dark:bg-gray-700 border dark:border-gray-500 dark:hover:bg-gray-500"
