@@ -14,23 +14,12 @@ const adminApi = async (request) => {
     headers = {},
   } = request;
 
-  const instanceId = getInstanceId(store.getState());
-  const accessToken = getAccessToken(store.getState());
-
-  const customHeaders = {
-    ...headers,
-    "X-InstanceId": instanceId,
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  const newHeaders = instanceId && accessToken ? customHeaders : headers;
-
   return axios
     .request({
       url: "/ccadmin/v1/".concat(url),
       data,
       method,
-      headers: newHeaders,
+      headers: headers,
     })
     .then((res) => {
       showNotification && onSuccess(res);
@@ -55,23 +44,12 @@ export const adminXApi = async (request) => {
     headers = {},
   } = request;
 
-  const instanceId = getInstanceId(store.getState());
-  const accessToken = getAccessToken(store.getState());
-
-  const customHeaders = {
-    ...headers,
-    "X-InstanceId": instanceId,
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  const newHeaders = instanceId && accessToken ? customHeaders : headers;
-
   return axios
     .request({
       url: "/ccadminx/custom/v1/".concat(url),
       data,
       method,
-      headers: newHeaders,
+      headers: headers,
     })
     .then((res) => {
       showNotification && onSuccess(res);
@@ -94,23 +72,12 @@ export const agentApi = async (request) => {
     headers = {},
   } = request;
 
-  const instanceId = getInstanceId(store.getState());
-  const accessToken = getAccessToken(store.getState());
-
-  const customHeaders = {
-    ...headers,
-    "X-InstanceId": instanceId,
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  const newHeaders = instanceId && accessToken ? customHeaders : headers;
-
   return axios
     .request({
       url: "/ccagent/v1/".concat(url),
       data,
       method,
-      headers: newHeaders,
+      headers: headers,
     })
     .then((res) => {
       showNotification && onSuccess(res);
@@ -147,19 +114,8 @@ export const adminApiCall = async (request) => {
     responseType = "json",
   } = request;
 
-  const instanceId = getInstanceId(store.getState());
-  const accessToken = getAccessToken(store.getState());
-
-  const customHeaders = {
-    ...headers,
-    "X-InstanceId": instanceId,
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  const newHeaders = instanceId && accessToken ? customHeaders : headers;
-
   return axios
-    .request({ url: url, data, method, headers: newHeaders, responseType })
+    .request({ url: url, data, method, headers, responseType })
     .then((res) => {
       showNotification && onSuccess(res);
       return res;
