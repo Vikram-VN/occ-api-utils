@@ -11,19 +11,18 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: filterHeaders(request),
-      responseType: "arraybuffer",
+      headers: filterHeaders(request)
     };
 
     if (newUrl.includes(".zip")) {
-      payload.responseType = "arraybuffer";
+      payload.responseType = "stream";
     }
 
     const adminXApi = await axios.request(payload);
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(adminXApi.data, {
+    return new NextResponse.json(adminXApi.data, {
       status: 200,
       headers: newHeaders,
     });
@@ -54,10 +53,7 @@ export async function POST(request) {
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...adminXApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(adminXApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -84,10 +80,7 @@ export async function PUT(request) {
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...adminXApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(adminXApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -114,10 +107,7 @@ export async function DELETE(request) {
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...adminXApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(adminXApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -144,10 +134,7 @@ export async function PATCH(request) {
     const newHeaders = new Headers(adminXApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...adminXApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(adminXApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },

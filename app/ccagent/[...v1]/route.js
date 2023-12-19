@@ -15,17 +15,14 @@ export async function GET(request) {
     };
 
     if (newUrl.includes(".zip")) {
-      payload.responseType = "arraybuffer";
+      payload.responseType = "stream";
     }
 
     const agentApi = await axios.request(payload);
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(agentApi.data, {
-      status: 200,
-      headers: newHeaders,
-    });
+    return new NextResponse(agentApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -53,10 +50,7 @@ export async function POST(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...agentApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(agentApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -83,10 +77,7 @@ export async function PUT(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...agentApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(agentApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -113,10 +104,7 @@ export async function DELETE(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...agentApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(agentApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -143,10 +131,7 @@ export async function PATCH(request) {
     const newHeaders = new Headers(agentApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { ...agentApi.data },
-      { status: 200, headers: newHeaders },
-    );
+    return new NextResponse(agentApi.data, { status: 200, headers: newHeaders });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },

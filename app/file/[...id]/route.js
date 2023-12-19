@@ -12,15 +12,14 @@ export async function GET(request) {
       url: newUrl,
       method: "get",
       headers: filterHeaders(request),
-      responseType: "arraybuffer",
+      responseType: "stream",
     };
 
     const storeApi = await axios.request(payload);
     const newHeaders = new Headers(storeApi.headers);
     newHeaders.delete("content-length");
 
-    return NextResponse.json(
-      { content: storeApi.data },
+    return new NextResponse(storeApi.data,
       { status: storeApi.data.statusCode, headers: newHeaders },
     );
   } catch (error) {

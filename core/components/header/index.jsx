@@ -8,7 +8,7 @@ import {
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
-import {AppLogo, Modal} from "@/components";
+import { AppLogo, Modal } from "@/components";
 import Login from "@/login/components/login";
 import "@/components/header/styles.css";
 
