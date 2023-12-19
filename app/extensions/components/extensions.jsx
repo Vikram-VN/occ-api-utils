@@ -163,7 +163,7 @@ export default function Extensions() {
   }, [extensions.items, fetchExtensions, onError, onSuccess]);
 
   const extensionsDownload = () => {
-    selectedExtensions.map((file) => fileDownload(`/${file}`));
+    // TODO: Function needs to be updated ASAP
   };
 
   const selectFile = (event, path) => {
