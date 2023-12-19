@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import ToastProvider from "@/components/toast";
+import { ToastProvider } from "@/components";
 import { Modal as FlowBiteModal } from "flowbite-react";
 
 const Modal = (props) => {

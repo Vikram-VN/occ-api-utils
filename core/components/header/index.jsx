@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
 import React, { useRef, useContext } from "react";
 import Link from "next/link";
 import { StoreContext } from "@/store/context";

@@ -8,7 +8,7 @@ import {
   StopCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useToasts } from "@/store/hooks";
-import FileUpload from "@/import/components/file";
+import FileUploader from "@/import/components/file";
 
 export default function Import() {
   const toast = useToasts();
@@ -283,7 +283,7 @@ export default function Import() {
       >
         <Modal.Header>File Upload</Modal.Header>
         <Modal.Body>
-          <FileUpload handleChange={fileUploadHandler} />
+          <FileUploader handleChange={fileUploadHandler} />
         </Modal.Body>
       </Modal>
       <Card className="mb-4">

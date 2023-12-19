@@ -1,8 +1,6 @@
 import React from "react";
 import { StoreProvider } from "@/store";
-import Header from "@/components/header";
-import SideBar from "@/components/navbar";
-import Footer from "@/components/footer";
+import { Header, Footer, NavBar } from "@/components";
 import ThemeToggle from "@/theme/toggle";
 import OCCUtilsApp from "@/app";
 import { cookies } from "next/headers";
@@ -36,7 +34,7 @@ export default function RootLayout(props) {
             <ThemeToggle />
           </Header>
           <main className="flex">
-            <SideBar />
+            <NavBar />
             <section className="w-full px-6 pt-2 relative pb-6">
               <OCCUtilsApp {...props} />
             </section>

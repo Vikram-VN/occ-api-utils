@@ -64,7 +64,6 @@ export default function Profiles() {
     setModalView(false);
   }, [id, queryFilter, toast]);
 
-
   const paginationHandler = (pageNo) => {
     router.push(
       `/profiles?page=${pageNo}&field=${queryFilter.field}&operator=${queryFilter.operator}&query=${query}`,
@@ -72,12 +71,11 @@ export default function Profiles() {
   };
 
   const filterProfiles = debounce(async () => {
-
     let additionalParams = "";
     queryFilter?.additionalParams?.map((item) => {
       additionalParams += `${[item["key"]?.trim()]}=${item["value"]?.trim()}&`;
     });
-  
+
     if (query || queryFilter?.additionalParams) {
       const response = await adminApi({
         url: query
@@ -125,7 +123,10 @@ export default function Profiles() {
         <Table.Cell>{data.id}</Table.Cell>
         <Table.Cell className="whitespace-nowrap">{data.lastName}</Table.Cell>
         <Table.Cell>{data.firstName}</Table.Cell>
-        <Table.Cell>{data.parentOrganization?.name || "Doesn't belong to any organization"}</Table.Cell>
+        <Table.Cell>
+          {data.parentOrganization?.name ||
+            "Doesn't belong to any organization"}
+        </Table.Cell>
         <Table.Cell>{data.email}</Table.Cell>
         <Table.Cell>
           <TrashIcon
@@ -218,7 +219,10 @@ export default function Profiles() {
             onKeyUp={filterProfiles}
           />
         </div>
-        <AdvancedProfileQuerySettings setQueryFilter={setQueryFilter} filterProfiles={filterProfiles} />
+        <AdvancedProfileQuerySettings
+          setQueryFilter={setQueryFilter}
+          filterProfiles={filterProfiles}
+        />
       </Card>
       <Table>
         <Table.Head>

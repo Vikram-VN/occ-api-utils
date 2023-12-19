@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
-import DatePicker from "@/components/date";
+import { DatePicker } from "@/components";
 import {
   Card,
   Table,

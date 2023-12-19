@@ -1,11 +1,4 @@
-import {
-  Accordion,
-  Button,
-  Label,
-  TextInput,
-  Textarea,
-  ToggleSwitch,
-} from "flowbite-react";
+import { Button, Label, Textarea, ToggleSwitch } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { formToJson } from "@/utils";
 

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Label, Select } from "flowbite-react";
 import { useDragging } from "@/store/hooks";
 
 const FileUploader = (props) => {

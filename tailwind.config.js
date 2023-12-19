@@ -3,6 +3,8 @@ module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/*.{js,ts,jsx,tsx,mdx}",
+    "./core/**/*.{js,ts,jsx,tsx,mdx}",
+    "./core/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/flowbite-react/**/*.js",
     "./public/**/*.html",
   ],

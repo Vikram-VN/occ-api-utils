@@ -39,7 +39,7 @@ const BasicAuth = (props) => {
     };
 
     fetchAuth();
-  }, []);
+  }, [adminApi, onError, onSuccess]);
 
   const disableBasicAuth = (isChecked) => {
     if (isChecked) {

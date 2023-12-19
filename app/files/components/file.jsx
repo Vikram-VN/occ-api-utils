@@ -13,7 +13,7 @@ import {
   Select,
 } from "flowbite-react";
 import { debounce, formatBytes, formatDate } from "@/utils";
-import FileUpload from "@/components/file";
+import { FileUploader } from "@/components";
 import {
   ArrowDownTrayIcon,
   TrashIcon,
@@ -300,7 +300,7 @@ export default function Files() {
       >
         <Modal.Header>Files Upload</Modal.Header>
         <Modal.Body>
-          <FileUpload handleChange={fileUploadHandler} />
+          <FileUploader handleChange={fileUploadHandler} />
         </Modal.Body>
       </Modal>
 
