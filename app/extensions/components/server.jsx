@@ -125,15 +125,14 @@ export default function ExtensionsServer() {
   }, [fetchExtensions, onError, onSuccess, selectedExtensions.items]);
 
   const extensionsDownload = () => {
-
     const temporaryDownloadLink = document.createElement("a");
-    temporaryDownloadLink.style.display = 'none';
+    temporaryDownloadLink.style.display = "none";
     document.body.appendChild(temporaryDownloadLink);
-    selectedExtensions.map(extPath => {
-      temporaryDownloadLink.setAttribute('href', `file/${extPath}`);
-      temporaryDownloadLink.setAttribute('download', extPath.split("/").pop());
+    selectedExtensions.map((extPath) => {
+      temporaryDownloadLink.setAttribute("href", `file/${extPath}`);
+      temporaryDownloadLink.setAttribute("download", extPath.split("/").pop());
       temporaryDownloadLink.click();
-    })
+    });
 
     document.body.removeChild(temporaryDownloadLink);
   };

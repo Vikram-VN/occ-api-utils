@@ -24,6 +24,7 @@ export async function GET(request) {
       headers: newHeaders,
     });
   } catch (error) {
+    // TODO: This needs to be fixed. Currently giving [object object]
     return new NextResponse(
       error.response?.data || {
         errorCode: "02",
