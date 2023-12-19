@@ -8,7 +8,7 @@ export async function GET(request) {
     const hostId = request.headers.get("x-instanceid");
 
     let payload = {
-      baseURL: `https://${hostId}-store.occa.ocs.oraclecloud.com`,
+      baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
       responseType: "stream",

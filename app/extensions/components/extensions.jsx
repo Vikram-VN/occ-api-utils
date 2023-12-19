@@ -240,30 +240,6 @@ export default function Extensions() {
     [onAction, onError],
   );
 
-  const downloadServerLogs = useCallback(async () => {
-    try {
-      const modifiedDate = date.toISOString().split("T")[0].replace(/-/gi, "");
-      const logs = await adminApiCall({
-        method: "get",
-        url: `ccadminx/custom/v1/logs/?date=${modifiedDate}&environmentType=live&format=zip&loggingLevel=${logType}`,
-        onError,
-      });
-      const contentType = logs.headers["content-type"];
-      const buffer = logs.data;
-      const bytes = new Uint8Array(buffer.data);
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(new Blob([bytes], { type: contentType }));
-      link.download = `serverLogs_${date}.zip`;
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error(
-        "While downloading server logs, error occurred. The error message is: " +
-          error,
-      );
-    }
-  }, [date, logType, onError]);
-
   const tableData = (data) => {
     return (
       <Table.Row
@@ -369,7 +345,9 @@ export default function Extensions() {
           </div>
           <div className="text-center">
             <div className="flex justify-center gap-4">
-              <Button onClick={downloadServerLogs}>Download</Button>
+              <Link href={`ccadminx/custom/v1/logs/?date=${date.toISOString().split("T")[0].replace(/-/gi, "")}&environmentType=live&format=zip&loggingLevel=${logType}`} download target="_blank">
+              <Button>Download</Button>
+              </Link>
               <Button
                 className="bg-gray-400 border-gray-900 hover:bg-gray-600 dark:bg-gray-700 border dark:border-gray-500 dark:hover:bg-gray-500"
                 onClick={() => setLogsModalView(false)}
