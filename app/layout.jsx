@@ -1,5 +1,5 @@
 import React from "react";
-import { StoreProvider } from "@/store";
+import StoreProvider from "@/store/provider";
 import { Header, Footer, NavBar } from "@/components";
 import ThemeToggle from "@/theme/toggle";
 import OCCUtilsApp from "@/app";

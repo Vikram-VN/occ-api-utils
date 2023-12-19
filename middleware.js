@@ -1,6 +1,6 @@
+import { store } from "@/store";
+import { getAccessToken, getInstanceId } from "@/store/selector";
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib";
-import { cookies } from "next/headers";
 
 // Define the configuration for the middleware
 export const config = {
@@ -10,6 +10,7 @@ export const config = {
     "/adminfile/:function*",
     "/ccadminx/:function*",
     "/ccagent/:function*",
+    "/file/:function*",
   ],
 };
 
@@ -17,26 +18,33 @@ export const config = {
 export function middleware(request) {
   // Extract X-InstanceId header from the request
   const hostId = request.headers.get("x-instanceid");
+  const accessToken = request.headers.get("authorization");
 
   // Check if X-InstanceId header is missing
   if (!hostId) {
     // Return a JSON response indicating an error
-    return NextResponse.json(
-      {
-        errorCode: "01",
-        message: `X-InstanceId header is missing in the request.`,
-      },
-      { status: 400 },
-    );
+    const id = getInstanceId(store.getState());
+    if (!id) {
+      return NextResponse.json(
+        {
+          errorCode: "01",
+          message: `X-InstanceId header is missing in the request.`,
+        },
+        { status: 400 },
+      );
+    }
   }
 
   // Call the isAuthenticated function to check the request's authentication
-  if (!isAuthenticated(request)) {
-    // Respond with JSON indicating an authentication error
-    return NextResponse.json(
-      { errorCode: "02", message: "authorization token is missing" },
-      { status: 400 },
-    );
+  if (!accessToken) {
+    const token = getAccessToken(store.getState());
+    if (!token) {
+      // Respond with JSON indicating an authentication error
+      return NextResponse.json(
+        { errorCode: "02", message: "authorization token is missing" },
+        { status: 400 },
+      );
+    }
   }
 
   // Continue processing if authentication is successful

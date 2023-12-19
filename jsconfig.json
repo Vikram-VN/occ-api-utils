@@ -5,8 +5,6 @@
       "@/*": ["./app/*"],
       "@/components": ["./core/components"],
       "@/components/*": ["./core/components/*"],
-      "@/lib": ["./core/lib"],
-      "@/lib/*": ["./core/lib/*"],
       "@/skeletons": ["./core/skeletons"],
       "@/skeletons/*": ["./core/skeletons/*"],
       "@/store": ["./core/store"],
