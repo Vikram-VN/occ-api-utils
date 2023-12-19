@@ -44,7 +44,11 @@ const NavBar = () => {
         {isLoggedIn && (
           <React.Fragment>
             {" "}
-            <Tooltip content="Client Application" placement="auto" className="z-20">
+            <Tooltip
+              content="Client Application"
+              placement="auto"
+              className="z-20"
+            >
               <Link
                 href="/application"
                 className="h-10 mr-4 flex items-center p-2 mt-2 ml-3 text-sm text-slate-900 rounded-lg dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700"
