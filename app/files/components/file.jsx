@@ -138,7 +138,17 @@ export default function Files() {
   }, [fetchFiles, onError, onSuccess, selectedFiles]);
 
   const filesDownload = () => {
-    // TODO: Function needs to be implemented ASAP
+
+    const temporaryDownloadLink = document.createElement("a");
+    temporaryDownloadLink.style.display = 'none';
+    document.body.appendChild(temporaryDownloadLink);
+    selectedFiles.map(file => {
+      temporaryDownloadLink.setAttribute('href', `file/${file}`);
+      temporaryDownloadLink.setAttribute('download', file.split("/").pop());
+      temporaryDownloadLink.click();
+    })
+
+    document.body.removeChild(temporaryDownloadLink);
   };
 
   const selectFile = (event, path) => {
