@@ -20,12 +20,22 @@ const OCCUtilsApp = (props) => {
     // Updating the state based on need.
     const stateHandler = (payload, apiResponse) => {
       const result = apiResponse;
-      return {
-        key: "occRepository",
-        value: {
-          accessToken: result?.access_token || "",
-        },
-      };
+      if (result.access_token) {
+        return {
+          key: "occRepository",
+          value: {
+            accessToken: result?.access_token,
+          },
+        };
+      } else {
+        return {
+          key: "occRepository",
+          value: {
+            accessToken: "",
+            isLoggedIn: false,
+          },
+        };
+      }
     };
 
     if (isLoggedIn) {

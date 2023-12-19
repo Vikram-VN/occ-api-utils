@@ -12,7 +12,7 @@ export const getAccessToken = (state) =>
   getOCCRepository(state).accessToken || "";
 
 export const isAuthenticated = (state) =>
-  getOCCRepository(state).accessToken ? true : false;
+  getOCCRepository(state).isLoggedIn || false;
 
 // General Repository
 

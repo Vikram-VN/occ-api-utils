@@ -1,6 +1,14 @@
 "use client";
 
-const appRepository = (state = {}, action) => {
+const initialState = {
+  occRepository: {
+    instanceId: null,
+    accessToken: null,
+    isLoggedIn: false,
+  },
+};
+
+const appRepository = (state = initialState, action) => {
   const { type, key, value } = action;
 
   let newState = {};

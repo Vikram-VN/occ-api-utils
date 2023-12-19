@@ -50,6 +50,7 @@ export default function Login(props) {
         key: "occRepository",
         value: {
           accessToken: result.access_token,
+          isLoggedIn: true,
         },
       };
     }
