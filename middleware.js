@@ -1,5 +1,4 @@
-import { store } from "@/store";
-import { getAccessToken, getInstanceId } from "@/store/selector";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 // Define the configuration for the middleware
@@ -17,36 +16,38 @@ export const config = {
 // Middleware function to be executed for each request
 export function middleware(request) {
   // Extract X-InstanceId header from the request
-  const hostId = request.headers.get("x-instanceid");
-  const accessToken = request.headers.get("authorization");
+  const hostId = cookies().get("x-instanceid")?.value;
+  const accessToken = cookies().get("x-authorization")?.value;
 
   // Check if X-InstanceId header is missing
   if (!hostId) {
     // Return a JSON response indicating an error
-    const id = getInstanceId(store.getState());
-    if (!id) {
-      return NextResponse.json(
-        {
-          errorCode: "01",
-          message: `X-InstanceId header is missing in the request.`,
-        },
-        { status: 400 },
-      );
-    }
+    return NextResponse.json(
+      {
+        errorCode: "01",
+        message: `X-InstanceId header is missing in the request.`,
+      },
+      { status: 400 },
+    );
   }
 
   // Call the isAuthenticated function to check the request's authentication
   if (!accessToken) {
-    const token = getAccessToken(store.getState());
-    if (!token) {
-      // Respond with JSON indicating an authentication error
-      return NextResponse.json(
-        { errorCode: "02", message: "authorization token is missing" },
-        { status: 400 },
-      );
-    }
+    // Respond with JSON indicating an authentication error
+    return NextResponse.json(
+      { errorCode: "02", message: "authorization token is missing" },
+      { status: 400 },
+    );
   }
 
+  const newHeaders = new Headers(request.headers);
+  newHeaders.set("Authorization", `Bearer ${accessToken}`);
+  newHeaders.set("X-InstanceId", hostId);
+
   // Continue processing if authentication is successful
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: newHeaders,
+    },
+  });
 }

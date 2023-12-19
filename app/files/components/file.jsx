@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
@@ -21,7 +22,7 @@ import {
   ExclamationCircleIcon,
   FunnelIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { fileDownload } from "@/utils/api";
+import adminApi from "@/utils/api";
 import { useCallback } from "react";
 
 export default function Files() {
@@ -137,7 +138,7 @@ export default function Files() {
   }, [fetchFiles, onError, onSuccess, selectedFiles]);
 
   const filesDownload = () => {
-    selectedFiles.map((file) => fileDownload(file));
+    // TODO: Function needs to be implemented ASAP
   };
 
   const selectFile = (event, path) => {
@@ -222,11 +223,12 @@ export default function Files() {
         <Table.Cell>{formatDate(data.lastModified)}</Table.Cell>
         <Table.Cell>{data.type.toUpperCase()}</Table.Cell>
         <Table.Cell className="flex justify-around gap-4">
-          <ArrowDownTrayIcon
-            className="h-6 w-6 cursor-pointer"
-            title="Download this file"
-            onClick={() => fileDownload(data.path)}
-          />
+          <Link href={`file/${data.path}`} download target="_blank">
+            <ArrowDownTrayIcon
+              className="h-6 w-6 cursor-pointer"
+              title="Download this file"
+            />
+          </Link>
           <TrashIcon
             className="h-6 w-6 cursor-pointer"
             title="Delete this file"

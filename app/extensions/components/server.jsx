@@ -17,8 +17,9 @@ import {
   TrashIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { sseDownload } from "@/utils/api";
+import adminApi from "@/utils/api";
 import { useCallback } from "react";
+import Link from "next/link";
 
 export default function ExtensionsServer() {
   const router = useRouter();
@@ -124,7 +125,7 @@ export default function ExtensionsServer() {
   }, [fetchExtensions, onError, onSuccess, selectedExtensions.items]);
 
   const extensionsDownload = () => {
-    selectedExtensions.map((file) => sseDownload(file));
+    // TODO: Functions needs be developed ASAP
   };
 
   const selectExtension = (event, path) => {
@@ -190,11 +191,12 @@ export default function ExtensionsServer() {
         <Table.Cell>{data.type}</Table.Cell>
         <Table.Cell>{formatDate(data.lastModified)}</Table.Cell>
         <Table.Cell className="flex justify-around gap-4">
-          <ArrowDownTrayIcon
-            className="h-6 w-6 cursor-pointer"
-            title="Download this extension"
-            onClick={() => sseDownload(data.path)}
-          />
+          <Link href={`ccadmin/v1/${data.path}`} download target="_blank">
+            <ArrowDownTrayIcon
+              className="h-6 w-6 cursor-pointer"
+              title="Download this extension"
+            />
+          </Link>
           <TrashIcon
             className="h-6 w-6 cursor-pointer"
             title="Delete this extension"

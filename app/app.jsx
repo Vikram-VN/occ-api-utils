@@ -5,6 +5,7 @@ import { useLoginStatus } from "@/store/hooks";
 import { usePathname } from "next/navigation";
 import ToastProvider from "@/components/toast";
 import Login from "@/login/components/login";
+import { setCookie } from "cookies-next";
 
 const OCCUtilsApp = (props) => {
   const { action } = useContext(StoreContext);
@@ -21,6 +22,7 @@ const OCCUtilsApp = (props) => {
     const stateHandler = (payload, apiResponse) => {
       const result = apiResponse;
       if (result.access_token) {
+        setCookie("x-authorization", result.access_token);
         return {
           key: "occRepository",
           value: {

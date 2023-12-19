@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "flowbite-react";
 import React from "react";
-import { adminFileDownload } from "@/utils/api";
+import Link from "next/link";
 import {
   CloudArrowDownIcon,
   StopCircleIcon,
@@ -52,18 +52,36 @@ export default function ExportData(props) {
                 <Spinner title="Bulk export is started" />
               )}
               {bundleExport?.downloadLink && (
-                <CloudArrowDownIcon
-                  title="Download exported file"
-                  className="w-8 h-8 cursor-pointer"
-                  onClick={() => adminFileDownload(bundleExport?.downloadLink)}
-                />
+                <Link
+                  href={`${
+                    bundleExport?.downloadLink.split(
+                      "admin.occa.ocs.oraclecloud.com",
+                    )[1]
+                  }`}
+                  download
+                  target="_blank"
+                >
+                  <CloudArrowDownIcon
+                    title="Download exported file"
+                    className="w-8 h-8 cursor-pointer"
+                  />
+                </Link>
               )}
               {bundleExport?.reportLink && (
-                <FlagIcon
-                  title="Download exported file"
-                  className="w-8 h-8 cursor-pointer"
-                  onClick={() => adminFileDownload(bundleExport?.reportLink)}
-                />
+                <Link
+                  href={`${
+                    bundleExport?.reportLink.split(
+                      "admin.occa.ocs.oraclecloud.com",
+                    )[1]
+                  }`}
+                  download
+                  target="_blank"
+                >
+                  <FlagIcon
+                    title="Download exported file"
+                    className="w-8 h-8 cursor-pointer"
+                  />
+                </Link>
               )}
             </div>
             <Button
@@ -115,26 +133,36 @@ export default function ExportData(props) {
                         <Spinner title="Export is started" />
                       )}
                       {multiExportList[item.id]?.downloadLink && (
-                        <CloudArrowDownIcon
-                          title="Download exported file"
-                          className="w-8 h-8 cursor-pointer"
-                          onClick={() =>
-                            adminFileDownload(
-                              multiExportList[item.id]?.downloadLink,
-                            )
-                          }
-                        />
+                        <Link
+                          href={`${
+                            multiExportList[item.id]?.downloadLink.split(
+                              "admin.occa.ocs.oraclecloud.com",
+                            )[1]
+                          }`}
+                          download
+                          target="_blank"
+                        >
+                          <CloudArrowDownIcon
+                            title="Download exported file"
+                            className="w-8 h-8 cursor-pointer"
+                          />
+                        </Link>
                       )}
                       {multiExportList[item.id]?.reportLink && (
-                        <FlagIcon
-                          title="Download report file"
-                          className="w-8 h-8 cursor-pointer"
-                          onClick={() =>
-                            adminFileDownload(
-                              multiExportList[item.id]?.reportLink,
-                            )
-                          }
-                        />
+                        <Link
+                          href={`${
+                            multiExportList[item.id]?.reportLink.split(
+                              "admin.occa.ocs.oraclecloud.com",
+                            )[1]
+                          }`}
+                          download
+                          target="_blank"
+                        >
+                          <FlagIcon
+                            title="Download report file"
+                            className="w-8 h-8 cursor-pointer"
+                          />
+                        </Link>
                       )}
                     </div>
                   </div>

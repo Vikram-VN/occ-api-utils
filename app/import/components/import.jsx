@@ -1,7 +1,7 @@
 "use client";
 import { Button, Card, Checkbox, Modal, Select, Spinner } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
-import adminApi, { adminFileDownload } from "@/utils/api";
+import adminApi from "@/utils/api";
 import {
   CloudArrowDownIcon,
   CloudArrowUpIcon,
@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useToasts } from "@/store/hooks";
 import FileUploader from "@/import/components/file";
+import Link from "next/link";
 
 export default function Import() {
   const toast = useToasts();
@@ -305,11 +306,20 @@ export default function Import() {
                 <Spinner title="Bulk import is started" />
               )}
               {bundleImport?.downloadLink && (
-                <CloudArrowDownIcon
-                  title="Download import status file"
-                  className="w-8 h-8 cursor-pointer"
-                  onClick={() => adminFileDownload(bundleImport?.downloadLink)}
-                />
+                <Link
+                  href={`${
+                    bundleImport?.downloadLink.split(
+                      "admin.occa.ocs.oraclecloud.com",
+                    )[1]
+                  }`}
+                  download
+                  target="_blank"
+                >
+                  <CloudArrowDownIcon
+                    title="Download import status file"
+                    className="w-8 h-8 cursor-pointer"
+                  />
+                </Link>
               )}
             </div>
             <Button
@@ -363,15 +373,20 @@ export default function Import() {
                         <Spinner title="Import is started" />
                       )}
                       {multiImportList[item.id]?.downloadLink && (
-                        <CloudArrowDownIcon
-                          title="Download import status file"
-                          className="w-8 h-8 cursor-pointer"
-                          onClick={() =>
-                            adminFileDownload(
-                              multiImportList[item.id]?.downloadLink,
-                            )
-                          }
-                        />
+                        <Link
+                          href={`${
+                            multiImportList[item.id]?.downloadLink.split(
+                              "admin.occa.ocs.oraclecloud.com",
+                            )[1]
+                          }`}
+                          download
+                          target="_blank"
+                        >
+                          <CloudArrowDownIcon
+                            title="Download import status file"
+                            className="w-8 h-8 cursor-pointer"
+                          />
+                        </Link>
                       )}
                     </div>
                   </div>

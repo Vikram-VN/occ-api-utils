@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useToasts } from "@/store/hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DatePicker } from "@/components";
@@ -25,9 +26,8 @@ import {
   ArrowUpRightIcon,
   CloudArrowDownIcon,
 } from "@heroicons/react/24/solid";
-import adminApi, { adminApiCall, adminXApi, fileDownload } from "@/utils/api";
+import adminApi, { adminApiCall, adminXApi } from "@/utils/api";
 import { useCallback } from "react";
-import Link from "next/link";
 
 export default function Extensions() {
   const router = useRouter();
@@ -297,11 +297,12 @@ export default function Extensions() {
               onClick={() => manageExtensions(data.id)}
             />
           )}
-          <ArrowDownTrayIcon
-            className="h-6 w-6 cursor-pointer"
-            title="Download this extension"
-            onClick={() => fileDownload(`/${data.zipPath}`)}
-          />
+          <Link href={`file/${data.zipPath}`} download target="_blank">
+            <ArrowDownTrayIcon
+              className="h-6 w-6 cursor-pointer"
+              title="Download this extension"
+            />
+          </Link>
           <TrashIcon
             className="h-6 w-6 cursor-pointer"
             title="Delete this extension"
