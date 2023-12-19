@@ -11,12 +11,9 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
+      responseType: "stream",
       headers: filterHeaders(request),
     };
-
-    if (newUrl.includes(".zip")) {
-      payload.responseType = "stream";
-    }
 
     const adminApi = await axios.request(payload);
     const newHeaders = new Headers(adminApi.headers);
@@ -47,6 +44,7 @@ export async function POST(request) {
       url: newUrl,
       data: requestBody,
       method: "post",
+      responseType: "stream",
       headers: filterHeaders(request),
     };
 
@@ -54,7 +52,10 @@ export async function POST(request) {
     const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete("content-length");
 
-    return new NextResponse(adminApi.data, { status: 200, headers: newHeaders });
+    return new NextResponse(adminApi.data, {
+      status: 200,
+      headers: newHeaders,
+    });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -74,6 +75,7 @@ export async function PUT(request) {
       url: newUrl,
       data: requestBody,
       method: "put",
+      responseType: "stream",
       headers: filterHeaders(request),
     };
 
@@ -81,7 +83,10 @@ export async function PUT(request) {
     const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete("content-length");
 
-    return new NextResponse(adminApi.data, { status: 200, headers: newHeaders });
+    return new NextResponse(adminApi.data, {
+      status: 200,
+      headers: newHeaders,
+    });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -101,6 +106,7 @@ export async function DELETE(request) {
       url: newUrl,
       data: requestBody,
       method: "delete",
+      responseType: "stream",
       headers: filterHeaders(request),
     };
 
@@ -108,7 +114,10 @@ export async function DELETE(request) {
     const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete("content-length");
 
-    return new NextResponse(adminApi.data, { status: 200, headers: newHeaders });
+    return new NextResponse(adminApi.data, {
+      status: 200,
+      headers: newHeaders,
+    });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },
@@ -128,6 +137,7 @@ export async function PATCH(request) {
       url: newUrl,
       data: requestBody,
       method: "patch",
+      responseType: "stream",
       headers: filterHeaders(request),
     };
 
@@ -135,7 +145,10 @@ export async function PATCH(request) {
     const newHeaders = new Headers(adminApi.headers);
     newHeaders.delete("content-length");
 
-    return new NextResponse(adminApi.data, { status: 200, headers: newHeaders });
+    return new NextResponse(adminApi.data, {
+      status: 200,
+      headers: newHeaders,
+    });
   } catch (error) {
     return NextResponse.json(
       error.response?.data || { errorCode: "02", message: `${error.message}.` },

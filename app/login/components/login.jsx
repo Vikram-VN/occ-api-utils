@@ -53,6 +53,14 @@ export default function Login(props) {
           isLoggedIn: true,
         },
       };
+    } else {
+      return {
+        key: "occRepository",
+        value: {
+          accessToken: "",
+          isLoggedIn: false,
+        },
+      };
     }
   }, []);
 

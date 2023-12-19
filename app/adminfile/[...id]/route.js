@@ -11,8 +11,8 @@ export async function GET(request) {
       baseURL: `https://${hostId}-admin.occa.ocs.oraclecloud.com`,
       url: newUrl,
       method: "get",
-      headers: filterHeaders(request),
       responseType: "stream",
+      headers: filterHeaders(request),
     };
 
     const adminApi = await axios.request(payload);

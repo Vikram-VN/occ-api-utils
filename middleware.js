@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib";
+import { cookies } from "next/headers";
 
 // Define the configuration for the middleware
 export const config = {
@@ -9,7 +10,6 @@ export const config = {
     "/adminfile/:function*",
     "/ccadminx/:function*",
     "/ccagent/:function*",
-    "/file/:function*",
   ],
 };
 
