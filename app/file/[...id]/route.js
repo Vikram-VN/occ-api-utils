@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import filterHeaders from "@/utils/removeHeaders";
+import { Readable } from "stream";
 
 export async function GET(request) {
   try {
@@ -24,12 +25,15 @@ export async function GET(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
     return new NextResponse(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
+      Readable.from(
+        JSON.stringify(
+          error.response?.data || {
+            errorCode: "02",
+            message: `${error.message}.`,
+          },
+        ),
+      ),
       { status: 400 },
     );
   }

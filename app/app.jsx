@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { StoreContext } from "@/store/context";
 import { useLoginStatus } from "@/store/hooks";
 import { usePathname } from "next/navigation";
@@ -16,30 +16,30 @@ const OCCUtilsApp = (props) => {
   // Rendering children"s conditionally
   const isLoggedIn = useLoginStatus();
 
+  const stateHandler = useCallback((payload, apiResponse) => {
+    const result = apiResponse;
+    if (result.access_token) {
+      setCookie("x-authorization", result.access_token);
+      return {
+        key: "occRepository",
+        value: {
+          accessToken: result?.access_token,
+        },
+      };
+    } else {
+      return {
+        key: "occRepository",
+        value: {
+          accessToken: "",
+          isLoggedIn: false,
+        },
+      };
+    }
+  }, []);
+
   // Calling refresh API to get the new access token
   useEffect(() => {
     // Updating the state based on need.
-    const stateHandler = (payload, apiResponse) => {
-      const result = apiResponse;
-      if (result.access_token) {
-        setCookie("x-authorization", result.access_token);
-        return {
-          key: "occRepository",
-          value: {
-            accessToken: result?.access_token,
-          },
-        };
-      } else {
-        return {
-          key: "occRepository",
-          value: {
-            accessToken: "",
-            isLoggedIn: false,
-          },
-        };
-      }
-    };
-
     if (isLoggedIn) {
       const refresh = setInterval(
         () => {
@@ -51,11 +51,11 @@ const OCCUtilsApp = (props) => {
             stateHandler,
           });
         },
-        1 * 60 * 1000,
+        2.5 * 60 * 1000,
       );
       return () => clearInterval(refresh);
     }
-  }, [action, isLoggedIn]);
+  }, [action, isLoggedIn, stateHandler]);
 
   const component =
     isLoggedIn || publicRoutes.includes(currentPath) ? (
