@@ -9,7 +9,7 @@
     "start": "next start",
     "serve": "next build && next start",
     "production": "next build && next export",
-    "prettier": "yarn prettier --check .",
+    "prettier:check": "yarn prettier --check .",
     "prettier:fix": "yarn prettier --write .",
     "export": "next export",
     "lint": "next lint",
