@@ -32,6 +32,11 @@ export async function GET(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }

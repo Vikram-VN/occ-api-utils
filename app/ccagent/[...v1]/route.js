@@ -32,7 +32,12 @@ export async function GET(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -68,7 +73,12 @@ export async function POST(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -103,7 +113,12 @@ export async function PUT(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -138,7 +153,12 @@ export async function DELETE(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -173,6 +193,11 @@ export async function PATCH(request) {
       },
     );
 
-    return NextResponse(Readable.from(response), { status: 400 });
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
