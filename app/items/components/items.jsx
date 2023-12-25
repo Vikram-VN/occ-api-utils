@@ -38,14 +38,14 @@ export default function ItemTypes() {
   const onSuccess = useCallback(() => {
     toast.show({
       status: "success",
-      message: "Attributes as been fetched successfully..",
+      message: "Attributes have been fetched successfully.",
     });
   }, [toast]);
 
   const onAttributeCreation = useCallback(() => {
     toast.show({
       status: "success",
-      message: "Attributes as been created successfully..",
+      message: "Attributes have been created successfully.",
     });
   }, [toast]);
 
@@ -143,21 +143,22 @@ export default function ItemTypes() {
 
   const attribute = (key, index) => {
     return (
-      <React.Fragment>
-        <div className="mt-8 mb-2 flex gap-4">
+      <React.Fragment key={key}>
+        <div className="mt-2 mb-2 flex gap-4">
           <Label
             htmlFor={`customAttribute-${index}`}
             value={`Custom Attribute ${index + 1}`}
           />
         </div>
-        <div className="flex max-lg:flex-col gap-4" key={key}>
+        <div className="flex max-lg:flex-col gap-4">
           <Select
             type="text"
             id={`customAttribute-${index}`}
             className="mb-2"
+            defaultValue={"none"}
             name={`specifications[${index}][type]`}
           >
-            <option value="none" disabled selected>
+            <option value="none" disabled>
               Select Data Type
             </option>
             <option value="shortText">Short Text</option>
@@ -288,8 +289,9 @@ export default function ItemTypes() {
                   id="customAttribute-0"
                   className="mb-2"
                   name="specifications[0][type]"
+                  defaultValue={"none"}
                 >
-                  <option value="none" disabled selected>
+                  <option value="none" disabled>
                     Select Data Type
                   </option>
                   <option value="shortText">Short Text</option>
