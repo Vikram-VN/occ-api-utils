@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import filterHeaders from "@/utils/removeHeaders";
+import { Readable } from "stream";
 
 export async function GET(request) {
   try {
@@ -24,14 +25,19 @@ export async function GET(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
-    return new NextResponse(
+    const response = JSON.stringify(
       error.response?.data || {
         errorCode: "02",
         message: `${error.message}.`,
       },
-      { status: 400 },
     );
+
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -60,14 +66,19 @@ export async function POST(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
-    return new NextResponse(
+    const response = JSON.stringify(
       error.response?.data || {
         errorCode: "02",
         message: `${error.message}.`,
       },
-      { status: 400 },
     );
+
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -95,14 +106,19 @@ export async function PUT(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
-    return new NextResponse(
+    const response = JSON.stringify(
       error.response?.data || {
         errorCode: "02",
         message: `${error.message}.`,
       },
-      { status: 400 },
     );
+
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -130,14 +146,19 @@ export async function DELETE(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
-    return new NextResponse(
+    const response = JSON.stringify(
       error.response?.data || {
         errorCode: "02",
         message: `${error.message}.`,
       },
-      { status: 400 },
     );
+
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }
 
@@ -165,13 +186,18 @@ export async function PATCH(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    // TODO: This needs to be fixed. Currently giving [object object]
-    return new NextResponse(
+    const response = JSON.stringify(
       error.response?.data || {
         errorCode: "02",
         message: `${error.message}.`,
       },
-      { status: 400 },
     );
+
+    return new NextResponse(response, {
+      status: 400,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }

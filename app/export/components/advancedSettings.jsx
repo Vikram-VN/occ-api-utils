@@ -81,7 +81,7 @@ export default function AdvancedSettings(props) {
   return (
     <Accordion collapseAll>
       <Accordion.Panel>
-        <Accordion.Title>Advanced Settings</Accordion.Title>
+        <Accordion.Title>Additional Params</Accordion.Title>
         <Accordion.Content>
           {params.map((_, index) => param(index))}
           {params.length < MAXIMUM_PARAMS && (

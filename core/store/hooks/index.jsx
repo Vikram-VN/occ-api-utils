@@ -19,17 +19,9 @@ export const useAppStore = useStore;
 
 export const useToasts = () => useContext(ToastContext);
 
-export const useLoginStatus = () => {
-  const isLoggedIn = useSelector(isAuthenticated);
-  return isLoggedIn;
-};
+export const useLoginStatus = () => useSelector(isAuthenticated);
 
-export const useAccessToken = () => {
-  const accessToken = useSelector(getAccessToken);
-  return accessToken;
-};
-
-let draggingCount = 0;
+export const useAccessToken = () => useSelector(getAccessToken);
 
 export const useDragging = ({
   labelRef,
