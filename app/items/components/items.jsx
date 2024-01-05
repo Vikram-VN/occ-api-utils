@@ -332,18 +332,18 @@ export default function ItemTypes() {
               {customAttributes.map((key, index) => attribute(key, index + 1))}
               <div className="flex mt-4 max-lg:flex-col gap-4">
                 <Button
-                  className="m-auto w-2/6 max-lg:w-full"
-                  value="sign-in"
-                  type="submit"
-                >
-                  Create
-                </Button>
-                <Button
                   color="gray"
                   className="m-auto w-2/6 max-lg:w-full"
                   onClick={() => setCustomAttributesCreateModalShow(false)}
                 >
                   No, cancel
+                </Button>
+                <Button
+                  className="m-auto w-2/6 max-lg:w-full"
+                  value="sign-in"
+                  type="submit"
+                >
+                  Create
                 </Button>
               </div>
             </div>
