@@ -142,7 +142,7 @@ export default function Files() {
     temporaryDownloadLink.style.display = "none";
     document.body.appendChild(temporaryDownloadLink);
     selectedFiles.map((file) => {
-      temporaryDownloadLink.setAttribute("href", `file/${file}`);
+      temporaryDownloadLink.setAttribute("href", `file/${file.substring(1)}`);
       temporaryDownloadLink.setAttribute("download", file.split("/").pop());
       temporaryDownloadLink.click();
     });
