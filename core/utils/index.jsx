@@ -24,7 +24,7 @@ export const isEmptyObject = (obj) => {
     return true;
   }
 
-  if (obj.keys !== "undefined") {
+  if (typeof obj === "object") {
     return Object.keys(obj).length === 0;
   }
 

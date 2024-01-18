@@ -25,12 +25,10 @@ export async function GET(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    const response = JSON.stringify(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
-    );
+    const response = error.response?.data || {
+      errorCode: "02",
+      message: `${error.message}.`,
+    };
 
     return new NextResponse(response, {
       status: 400,
@@ -66,12 +64,10 @@ export async function POST(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    const response = JSON.stringify(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
-    );
+    const response = error.response?.data || {
+      errorCode: "02",
+      message: `${error.message}.`,
+    };
 
     return new NextResponse(response, {
       status: 400,
@@ -106,12 +102,10 @@ export async function PUT(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    const response = JSON.stringify(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
-    );
+    const response = error.response?.data || {
+      errorCode: "02",
+      message: `${error.message}.`,
+    };
 
     return new NextResponse(response, {
       status: 400,
@@ -146,12 +140,10 @@ export async function DELETE(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    const response = JSON.stringify(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
-    );
+    const response = error.response?.data || {
+      errorCode: "02",
+      message: `${error.message}.`,
+    };
 
     return new NextResponse(response, {
       status: 400,
@@ -186,12 +178,10 @@ export async function PATCH(request) {
       headers: newHeaders,
     });
   } catch (error) {
-    const response = JSON.stringify(
-      error.response?.data || {
-        errorCode: "02",
-        message: `${error.message}.`,
-      },
-    );
+    const response = error.response?.data || {
+      errorCode: "02",
+      message: `${error.message}.`,
+    };
 
     return new NextResponse(response, {
       status: 400,

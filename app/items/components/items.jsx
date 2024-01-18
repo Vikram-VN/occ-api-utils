@@ -12,7 +12,7 @@ import {
   Select,
   Label,
 } from "flowbite-react";
-import { debounce, formToJson, uuid } from "@/utils";
+import { debounce, formToJson, isEmptyObject, uuid } from "@/utils";
 import { TrashIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import adminApi from "@/utils/api";
 import { useCallback } from "react";
@@ -22,13 +22,14 @@ export default function ItemTypes() {
   const router = useRouter();
   const [items, setItems] = useState({});
   const currentPageNo = Number(useSearchParams().get("page")) || 1;
-  const [form, setForm] = useState({ target: {} });
+  const [formData, setFormData] = useState({ target: {} });
+  const [importData, setImportData] = useState({});
   const [customAttributesCreateModalShow, setCustomAttributesCreateModalShow] =
     useState(false);
   const [showModal, setModalView] = useState(false);
   const [customAttributes, setCustomAttributes] = useState([]);
   const [itemType, updateItemType] = useState(
-    useSearchParams().get("type") || "commerceItem",
+    useSearchParams().get("type") || "commerceItem"
   );
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
@@ -57,7 +58,7 @@ export default function ItemTypes() {
         message: error.message,
       });
     },
-    [toast],
+    [toast]
   );
 
   const paginationHandler = (pageNo) => {
@@ -75,7 +76,7 @@ export default function ItemTypes() {
       setPagination({
         ...pagination,
         totalPages: Math.ceil(
-          apiResponse.propertiesOrder.length / pagination.limit,
+          apiResponse.propertiesOrder.length / pagination.limit
         ),
       });
     } else {
@@ -90,47 +91,34 @@ export default function ItemTypes() {
 
   useEffect(() => {
     itemType && fetchItemTypeAttributes();
-    return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemType]);
 
-  const fileDelete = useCallback(
-    async (filePath) => {
-      adminApi({
-        method: "post",
-        url: "items/deleteFile",
-        data: {
-          filename: filePath,
-        },
-        showNotification: true,
-        onSuccess,
-        onError,
-      });
-      fetchItemTypeAttributes();
-    },
-    [fetchItemTypeAttributes, onError, onSuccess],
-  );
-
   // Custom attribute creation function
   const itemTypeAttributesCreationHandler = useCallback(() => {
-    const formData = form.target;
-    const payload = formToJson(formData);
-
-    console.log(payload);
+    const payload = !isEmptyObject(formData.target) ? formToJson(formData.target) : importData;
 
     // adminApi({
-    //     method: "put",
-    //     url: `itemTypes/${itemType}`,
-    //     data: payload,
-    //     showNotification: true,
-    //     onSuccess: onAttributeCreation,
-    //     onError,
+    //   method: "put",
+    //   url: `itemTypes/${itemType}`,
+    //   data: payload,
+    //   showNotification: true,
+    //   onSuccess: onAttributeCreation,
+    //   onError,
     // });
+
     // fetchItemTypeAttributes();
     onAttributeCreation();
     setModalView(false);
     setCustomAttributesCreateModalShow(false);
-  }, [form.target, onAttributeCreation]);
+  }, [
+    fetchItemTypeAttributes,
+    formData.target,
+    importData,
+    itemType,
+    onAttributeCreation,
+    onError,
+  ]);
 
   const removeAttribute = (key) => {
     setCustomAttributes((prevState) => {
@@ -155,7 +143,7 @@ export default function ItemTypes() {
             type="text"
             id={`customAttribute-${index}`}
             className="mb-2"
-            defaultValue={"none"}
+            defaultValue={"shortText"}
             name={`specifications[${index}][type]`}
           >
             <option value="none" disabled>
@@ -267,9 +255,10 @@ export default function ItemTypes() {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              setForm(event);
+              setFormData(event);
               setModalView(true);
             }}
+            noValidate
           >
             <Button
               className="mt-10 w-2/6 max-lg:w-full mb-4"
@@ -289,7 +278,7 @@ export default function ItemTypes() {
                   id="customAttribute-0"
                   className="mb-2"
                   name="specifications[0][type]"
-                  defaultValue={"none"}
+                  defaultValue={"shortText"}
                 >
                   <option value="none" disabled>
                     Select Data Type
@@ -332,18 +321,18 @@ export default function ItemTypes() {
               {customAttributes.map((key, index) => attribute(key, index + 1))}
               <div className="flex mt-4 max-lg:flex-col gap-4">
                 <Button
-                  className="m-auto w-2/6 max-lg:w-full"
-                  value="sign-in"
-                  type="submit"
-                >
-                  Create
-                </Button>
-                <Button
                   color="gray"
                   className="m-auto w-2/6 max-lg:w-full"
                   onClick={() => setCustomAttributesCreateModalShow(false)}
                 >
                   No, cancel
+                </Button>
+                <Button
+                  className="m-auto w-2/6 max-lg:w-full"
+                  value="sign-in"
+                  type="submit"
+                >
+                  Create
                 </Button>
               </div>
             </div>
@@ -432,7 +421,12 @@ export default function ItemTypes() {
           >
             Create Custom Attributes
           </Button>
-          <ImportItemTypes />
+          <ImportItemTypes
+            itemTypeAttributesCreationHandler={
+              itemTypeAttributesCreationHandler
+            }
+            setImportData={setImportData}
+          />
         </div>
       </Card>
       {
