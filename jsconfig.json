@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*"],
       "@/components": ["./core/components"],
       "@/components/*": ["./core/components/*"],
       "@/skeletons": ["./core/skeletons"],
@@ -12,7 +11,8 @@
       "@/theme": ["./core/theme"],
       "@/theme/*": ["./core/theme/*"],
       "@/utils": ["./core/utils"],
-      "@/utils/*": ["./core/utils/*"]
+      "@/utils/*": ["./core/utils/*"],
+      "@/*": ["./app/*"],
     }
   }
 }

@@ -1,0 +1,43 @@
+# Ignore generated files
+node_modules/
+.next/
+out/
+coverage/
+
+# Ignore test files unless they end with .test.js or .test.jsx or .test.tsx or .test.mjs 
+!**/*.test.({js,jsx,tsx,mjs})
+
+# Ignore TypeScript declaration files
+*.d.ts
+
+# Ignore Next.js specific files
+next.config.js
+next-env.d.ts
+
+# Ignore temporary files
+*.log
+*.tmp
+
+# Ignore storybook files
+.storybook/
+
+# Ignore local environment files
+.env.local
+.env.development
+.env.production
+
+# Ignore other environment specific files (adjust as needed)
+.env.*
+
+# Ignore build artifacts
+build/
+
+# Ignore coverage reports
+coverage/
+
+# Ignore any configuration files you manage yourself (adjust as needed)
+my-custom-config.js
+
+# Ignore files related to specific libraries or frameworks (adjust as needed)
+tailwind.config.js
+prettier.config.js
