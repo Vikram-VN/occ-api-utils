@@ -29,7 +29,7 @@ export default function ItemTypes() {
   const [showModal, setModalView] = useState(false);
   const [customAttributes, setCustomAttributes] = useState([]);
   const [itemType, updateItemType] = useState(
-    useSearchParams().get("type") || "commerceItem"
+    useSearchParams().get("type") || "commerceItem",
   );
   const [pagination, setPagination] = useState({ limit: 10, totalPages: 1 });
   const toast = useToasts();
@@ -58,7 +58,7 @@ export default function ItemTypes() {
         message: error.message,
       });
     },
-    [toast]
+    [toast],
   );
 
   const paginationHandler = (pageNo) => {
@@ -76,7 +76,7 @@ export default function ItemTypes() {
       setPagination({
         ...pagination,
         totalPages: Math.ceil(
-          apiResponse.propertiesOrder.length / pagination.limit
+          apiResponse.propertiesOrder.length / pagination.limit,
         ),
       });
     } else {
@@ -96,7 +96,9 @@ export default function ItemTypes() {
 
   // Custom attribute creation function
   const itemTypeAttributesCreationHandler = useCallback(() => {
-    const payload = !isEmptyObject(formData.target) ? formToJson(formData.target) : importData;
+    const payload = !isEmptyObject(formData.target)
+      ? formToJson(formData.target)
+      : importData;
 
     // adminApi({
     //   method: "put",
